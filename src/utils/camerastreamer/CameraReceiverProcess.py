@@ -74,7 +74,10 @@ class CameraReceiverProcess(WorkerProcess):
         """Initialize the socket server. 
         """
         self.port       =   2244
-        self.serverIp   =   '192.168.43.131' # Huni
+        # self.serverIp   =   '192.168.43.131' # Huni
+        self.serverIp   =   '192.168.43.231' # Akos
+
+        
         
         
         self.server_socket = socket.socket()
