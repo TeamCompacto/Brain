@@ -109,12 +109,15 @@ class CameraStreamerProcess(WorkerProcess):
         inP : Pipe
             Input pipe to read the frames from CameraProcess or CameraSpooferProcess. 
         """
+        print('Sender')
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
 
         while True:
             try:
+                print('inP.recv()')
                 stamps, image = inP.recv()
                  
+                print('cv2.imencode')
                 result, image = cv2.imencode('.jpg', image, encode_param)
                 data   =  image.tobytes()
                 size   =  len(data)
