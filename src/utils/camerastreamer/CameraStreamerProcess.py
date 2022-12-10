@@ -119,7 +119,9 @@ class CameraStreamerProcess(WorkerProcess):
                 data   =  image.tobytes()
                 size   =  len(data)
 
+                print('Elso wirte', size)
                 self.connection.write(struct.pack("<L",size))
+                print('Masodik writwe', data)
                 self.connection.write(data)
 
             except Exception as e:
