@@ -65,7 +65,9 @@ class CameraStreamerProcess(WorkerProcess):
     def _init_threads(self):
         """Initialize the sending thread.
         """
+        print('init threads meghivva')
         if self._blocker.is_set():
+            print('Self.blocker nincs settelve')
             return
         streamTh = Thread(name='StreamSendingThread',target = self._send_thread, args= (self.inPs[0], ))
         streamTh.daemon = True
