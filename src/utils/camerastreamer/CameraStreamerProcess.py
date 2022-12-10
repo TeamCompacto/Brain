@@ -81,7 +81,7 @@ class CameraStreamerProcess(WorkerProcess):
         # self.port       = 2244            # com port
         self.port       =  2244            # com port
 
-
+        print('Trying to conect to: ', self.serverIp)
         self.client_socket = socket.socket()
         self.connection = None
         # Trying repeatedly to connect the camera receiver.
@@ -93,6 +93,7 @@ class CameraStreamerProcess(WorkerProcess):
                     self.connection = self.client_socket.makefile('wb') 
                 except ConnectionRefusedError as error:
                     time.sleep(0.5)
+                    print('Unable to connect\n')
                     pass
         except KeyboardInterrupt:
             self._blocker.set()
