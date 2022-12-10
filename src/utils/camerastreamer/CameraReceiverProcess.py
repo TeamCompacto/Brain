@@ -75,7 +75,8 @@ class CameraReceiverProcess(WorkerProcess):
         """
         self.port       =   2244
         # self.serverIp   =   '192.168.43.131' # Huni
-        self.serverIp   =   '192.168.43.231' # Akos
+        # self.serverIp   =   '192.168.43.231' # Akos
+        self.serverIp   =   '127.0.0.1'
 
         
         
