@@ -77,15 +77,18 @@ class CameraReceiverProcess(WorkerProcess):
         # self.serverIp   =   '192.168.43.131' # Huni
         # self.serverIp   =   '192.168.43.231' # Akos
         # self.serverIp   =   '192.168.43.131'
-        self.serverIp = socket.INADDR_ANY
+        self.serverIp = '0.0.0.0'
 
         
-        self.server_socket = socket.socket()
-        self.server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-        self.server_socket.bind((self.serverIp, self.port))
+        try: 
+            self.server_socket = socket.socket()
+            self.server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+            self.server_socket.bind((self.serverIp, self.port))
 
-        self.server_socket.listen(5)
-        self.connection = self.server_socket.accept()[0].makefile('rb')
+            self.server_socket.listen(5)
+            self.connection = self.server_socket.accept()[0].makefile('rb')
+        except:
+            print('Baj van')
 
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
