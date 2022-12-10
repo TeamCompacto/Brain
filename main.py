@@ -47,7 +47,7 @@ from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControl
 
 # =============================== CONFIG =================================================
 enableStream        =  True
-enableCameraSpoof   =  False 
+enableCameraSpoof   =  True 
 enableRc            =  True
 
 # =============================== INITIALIZING PROCESSES =================================
@@ -55,7 +55,7 @@ allProcesses = list()
 
 # =============================== HARDWARE ===============================================
 if enableStream:
-    camStR, camStS = Pipe(duplex = False)           # camera  ->  streamer
+    camStR, camStS = Pipe(duplex = True)           # camera  ->  streamer
 
     if enableCameraSpoof:
         camSpoofer = CameraSpooferProcess([],[camStS],'vid')
@@ -80,7 +80,7 @@ if enableStream:
 
 # =============================== CONTROL =================================================
 if enableRc:
-    rcShR, rcShS   = Pipe(duplex = False)           # rc      ->  serial handler
+    rcShR, rcShS   = Pipe(duplex = True)           # rc      ->  serial handler
 
     # serial handler process
     shProc = SerialHandlerProcess([rcShR], [])
