@@ -55,6 +55,8 @@ class RemoteControlTransmitterProcess(Thread):
         # self.serverIp  = '192.168.1.2'
         self.serverIp  = '192.168.43.131 '
 
+        # ide az ipket
+
         self.threads = list()
     # ===================================== RUN ==========================================
     def run(self):
