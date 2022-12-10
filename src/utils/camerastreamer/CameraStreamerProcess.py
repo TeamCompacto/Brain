@@ -77,7 +77,7 @@ class CameraStreamerProcess(WorkerProcess):
         """
         # self.serverIp   =  '192.168.1.102' # PC ip
         self.serverIp   =  '127.0.0.1'
-        self.serverIp   =   '192.168.43.131' # Huni
+        # self.serverIp   =   '192.168.43.131' # Huni
         # self.port       = 2244            # com port
         self.port       =  2244            # com port
 
