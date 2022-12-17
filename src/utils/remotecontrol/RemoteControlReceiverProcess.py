@@ -60,8 +60,8 @@ class RemoteControlReceiverProcess(WorkerProcess):
         """Initialize the communication socket server.
         """
         self.port       =   2244
-        # self.serverIp   =   '0.0.0.0'
-        self.serverIp   =   '192.168.43.231'
+        self.serverIp   =   '0.0.0.0'
+        # self.serverIp   =   '192.168.43.231'
 
         self.server_socket = socket.socket(
                                     family  = socket.AF_INET, 
