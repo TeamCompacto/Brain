@@ -68,6 +68,7 @@ class RemoteControlReceiverProcess(WorkerProcess):
                                     type    = socket.SOCK_DGRAM
                                 )
         self.server_socket.bind((self.serverIp, self.port))
+        print("Connection successfull")
 
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
