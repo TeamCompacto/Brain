@@ -54,7 +54,7 @@ class RemoteControlTransmitterProcess(Thread):
         self.port      =  2244
         # self.serverIp  = '192.168.1.2'
         # self.serverIp  = '192.168.43.131' #HUNI
-        self.serverIp  = '192.168.43.231' #Akos
+        self.serverIp  = '192.168.43.131' 
 
         
 

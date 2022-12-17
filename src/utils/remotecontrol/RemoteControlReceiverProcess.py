@@ -61,7 +61,7 @@ class RemoteControlReceiverProcess(WorkerProcess):
         """
         self.port       =   2244
         # self.serverIp   =   '0.0.0.0'
-        self.serverIp   =   '127.0.0.1'
+        self.serverIp   =   '192.168.43.231'
 
         self.server_socket = socket.socket(
                                     family  = socket.AF_INET, 
