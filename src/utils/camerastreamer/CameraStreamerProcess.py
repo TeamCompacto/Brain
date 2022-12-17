@@ -94,8 +94,8 @@ class CameraStreamerProcess(WorkerProcess):
                     self.client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                     self.connection = self.client_socket.makefile('wb') 
                 except ConnectionRefusedError as error:
-                    time.sleep(0.5)
-                    print('Unable to connect\n')
+                    # time.sleep(0.5)
+                    # print('Unable to connect\n')
                     pass
         except KeyboardInterrupt:
             self._blocker.set()
