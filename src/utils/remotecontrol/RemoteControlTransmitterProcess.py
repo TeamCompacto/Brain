@@ -52,7 +52,7 @@ class RemoteControlTransmitterProcess(Thread):
         self.listener  =  KeyboardListenerThread([self.lisBrS])
 
         self.port      =  12244
-        self.serverIp  = '192.168.43.231'
+        self.serverIp  = '192.168.43.131'
 
         self.threads = list()
     # ===================================== RUN ==========================================
@@ -103,7 +103,5 @@ class RemoteControlTransmitterProcess(Thread):
             command = self.rcBrain.getMessage(key)
             if command is not None:
                 command = json.dumps(command).encode()
-
-                print(command)
 
                 self.client_socket.sendto(command,(self.serverIp,self.port))
