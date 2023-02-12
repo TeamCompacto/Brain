@@ -104,4 +104,6 @@ class RemoteControlTransmitterProcess(Thread):
             if command is not None:
                 command = json.dumps(command).encode()
 
+                print(command)
+
                 self.client_socket.sendto(command,(self.serverIp,self.port))
