@@ -65,9 +65,7 @@ class CameraStreamerProcess(WorkerProcess):
     def _init_threads(self):
         """Initialize the sending thread.
         """
-        print('init threads meghivva')
         if self._blocker.is_set():
-            print('Self.blocker nincs settelve')
             return
         streamTh = Thread(name='StreamSendingThread',target = self._send_thread, args= (self.inPs[0], ))
         streamTh.daemon = True
@@ -77,13 +75,9 @@ class CameraStreamerProcess(WorkerProcess):
     def _init_socket(self):
         """Initialize the socket client. 
         """
-        # self.serverIp   =  '192.168.1.102' # PC ip
-        self.serverIp   =  '192.168.43.127'
-        # self.serverIp   =   '192.168.43.131' # Huni
-        # self.port       = 2244            # com port
-        self.port       =  2244            # com port
+        self.serverIp   =  '192.168.1.1' # PC ip
+        self.port       =  12244            # com port
 
-        print('Trying to conect to: ', self.serverIp)
         self.client_socket = socket.socket()
         self.connection = None
         # Trying repeatedly to connect the camera receiver.
@@ -94,8 +88,7 @@ class CameraStreamerProcess(WorkerProcess):
                     self.client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                     self.connection = self.client_socket.makefile('wb') 
                 except ConnectionRefusedError as error:
-                    # time.sleep(0.5)
-                    # print('Unable to connect\n')
+                    time.sleep(0.5)
                     pass
         except KeyboardInterrupt:
             self._blocker.set()
@@ -111,22 +104,17 @@ class CameraStreamerProcess(WorkerProcess):
         inP : Pipe
             Input pipe to read the frames from CameraProcess or CameraSpooferProcess. 
         """
-        print('Sender')
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
 
         while True:
             try:
-                print('inP.recv()')
                 stamps, image = inP.recv()
                  
-                print('cv2.imencode')
                 result, image = cv2.imencode('.jpg', image, encode_param)
                 data   =  image.tobytes()
                 size   =  len(data)
 
-                print('Elso wirte', size)
                 self.connection.write(struct.pack("<L",size))
-                print('Masodik writwe', data)
                 self.connection.write(data)
 
             except Exception as e:

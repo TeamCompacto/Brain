@@ -8,3 +8,6 @@ The project contains all the provided code for the RPi, more precisely:
 
 ## The documentation is available in more details here:
 [Documentation](https://boschfuturemobility.com/brain/)
+
+ip: 192.168.43.131 
+psw: Compacto
