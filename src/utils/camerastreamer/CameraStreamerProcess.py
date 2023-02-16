@@ -76,7 +76,9 @@ class CameraStreamerProcess(WorkerProcess):
         """Initialize the socket client. 
         """
         # self.serverIp   =  '192.168.43.83' # szabo
-        self.serverIp   =  '192.168.46.17' # huni
+
+        # self.serverIp   =  '192.168.46.17' # huni
+        self.serverIp   =  '0.0.0.0' # huni
         self.port       =  6666            # com port
 
         self.client_socket = socket.socket()
