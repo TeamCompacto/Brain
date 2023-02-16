@@ -73,15 +73,19 @@ class CameraReceiverProcess(WorkerProcess):
     def _init_socket(self):
         """Initialize the socket server. 
         """
+
         self.port       =   6666
         self.serverIp   =   '0.0.0.0'
         
-        self.server_socket = socket.socket()
-        self.server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-        self.server_socket.bind((self.serverIp, self.port))
+        try: 
+            self.server_socket = socket.socket()
+            self.server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+            self.server_socket.bind((self.serverIp, self.port))
 
-        self.server_socket.listen(1)
-        self.connection = self.server_socket.accept()[0].makefile('rb')
+            self.server_socket.listen(5)
+            self.connection = self.server_socket.accept()[0].makefile('rb')
+        except:
+            print('Baj van')
 
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
@@ -94,23 +98,29 @@ class CameraReceiverProcess(WorkerProcess):
     def _read_stream(self):
         """Read the image from input stream, decode it and display it with the CV2 library.
         """
+        print('Read stream')
         try:
             while True:
 
                 # decode image
+                print('Decode Image')
                 image_len = struct.unpack('<L', self.connection.read(struct.calcsize('<L')))[0]
+                print('A masodikkal van a bja')
                 bts = self.connection.read(image_len)
 
                 # ----------------------- read image -----------------------
+                print('Image ready to read')
                 image = np.frombuffer(bts, np.uint8)
                 image = cv2.imdecode(image, cv2.IMREAD_COLOR)
                 image = np.reshape(image, self.imgSize)
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                print('Image read')
 
                 # ----------------------- show images -------------------
                 cv2.imshow('Image', image) 
                 cv2.waitKey(1)
         except:
+            print('Baj van')
             pass
         finally:
             self.connection.close()
