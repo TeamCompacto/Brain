@@ -80,7 +80,7 @@ class CameraReceiverProcess(WorkerProcess):
         self.server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
         self.server_socket.bind((self.serverIp, self.port))
 
-        self.server_socket.listen(0)
+        self.server_socket.listen(1)
         self.connection = self.server_socket.accept()[0].makefile('rb')
 
     # ===================================== INIT THREADS =================================
