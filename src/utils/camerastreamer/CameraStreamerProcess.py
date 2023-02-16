@@ -87,8 +87,11 @@ class CameraStreamerProcess(WorkerProcess):
             print(1)
             while self.connection is None and not self._blocker.is_set():
                 try:
+                    print(2)
                     self.client_socket.connect((self.serverIp, self.port))
+                    print(3)
                     self.client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+                    print(4)
                     self.connection = self.client_socket.makefile('wb') 
                     print('Connected to', self.serverIp)
                 except ConnectionRefusedError as error:
