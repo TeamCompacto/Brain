@@ -81,6 +81,7 @@ class CameraStreamerProcess(WorkerProcess):
 
         self.client_socket = socket.socket()
         self.connection = None
+        print('alma')
         # Trying repeatedly to connect the camera receiver.
         try:
             while self.connection is None and not self._blocker.is_set():
