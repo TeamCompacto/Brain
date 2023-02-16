@@ -88,8 +88,10 @@ class CameraStreamerProcess(WorkerProcess):
                     self.client_socket.connect((self.serverIp, self.port))
                     self.client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                     self.connection = self.client_socket.makefile('wb') 
+                    print('Connected to', self.serverIp)
                 except ConnectionRefusedError as error:
                     time.sleep(0.5)
+                    print('Failed to connect, retrying, to ', self.serverIp)
                     pass
         except KeyboardInterrupt:
             self._blocker.set()
