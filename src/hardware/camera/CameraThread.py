@@ -125,7 +125,6 @@ class CameraThread(ThreadWithStop):
             yield self._stream
             self._stream.seek(0)
             data = self._stream.read()
-            data = fastNlMeansDenoisingColored(data, None, 10,10,7,21)
             
 
             # read and reshape from bytes to np.array
