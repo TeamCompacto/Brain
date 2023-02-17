@@ -96,7 +96,7 @@ class CameraThread(ThreadWithStop):
 
         # self.camera.brightness      =   70
         self.camera.shutter_speed   =   1200
-        self.camera.contrast        =   0
+        # self.camera.contrast        =   0
         self.camera.iso             =   0 # auto
         
 
