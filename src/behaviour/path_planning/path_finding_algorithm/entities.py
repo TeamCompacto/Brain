@@ -24,11 +24,11 @@ class Edge():
         self.__dotted = dotted
 
     @property
-    def source_id(self):
+    def src(self):
         return self.__source_id
 
     @property
-    def destination_id(self):
+    def dest(self):
         return self.__destination_id
 
     @property
