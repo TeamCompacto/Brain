@@ -100,6 +100,8 @@ class CameraThread(ThreadWithStop):
         self.camera.iso             =   0 # auto
         
 
+        self.camera.color_effects = (128,128)
+
         self.imgSize                =   (640, 480)    # the actual image size
 
     # ===================================== GET STAMP ====================================
