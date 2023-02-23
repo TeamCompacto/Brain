@@ -32,8 +32,8 @@ import socketserver
 import socket
 import time
 
-from loc_sys_server.server.utils import load_private_key, sign_data
-from loc_sys_server.server.complexDealer import ComplexEncoder
+from utils import load_private_key, sign_data
+from complexDealer import ComplexEncoder
 
 
 class CarClientServerThread(threading.Thread):
