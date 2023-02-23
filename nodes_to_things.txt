@@ -1,0 +1,7 @@
+roundabout:230, 301, 342
+highway: 311, 347
+paralell parking: 177
+perpendicular parking: 162
+parking: 177(paralell), 162(perpendicular)
+road closed stand: 7, 8
+finish line: 85

@@ -58,7 +58,6 @@ class AStar():
                 if adjacent not in min_distance:
                     pq.put(PriorityQueueElement(adjacent, min_distance[curr_node.id] + curr_dist, self.distance((self.__nodes[adjacent].x, self.__nodes[adjacent].y), (self.__nodes[self.__end_id].x, self.__nodes[self.__end_id].y)), curr_node.id))
 
-        # print(min_distance)
         # print(prev_node)
 
         shortest_path = []
@@ -68,7 +67,7 @@ class AStar():
             parse_node = prev_node[parse_node]
 
         shortest_path.reverse()
-        return shortest_path
+        return shortest_path, min_distance[self.__end_id]
     
 
     
