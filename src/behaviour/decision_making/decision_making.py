@@ -32,7 +32,7 @@ class DecisionMakingProcess(WorkerProcess):
         self.threads.append(decTh)
 
     def _decision_making_thread(self):
-        obstacles = dict()
+        obstacles = list()
         # TODO: get obstacles
 
         for obstacle in obstacles:

@@ -30,6 +30,8 @@
 # SCRIPT USED FOR WIRING ALL COMPONENTS
 #========================================================================
 import sys
+
+from src.behaviour.decision_making.decision_making import DecisionMakingProcess
 sys.path.append('.')
 
 import time
@@ -49,6 +51,7 @@ from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControl
 enableStream        =  True
 enableCameraSpoof   =  False 
 enableRc            =  True
+enableDecMaking     =  True
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
@@ -67,6 +70,16 @@ if enableStream:
 
     streamProc = CameraStreamerProcess([camStR], [])
     allProcesses.append(streamProc)
+
+# ========================== DECISION MAKING ====================================
+if enableDecMaking:
+    decMakingIn, decMakingOut = Pipe(duplex=False)
+
+    objDetectProc = ObjectDetectionProcess([], [decMakingOut])
+    allProcesses.append(objDetectProc)
+
+    decProc = DecisionMakingProcess([decMakingIn], [])
+    allProcesses.append(decProc)
 
 
 # =============================== DATA ===================================================
