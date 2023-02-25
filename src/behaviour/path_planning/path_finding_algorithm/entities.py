@@ -1,3 +1,6 @@
+import math
+
+
 class Node():
     def __init__(self, id, x, y) -> None:
         self.__id = id
@@ -15,7 +18,31 @@ class Node():
     @property
     def y(self):
         return self.__y
+    
+    def __eq__(self, other: object) -> bool:
+        return get_clockwise_angle_and_distance(self) == get_clockwise_angle_and_distance(other)
 
+    def __lt__(self, other: object) -> bool:
+        return get_clockwise_angle_and_distance(self) < get_clockwise_angle_and_distance(other)
+    
+    def __str__(self) -> str:
+        return f"{self.id}: x: {self.x}, y: {self.y}"
+    
+def get_clockwise_angle_and_distance(node: Node):
+    refvec = [1, 0]
+    lenvector = math.hypot(node.x, node.y)
+    if lenvector == 0:
+        return -math.pi, 0
+    
+    normalized = [node.x / lenvector, node.y / lenvector]
+    dotprod = normalized[0] * refvec[0] + normalized[1] * refvec[1]
+    diffprod = normalized[0] * refvec[1] - normalized[1] * refvec[0]
+    angle = math.atan2(diffprod, dotprod)
+
+    if angle < 0:
+        return 2 * math.pi + angle, lenvector
+    
+    return angle, lenvector
 
 class Edge():
     def __init__(self, source_id, destination_id, dotted) -> None:
