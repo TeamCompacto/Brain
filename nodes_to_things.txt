@@ -2,4 +2,5 @@ roundabout:230, 301, 342
 highway: 311, 347
 parking: 177(paralell), 162(perpendicular)
 road closed stand: 7, 8
+one way one lane road: 426
 finish line: 85

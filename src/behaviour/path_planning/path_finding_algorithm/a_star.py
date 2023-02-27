@@ -1,11 +1,19 @@
-from math import sqrt
 from queue import PriorityQueue
 
 from path_finding_algorithm.entities import PriorityQueueElement
+from path_finding_algorithm.auxiliary_functions import distance
 
 
 class AStar():
     def __init__(self, nodes, edges, source_node_id, destination_node_id) -> None:
+        """Class for finding the shortest path between 2 nodes with Astar algorithm
+
+        Args:
+            nodes (dict{int: Node}): The nodes of the graph in a dictionary
+            edges (list[Edge]): The edges in a list
+            source_node_id (int): The id of the source node
+            destination_node_id (int): The id of the destination node
+        """
         self.__nodes = nodes
         self.__edges = edges
         # for node in self.__nodes.values():
@@ -31,14 +39,16 @@ class AStar():
             adjacent_list[node] = []
 
         for edge in self.__edges:
-            adjacent_list[edge.src].append((edge.dest, self.distance((self.__nodes[edge.src].x, self.__nodes[edge.src].y), (self.__nodes[edge.dest].x, self.__nodes[edge.dest].y))))
+            adjacent_list[edge.src].append((edge.dest, distance((self.__nodes[edge.src].x, self.__nodes[edge.src].y), (self.__nodes[edge.dest].x, self.__nodes[edge.dest].y))))
 
         return adjacent_list
-
-    def distance(self, p1, p2):
-        return sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
     
     def __get_shortest_path(self):
+        """Finds the shortest path between two nodes
+
+        Returns:
+            tuple: (The shortest path by the order of nodes, the distance to the destination)
+        """
         min_distance = {}
         prev_node = {}
 
@@ -56,7 +66,7 @@ class AStar():
 
             for adjacent, curr_dist in self.__adjacent_list[curr_node.id]:
                 if adjacent not in min_distance:
-                    pq.put(PriorityQueueElement(adjacent, min_distance[curr_node.id] + curr_dist, self.distance((self.__nodes[adjacent].x, self.__nodes[adjacent].y), (self.__nodes[self.__end_id].x, self.__nodes[self.__end_id].y)), curr_node.id))
+                    pq.put(PriorityQueueElement(adjacent, min_distance[curr_node.id] + curr_dist, distance((self.__nodes[adjacent].x, self.__nodes[adjacent].y), (self.__nodes[self.__end_id].x, self.__nodes[self.__end_id].y)), curr_node.id))
 
         # print(prev_node)
 
