@@ -32,6 +32,7 @@
 import sys
 
 from src.behaviour.decision_making.decision_making import DecisionMakingProcess
+from src.perception.object_classi.object_classi import ObjectDetectionProcess
 sys.path.append('.')
 
 import time
