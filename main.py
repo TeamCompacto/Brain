@@ -52,7 +52,7 @@ from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControl
 enableStream        =  True
 enableCameraSpoof   =  False 
 enableRc            =  True
-enableDecMaking     =  True
+enableDecMaking     =  False
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
