@@ -83,7 +83,7 @@ class CameraThread(ThreadWithStop):
 
         self.camera.start()
 
-        for stream in self._streams:
+        for stream in self._streams():
             self.camera.capture_file(stream, format='jpeg')
 
         
