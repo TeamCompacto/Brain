@@ -124,7 +124,7 @@ class CameraThread(ThreadWithStop):
         from picamera2.outputs import FileOutput
 
         self.camera = Picamera2()
-        capture_config = self.camera.create_still_configuration({"size": (1640,1232)})
+        capture_config = self.camera.create_still_configuration(raw={"size": (1640,1232)})
         self.camera.configure(capture_config)
 
 
