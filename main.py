@@ -57,51 +57,68 @@ enableDecMaking     =  False
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
 
-# =============================== HARDWARE ===============================================
-if enableStream:
-    camStR, camStS = Pipe(duplex = False)           # camera  ->  streamer
-
-    if enableCameraSpoof:
-        camSpoofer = CameraSpooferProcess([],[camStS],'vid')
-        allProcesses.append(camSpoofer)
-
-    else:
-        camProc = CameraProcess([],[camStS])
-        allProcesses.append(camProc)
-
-    streamProc = CameraStreamerProcess([camStR], [])
-    allProcesses.append(streamProc)
-
-# ========================== DECISION MAKING ====================================
 if enableDecMaking:
-    decMakingIn, decMakingOut = Pipe(duplex=False)
+    # =============================== HARDWARE ===============================================
+    camVisionOut, camVisionIn = Pipe(duplex=False)  # camera -> vision
+    visionDecOut, visionDecIn = Pipe(duplex=False)  # vision -> decision making
+    decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
 
-    objDetectProc = ObjectDetectionProcess([], [decMakingOut])
-    allProcesses.append(objDetectProc)
+    shProc = SerialHandlerProcess([decSerialOut], [])     
 
-    decProc = DecisionMakingProcess([decMakingIn], [])
+    decProc = DecisionMakingProcess([visionDecOut], [decSerialIn])
+    
+    if enableStream:
+        visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
+        
+        streamProc = CameraStreamerProcess([visionStrOut], [])
+        visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn,visionStrIn])
+    else:
+        visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn])
+
+    camProc = CameraProcess([],[camVisionIn])
+    
+    allProcesses.append(camProc)
+    allProcesses.append(visionProcess)
     allProcesses.append(decProc)
-
-
-# =============================== DATA ===================================================
-#LocSys client process
-# LocStR, LocStS = Pipe(duplex = False)           # LocSys  ->  brain
-# from data.localisationsystem.locsys import LocalisationSystemProcess
-# LocSysProc = LocalisationSystemProcess([], [LocStS])
-# allProcesses.append(LocSysProc)
-
-
-
-# =============================== CONTROL =================================================
-if enableRc:
-    rcShR, rcShS   = Pipe(duplex = False)           # rc      ->  serial handler
-
-    # serial handler process
-    shProc = SerialHandlerProcess([rcShR], [])
     allProcesses.append(shProc)
 
-    rcProc = RemoteControlReceiverProcess([],[rcShS])
-    allProcesses.append(rcProc)
+
+
+else:
+        
+    # =============================== HARDWARE ===============================================
+    if enableStream:
+        camStR, camStS = Pipe(duplex = False)           # camera  ->  streamer
+
+        if enableCameraSpoof:
+            camSpoofer = CameraSpooferProcess([],[camStS],'vid')
+            allProcesses.append(camSpoofer)
+
+        else:
+            camProc = CameraProcess([],[camStS])
+            allProcesses.append(camProc)
+
+        streamProc = CameraStreamerProcess([camStR], [])
+        allProcesses.append(streamProc)
+    # =============================== DATA ===================================================
+    #LocSys client process
+    # LocStR, LocStS = Pipe(duplex = False)           # LocSys  ->  brain
+    # from data.localisationsystem.locsys import LocalisationSystemProcess
+    # LocSysProc = LocalisationSystemProcess([], [LocStS])
+    # allProcesses.append(LocSysProc)
+
+
+
+    # =============================== CONTROL =================================================
+    if enableRc:
+        rcShR, rcShS   = Pipe(duplex = False)           # rc      ->  serial handler
+
+        # serial handler process
+        shProc = SerialHandlerProcess([rcShR], [])
+        allProcesses.append(shProc)
+
+        rcProc = RemoteControlReceiverProcess([],[rcShS])
+        allProcesses.append(rcProc)
 
 
 # ===================================== START PROCESSES ==================================
