@@ -82,7 +82,7 @@ class ComputerVisionProcess(WorkerProcess):
 
             print(type(image))
             print(image.shape)
-            
+
             img0 = image
 
             img = letterbox(img0, new_shape = (self.img_size, self.img_size))[0]
