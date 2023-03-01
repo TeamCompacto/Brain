@@ -53,7 +53,7 @@ class CameraThread(ThreadWithStop):
 
 
         # streaming options
-        self._data      =   np.array()
+        self._data      =   None
 
         self.recordMode   =   False
         
