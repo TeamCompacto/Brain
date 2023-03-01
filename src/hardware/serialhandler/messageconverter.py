@@ -94,6 +94,7 @@ class MessageConverter:
                 command += '{0:d};'.format(value)   
                          
         command += ';\r\n'
+        print(command)
         return command
 
     # ===================================== VERIFY COMMAND ===============================
