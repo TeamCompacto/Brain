@@ -139,6 +139,8 @@ class ComputerVisionProcess(WorkerProcess):
             print("vigyazz")
             # Inference
             t1 = time_synchronized()
+
+            print("nefelj")
             with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
                 pred = model(img, augment=None)[0]
             t2 = time_synchronized()
