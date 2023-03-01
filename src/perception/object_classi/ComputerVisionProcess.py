@@ -115,13 +115,16 @@ class ComputerVisionProcess(WorkerProcess):
 
             print("Model loaded")
 
-            classify = True
+            classify = False
             if classify:
                 modelc = load_classifier(name='resnet101', n=2)  # initialize
                 modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model']).to(device).eval()
 
             # Get names and colors
             names = model.module.names if hasattr(model, 'module') else model.names
+
+            print(names)
+            
             colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
             print("Classifier loaded")
