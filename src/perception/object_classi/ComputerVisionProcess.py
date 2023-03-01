@@ -76,7 +76,7 @@ class ComputerVisionProcess(WorkerProcess):
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
 
         while True:
-            image = inP.recv()
+            stamp, image = inP.recv()
 
             print(type(image))
                 
