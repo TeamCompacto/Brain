@@ -154,7 +154,8 @@ class CameraThread(ThreadWithStop):
         # output image and time stamp
         # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
 
-        resized = resize(self._data, dsize=(640, 480), interpolation=INTER_LINEAR)
+        # resized = resize(self._data, dsize=(640, 480), interpolation=INTER_LINEAR)
+        resized = resize(self._data, dsize=(320, 320), interpolation=INTER_LINEAR)
         print(resized.shape)
 
         for outP in self.outPs:
