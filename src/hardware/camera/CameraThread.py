@@ -33,6 +33,8 @@ import time
 from src.templates.threadwithstop import ThreadWithStop
 from cv2 import fastNlMeansDenoisingColored
 
+from picamera2.outputs import FileOutput
+
 #================================ CAMERA PROCESS =========================================
 class CameraThread(ThreadWithStop):
     
@@ -64,19 +66,27 @@ class CameraThread(ThreadWithStop):
         """
         self._init_camera()
         
-        # record mode
-        if self.recordMode:
-            self.camera.start_recording('picam'+ self._get_timestamp()+'.h264',format='h264')
+        # # record mode
+        # if self.recordMode:
+        #     self.camera.start_recording('picam'+ self._get_timestamp()+'.h264',format='h264')
 
-        # Sets a callback function for every unpacked frame
-        self.camera.capture_sequence(
-                                    self._streams(), 
-                                    use_video_port  =   True, 
-                                    format          =   'rgb',
-                                    resize          =   self.imgSize)
-        # record mode
-        if self.recordMode:
-            self.camera.stop_recording()
+        # # Sets a callback function for every unpacked frame
+        # self.camera.capture_sequence(
+        #                             self._streams(), 
+        #                             use_video_port  =   True, 
+        #                             format          =   'rgb',
+        #                             resize          =   self.imgSize)
+        # # record mode
+        # if self.recordMode:
+        #     self.camera.stop_recording()
+
+
+        self.camera.start_recording(self.encoder,FileOutput(self._streams))
+        
+        self.camera.stop_recording()
+
+
+
      
 
     #================================ INIT CAMERA ========================================
@@ -84,26 +94,38 @@ class CameraThread(ThreadWithStop):
         """Init the PiCamera and its parameters
         """
         
-        # this how the firmware works.
-        # the camera has to be imported here
-        from picamera2 import Picamera2
+        # # this how the firmware works.
+        # # the camera has to be imported here
+        # from picamera2 import Picamera2
 
-        # camera
-        self.camera = Picamera2()
+        # # camera
+        # self.camera = Picamera2()
 
-        # camera settings
-        self.camera.resolution      =   (1640,1232)
-        self.camera.framerate       =   15
+        # # camera settings
+        # self.camera.resolution      =   (1640,1232)
+        # self.camera.framerate       =   15
 
-        self.camera.brightness      =   50
-        # self.camera.shutter_speed   =   1200
-        self.camera.contrast        =   0
-        self.camera.iso             =   0 # auto
+        # self.camera.brightness      =   50
+        # # self.camera.shutter_speed   =   1200
+        # self.camera.contrast        =   0
+        # self.camera.iso             =   0 # auto
         
 
-        self.camera.color_effects = (128,128)
+        # self.camera.color_effects = (128,128)
 
-        self.imgSize                =   (640, 480)    # the actual image size
+        # self.imgSize                =   (640, 480)    # the actual image size
+
+        from picamera2 import Picamera2
+        from picamera2.encoders import H264Encoder
+        from picamera2.outputs import FileOutput
+
+        self.camera = Picamera2()
+        video_config = self.camera.create_video_configuration({"size": (640, 480)})
+        self.camera.configure(video_config)
+        encoder = H264Encoder(1000000)
+        self.camera.encoder = encoder
+
+
 
     # ===================================== GET STAMP ====================================
     def _get_timestamp(self):
