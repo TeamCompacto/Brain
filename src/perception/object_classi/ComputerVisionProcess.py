@@ -124,6 +124,8 @@ class ComputerVisionProcess(WorkerProcess):
             names = model.module.names if hasattr(model, 'module') else model.names
             colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
+            print("Classifier loaded")
+
             # Csak az image - val kell dolgozzak
 
             img = torch.from_numpy(img).to(device)
