@@ -874,7 +874,8 @@ class ComputerVisionProcess(WorkerProcess):
 
         while (True):
             success, frame = inP.read()
-            cv2.imshow("output", frame)
+            image = frame.astype(np.float32)
+            cv2.imshow("output", image)
 
             processed, average_rad_string, offset_string = process_image(frame)
 
