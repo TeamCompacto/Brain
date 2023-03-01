@@ -56,33 +56,34 @@ class ObjectDetectionProcess(WorkerProcess):
         self.threads.append(decTh)
 
     def _detect(self, save_img=False):
-        source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
-        save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
+        #source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
+        #save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
         webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
             ('rtsp://', 'rtmp://', 'http://', 'https://'))
 
         source = 0
         weights = "yolov7-tiny.pt"
-        opt.img_size = 320
-        conf = 0.4
+        img_size = 320
+        conf = 0.3
+        device = 'cpu'
 
 
         # Directories
-        save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
-        (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
+        #save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
+        #(save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
         # Initialize
         set_logging()
-        device = select_device(opt.device)
+        device = select_device(device)
         half = device.type != 'cpu'  # half precision only supported on CUDA
 
         # Load model
         model = attempt_load(weights, map_location=device)  # load FP32 model
         stride = int(model.stride.max())  # model stride
-        imgsz = check_img_size(imgsz, s=stride)  # check img_size
+        imgsz = 320 #check_img_size(imgsz, s=stride)  # check img_size
 
-        if trace:
-            model = TracedModel(model, device, opt.img_size)
+        # if trace:
+        #     model = TracedModel(model, device, img_size)
 
         if half:
             model.half()  # to FP16
@@ -121,21 +122,21 @@ class ObjectDetectionProcess(WorkerProcess):
                 img = img.unsqueeze(0)
 
             # Warmup
-            if device.type != 'cpu' and (old_img_b != img.shape[0] or old_img_h != img.shape[2] or old_img_w != img.shape[3]):
-                old_img_b = img.shape[0]
-                old_img_h = img.shape[2]
-                old_img_w = img.shape[3]
-                for i in range(3):
-                    model(img, augment=opt.augment)[0]
+            # if device.type != 'cpu' and (old_img_b != img.shape[0] or old_img_h != img.shape[2] or old_img_w != img.shape[3]):
+            #     old_img_b = img.shape[0]
+            #     old_img_h = img.shape[2]
+            #     old_img_w = img.shape[3]
+            #     for i in range(3):
+            #         model(img, augment=opt.augment)[0]
 
             # Inference
             t1 = time_synchronized()
             with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
-                pred = model(img, augment=opt.augment)[0]
+                pred = model(img, augment=None)[0]
             t2 = time_synchronized()
 
             # Apply NMS
-            pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
+            pred = non_max_suppression(pred)#, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
             t3 = time_synchronized()
 
             # Apply Classifier
@@ -150,8 +151,8 @@ class ObjectDetectionProcess(WorkerProcess):
                     p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
                 p = Path(p)  # to Path
-                save_path = str(save_dir / p.name)  # img.jpg
-                txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
+                # save_path = str(save_dir / p.name)  # img.jpg
+                # txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
                 gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
                 if len(det):
                     # Rescale boxes from img_size to im0 size
@@ -162,10 +163,12 @@ class ObjectDetectionProcess(WorkerProcess):
                         n = (det[:, -1] == c).sum()  # detections per class
                         s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
+                    save_conf = True
+
                     # Write results
                     for *xyxy, conf, cls in reversed(det):
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                        line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
+                        line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
 
                         #ezt kell elkuldjem
                         string_to_send = ""
@@ -180,16 +183,16 @@ class ObjectDetectionProcess(WorkerProcess):
                         sock.sendto(bytes(string_to_send, "utf-8"), (self.serverIp, self.port))
 
 
-                        if save_txt:  # Write to file
-                            xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                            line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
-                            print(line + '\n')
-                            with open(txt_path + '.txt', 'a') as f:
-                                f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                        # if save_txt:  # Write to file
+                        #     xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                        #     line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
+                        #     print(line + '\n')
+                        #     with open(txt_path + '.txt', 'a') as f:
+                        #         f.write(('%g ' * len(line)).rstrip() % line + '\n')
 
-                        if save_img or view_img:  # Add bbox to image
-                            label = f'{names[int(cls)]} {conf:.2f}'
-                            plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
+                        # if save_img or view_img:  # Add bbox to image
+                        #     label = f'{names[int(cls)]} {conf:.2f}'
+                        #     plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
 
                 # Print time (inference + NMS)
                 #print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
@@ -219,9 +222,9 @@ class ObjectDetectionProcess(WorkerProcess):
                             vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                         vid_writer.write(im0)
 
-        if save_txt or save_img:
-            s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
-            #print(f"Results saved to {save_dir}{s}")
+        # if save_txt or save_img:
+        #     s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
+        #     #print(f"Results saved to {save_dir}{s}")
 
         print(f'Done. ({time.time() - t0:.3f}s)')
 
