@@ -82,7 +82,7 @@ class ComputerVisionProcess(WorkerProcess):
 
             print(type(image))
             print(image.shape)
-            print(image)
+            print(image.dtype)
 
             img0 = image
 
