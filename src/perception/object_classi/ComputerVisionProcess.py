@@ -113,6 +113,8 @@ class ComputerVisionProcess(WorkerProcess):
             stride = int(model.stride.max())  # model stride
             imgsz = 320 #check_img_size(imgsz, s=stride)  # check img_size
 
+            print("Model loaded")
+
             classify = False
             if classify:
                 modelc = load_classifier(name='resnet101', n=2)  # initialize
