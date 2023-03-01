@@ -82,7 +82,7 @@ class ComputerVisionProcess(WorkerProcess):
 
             print(type(image))
                 
-            image = cv2.imencode('.jpg', image, encode_param)
+            res, image = cv2.imencode('.jpg', image, encode_param)
 
             print(type(image))
             print(image)
