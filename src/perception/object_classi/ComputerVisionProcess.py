@@ -84,6 +84,12 @@ class ComputerVisionProcess(WorkerProcess):
             print(image.shape)
             print(image.dtype)
 
+            image = image.astype(np.float32)
+
+            print(type(image))
+            print(image.shape)
+            print(image.dtype)
+
             img0 = image
 
             img = letterbox(img0, new_shape = (self.img_size, self.img_size))[0]
