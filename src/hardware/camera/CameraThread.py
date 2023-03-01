@@ -87,6 +87,7 @@ class CameraThread(ThreadWithStop):
             self._data = self.camera.capture_array("main")
             print(self._data.shape)
             self.send()
+            print("send vege")
 
 
 
@@ -147,12 +148,11 @@ class CameraThread(ThreadWithStop):
         processing(reshape) is done to the image format. 
         """
 
-        while self._running:
-            stamp = time.time()
+        stamp = time.time()
 
-            # output image and time stamp
-            # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
-            for outP in self.outPs:
-                outP.send([[stamp], self._data])
+        # output image and time stamp
+        # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
+        for outP in self.outPs:
+            outP.send([[stamp], self._data])
 
 
