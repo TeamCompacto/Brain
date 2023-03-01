@@ -84,7 +84,8 @@ class CameraThread(ThreadWithStop):
         self.camera.start()
 
         for stream in self._streams():
-            self.camera.capture_file(stream,"raw", format='jpeg')
+            self.camera.capture_file(stream, format='jpeg')
+            print(self._stream.getbuffer().nbytes)
 
         
         self.camera.stop_recording()
@@ -124,7 +125,7 @@ class CameraThread(ThreadWithStop):
         from picamera2.outputs import FileOutput
 
         self.camera = Picamera2()
-        capture_config = self.camera.create_still_configuration(raw={"size": (1640,1232)})
+        capture_config = self.camera.create_still_configuration({"size": (1640,1232)})
         self.camera.configure(capture_config)
 
 
