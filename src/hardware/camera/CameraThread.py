@@ -122,9 +122,7 @@ class CameraThread(ThreadWithStop):
         self.camera = Picamera2()
         video_config = self.camera.create_video_configuration({"size": (640, 480)})
         self.camera.configure(video_config)
-        encoder = H264Encoder(1000000)
-        self.camera.encoder = encoder
-
+        self.encoder = H264Encoder(1000000)
 
 
     # ===================================== GET STAMP ====================================
