@@ -12,6 +12,8 @@ import cv2
 
 from src.templates.workerprocess import WorkerProcess
 
+import mpimg
+
 # MAS IMPORTOK
 
 from threading import Thread
