@@ -12,7 +12,7 @@ import cv2
 
 from src.templates.workerprocess import WorkerProcess
 
-import mpimg
+from mpimg import imread
 
 # MAS IMPORTOK
 
@@ -463,7 +463,7 @@ class ComputerVisionProcess(WorkerProcess):
 
         # Now let's apply this transform on an image with threshold
         # image = cv2.imread('test_images/test6.jpg')
-        image = mpimg.imread('test_images/test3.jpg')
+        image = imread('test_images/test3.jpg')
         # Choose a Sobel kernel size
         ksize = 3 # Choose a larger odd number to smooth gradient measurements
 
