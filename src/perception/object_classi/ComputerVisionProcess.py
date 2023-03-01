@@ -144,6 +144,8 @@ class ComputerVisionProcess(WorkerProcess):
             if classify:
                 pred = apply_classifier(pred, modelc, img, img0)
 
+            print("eddig")
+
             for i, det in enumerate(pred):  # detections per image
                 s, im0, frame = '', img0
 
