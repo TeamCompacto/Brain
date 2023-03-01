@@ -2,7 +2,7 @@ import socket
 import struct
 import time
 import numpy as np
-from utils.datasets import letterbox
+
 
 
 from threading import Thread
@@ -30,6 +30,7 @@ from src.perception.object_classi.utils.general import check_img_size, check_req
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
 from src.perception.object_classi.utils.plots import plot_one_box
 from src.perception.object_classi.utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+from src.perception.object_classi.utils.datasets import letterbox
 
 class ComputerVisionProcess(WorkerProcess):
     # ===================================== INIT =========================================
