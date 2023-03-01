@@ -77,6 +77,8 @@ class ComputerVisionProcess(WorkerProcess):
 
         while True:
             image = inP.recv()
+
+            print(type(image))
                 
             image = cv2.imencode('.jpg', image, encode_param)
             img0 = image
