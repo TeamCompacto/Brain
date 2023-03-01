@@ -333,7 +333,6 @@ class ComputerVisionProcess(WorkerProcess):
         # plt.show()
 
         def luv_threshold(image, thresh_l=(215,255)):
-            print(image.shape)
             luv = cv2.cvtColor(image, cv2.COLOR_BGR2LUV)
             L = luv[:,:,0]
             U = luv[:,:,1]
@@ -876,6 +875,7 @@ class ComputerVisionProcess(WorkerProcess):
         while (True):
             success, frame = inP.read()
             image = frame.astype(np.float32)
+            print(image.shape)
             cv2.imshow("output", image)
 
             processed, average_rad_string, offset_string = process_image(frame)
