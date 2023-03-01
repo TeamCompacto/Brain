@@ -59,6 +59,7 @@ class ComputerVisionProcess(WorkerProcess):
     def _init_threads(self):
         """Initialize the sending thread.
         """
+        self.img_size = 320
         streamTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[0], ))
         streamTh.daemon = True
         self.threads.append(streamTh)
@@ -74,6 +75,7 @@ class ComputerVisionProcess(WorkerProcess):
             Input pipe to read the frames from CameraProcess or CameraSpooferProcess. 
         """
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
+        
 
         while True:
             stamp, image = inP.recv()
