@@ -343,9 +343,9 @@ class ComputerVisionProcess(WorkerProcess):
 
             return l_binary
 
-        image = cv2.imread('camera_cal/test4.jpg')
+        # image = cv2.imread('camera_cal/test4.jpg')
 
-        l_binary = luv_threshold(image)
+        # l_binary = luv_threshold(image)
 
 
         ##### PLOTTING #########
@@ -361,7 +361,7 @@ class ComputerVisionProcess(WorkerProcess):
         # Combined gradient
         # Now that we have 3 different types of gradients, let's combine them'
 
-        image = cv2.imread('camera_cal/test6.jpg')
+        # image = cv2.imread('camera_cal/test6.jpg')
         #image = mpimg.imread('test_images/test3.jpg')
         # Choose a Sobel kernel size
 
@@ -387,7 +387,7 @@ class ComputerVisionProcess(WorkerProcess):
         # Perspective transform
         # Let us now create a perspective transform. We will use the straight lines images from the test directory in order to get the necessary trapezoid coordinates.
 
-        image = cv2.imread('camera_cal/straight_lines1.jpg')
+        # image = cv2.imread('camera_cal/straight_lines1.jpg')
         #image = mpimg.imread('test_images/straight_lines1.jpg')
 
         # 258, 50 -> lower left
@@ -425,7 +425,7 @@ class ComputerVisionProcess(WorkerProcess):
             
             return warped
 
-        warped_im = perspective_transform(image)
+        # warped_im = perspective_transform(image)
 
 
         ##### PLOTTING #########
@@ -442,8 +442,8 @@ class ComputerVisionProcess(WorkerProcess):
         # <matplotlib.patches.Polygon at 0x1198d4240>
 
         # Let's see how this looks like on a a curved lane
-        image = mpimg.imread('camera_cal/test5.jpg')
-        warped_im = perspective_transform(image)
+        # image = mpimg.imread('camera_cal/test5.jpg')
+        # warped_im = perspective_transform(image)
 
 
         ##### PLOTTING #########
@@ -460,8 +460,8 @@ class ComputerVisionProcess(WorkerProcess):
         # <matplotlib.patches.Polygon at 0x11e9ff4a8>
 
         # Now let's apply this transform on an image with threshold
-        #image = cv2.imread('test_images/test6.jpg')
-        #image = mpimg.imread('test_images/test3.jpg')
+        # image = cv2.imread('test_images/test6.jpg')
+        image = mpimg.imread('test_images/test3.jpg')
         # Choose a Sobel kernel size
         ksize = 3 # Choose a larger odd number to smooth gradient measurements
 
