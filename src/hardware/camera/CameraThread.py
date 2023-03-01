@@ -86,7 +86,7 @@ class CameraThread(ThreadWithStop):
         
         # this how the firmware works.
         # the camera has to be imported here
-        from picamera import Picamera2
+        from picamera2 import Picamera2
 
         # camera
         self.camera = Picamera2()
