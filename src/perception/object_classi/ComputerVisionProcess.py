@@ -333,6 +333,7 @@ class ComputerVisionProcess(WorkerProcess):
         # plt.show()
 
         def luv_threshold(image, thresh_l=(215,255)):
+            print(image.shape)
             luv = cv2.cvtColor(image, cv2.COLOR_BGR2LUV)
             L = luv[:,:,0]
             U = luv[:,:,1]
