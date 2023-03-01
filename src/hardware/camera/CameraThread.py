@@ -53,7 +53,7 @@ class CameraThread(ThreadWithStop):
 
 
         # streaming options
-        self._stream      =   io.BytesIO()
+        self._data      =   np.array()
 
         self.recordMode   =   False
         
@@ -83,9 +83,11 @@ class CameraThread(ThreadWithStop):
 
         self.camera.start()
 
-        for stream in self._streams():
-            self.camera.capture_file(stream, format='jpeg')
-            print(self._stream.getbuffer().nbytes)
+        while True:
+            self._data = self.camera.capture_array("main")
+            self.send()
+
+
 
         
         self.camera.stop_recording()
@@ -139,31 +141,17 @@ class CameraThread(ThreadWithStop):
         return res
 
     #================================ STREAMS ============================================
-    def _streams(self):
+    def send(self):
         """Stream function that actually published the frames into the pipes. Certain 
         processing(reshape) is done to the image format. 
         """
 
         while self._running:
-            
-            yield self._stream
-            time.sleep(1)
-            self._stream.seek(0)
-            data = self._stream.read()
-            
-
-            # read and reshape from bytes to np.array
-            data  = np.frombuffer(data, dtype=np.uint8)
-            data  = np.reshape(data, (480, 640, 3))
             stamp = time.time()
 
             # output image and time stamp
             # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
             for outP in self.outPs:
-                outP.send([[stamp], data])
-
-            
-            self._stream.seek(0)
-            self._stream.truncate()
+                outP.send([[stamp], self.data])
 
 
