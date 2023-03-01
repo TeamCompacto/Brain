@@ -147,7 +147,7 @@ class CameraThread(ThreadWithStop):
         while self._running:
             
             yield self._stream
-            time.wait(1)
+            time.sleep(1)
             self._stream.seek(0)
             data = self._stream.read()
             
