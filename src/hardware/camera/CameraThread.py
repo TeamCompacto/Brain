@@ -32,6 +32,7 @@ import time
 
 from src.templates.threadwithstop import ThreadWithStop
 from cv2 import fastNlMeansDenoisingColored
+from cv2 import resize, INTER_LINEAR
 
 from picamera2.outputs import FileOutput
 
@@ -152,6 +153,10 @@ class CameraThread(ThreadWithStop):
 
         # output image and time stamp
         # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
+
+        resized = resize(self._data, dsize=(480, 640), interpolation=INTER_LINEAR)
+        print(resized.shape)
+
         for outP in self.outPs:
             outP.send([[stamp], self._data])
 
