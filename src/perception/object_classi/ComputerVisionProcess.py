@@ -124,10 +124,10 @@ class ComputerVisionProcess(WorkerProcess):
             names = model.module.names if hasattr(model, 'module') else model.names
 
             print(names)
-            
+
             colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
-            print("Classifier loaded")
+            
 
             # Csak az image - val kell dolgozzak
 
@@ -136,16 +136,20 @@ class ComputerVisionProcess(WorkerProcess):
             if img.ndimension() == 3:
                 img = img.unsqueeze(0)
 
-
+            print("vigyazz")
             # Inference
             t1 = time_synchronized()
             with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
                 pred = model(img, augment=None)[0]
             t2 = time_synchronized()
 
+            print("vigyazz")
+
             # Apply NMS
             pred = non_max_suppression(pred)#, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
             t3 = time_synchronized()
+
+            print("vigyazz")
 
             # Apply Classifier
             if classify:
