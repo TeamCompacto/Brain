@@ -48,6 +48,7 @@ class ComputerVisionProcess(WorkerProcess):
         outPs : list(Pipe) 
             List of output pipes (not used at the moment)
         """
+        self.img_size = 320
         super(ComputerVisionProcess,self).__init__( inPs, outPs)
         
     # ===================================== RUN ==========================================
@@ -60,14 +61,20 @@ class ComputerVisionProcess(WorkerProcess):
     def _init_threads(self):
         """Initialize the sending thread.
         """
-        self.img_size = 320
-        streamTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[0], ))
-        streamTh.daemon = True
-        self.threads.append(streamTh)
+
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_finding_thread, args= (self.inPs[0], self.outPs[0],))
+        laneTh.daemon = True
+        self.threads.append(laneTh)
+
+
+        
+        # objectTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[0], ))
+        # objectTh.daemon = True
+        # self.threads.append(objectTh)
 
         
     # ===================================== SEND THREAD ==================================
-    def _lane_finding_thread(self, inP):
+    def _lane_finding_thread(self, inP, outP):
         ###########################################################
         ###########################################################
         ##################                       ##################
@@ -860,31 +867,18 @@ class ComputerVisionProcess(WorkerProcess):
             cv2.putText(result,average_rad_string , (110, 110), cv2.FONT_HERSHEY_PLAIN, 4, (255,255,255), thickness=2)
             cv2.putText(result, offset_string, (110, 170), cv2.FONT_HERSHEY_PLAIN, 4, (255,255,255), thickness=2)
             
-            return result
+            return result, average_rad_string, offset_string
             
             
         # Make a list of test images
-        images = glob.glob('camera_cal/test*.jpg')
-
-        images_with_lane_marking = []
-
-        pic = cv2.imread(images[0])
-
-        processed = process_image(pic)
-        plt.imshow(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB))
-
-        webcam = cv2.VideoCapture(0)
-        currentFrame = 0
 
         while (True):
-            success, frame = webcam.read()
+            success, frame = inP.read()
             cv2.imshow("output", frame)
 
-            processed = process_image(frame)
+            processed, average_rad_string, offset_string = process_image(frame)
 
-            if cv2.waitKey(1) == ord('q'):
-                break
-        webcam.release()
+            outP.send([average_rad_string, offset_string])
 
         # Step through the list and search for chessboard corners
         # for fname in images:
@@ -909,7 +903,7 @@ class ComputerVisionProcess(WorkerProcess):
         #clip1 = VideoFileClip("project_video.mp4").subclip(40,43)
         #clip1 = VideoFileClip("project_video.mp4")
 
-        #white_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
+        #white_clip = clip1.fl_image(process_image) # NOTE: this function expects color images!!
 
         # %time white_clip.write_videofile(white_output, audio=False)
 
@@ -925,7 +919,7 @@ class ComputerVisionProcess(WorkerProcess):
         # #clip1 = VideoFileClip("project_video.mp4").subclip(20,25)
         # clip1 = VideoFileClip("challenge_video.mp4")
 
-        # white_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
+        # white_clip = clip1.fl_image(process_image) # NOTE: this function expects color images!!
 
         # %time white_clip.write_videofile(white_output, audio=False)
         # [MoviePy] >>>> Building video test_videos_output/project_video_challenge.mp4
