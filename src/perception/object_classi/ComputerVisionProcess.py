@@ -115,7 +115,7 @@ class ComputerVisionProcess(WorkerProcess):
 
             print("Model loaded")
 
-            classify = False
+            classify = True
             if classify:
                 modelc = load_classifier(name='resnet101', n=2)  # initialize
                 modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model']).to(device).eval()
