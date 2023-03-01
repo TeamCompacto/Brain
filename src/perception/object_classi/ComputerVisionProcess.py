@@ -85,7 +85,7 @@ class ComputerVisionProcess(WorkerProcess):
             image = cv2.imencode('.jpg', image, encode_param)
             img0 = image
 
-            img = letterbox(img0, self.img_size, stride=self.stride)[0]
+            img = letterbox(img0, self.img_size)[0]
 
             # Convert
             img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
