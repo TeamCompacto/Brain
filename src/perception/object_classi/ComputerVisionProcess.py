@@ -81,6 +81,7 @@ class ComputerVisionProcess(WorkerProcess):
             stamp, image = inP.recv()
 
             print(type(image))
+            print(image.shape)
                 
             res, image = cv2.imencode('.jpg', image, encode_param)
 
