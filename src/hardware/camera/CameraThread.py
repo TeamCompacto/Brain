@@ -85,6 +85,7 @@ class CameraThread(ThreadWithStop):
 
         while True:
             self._data = self.camera.capture_array("main")
+            print(self._data.shape)
             self.send()
 
 
