@@ -38,7 +38,7 @@ def camera_calibration():
     imgpoints = [] # 2d points in image plane.
 
     # Make a list of calibration images
-    images = glob.glob('pics/calibration*.jpg')
+    images = glob.glob('src/perception/object_classi/pics/calibration*.jpg')
     images_with_chessboard_corners = []
 
     # Step through the list and search for chessboard corners
