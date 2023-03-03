@@ -241,6 +241,10 @@ def huge_calculating_stuff(img, src, dst):
     mag_binary = mag_thresh(image, sobel_kernel=ksize, mag_thresh=(30, 100))
     #dir_binary = dir_threshold(image, sobel_kernel=ksize, thresh=(0, np.pi/2))
 
+    cv2.imwrite('gradx.jpg', gradx)
+    cv2.imwrite('grady.jpg', grady)
+    cv2.imwrite('mag_binary.jpg', mag_binary)
+
     combined = np.zeros_like(gradx)
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
@@ -276,7 +280,7 @@ def huge_calculating_stuff(img, src, dst):
     # Set the width of the windows +/- margin
     margin = 60
     # Set minimum number of pixels found to recenter window
-    minpix = 20
+    minpix = 40
     # Create empty lists to receive left and right lane pixel indices
     left_lane_inds = []
     right_lane_inds = []
