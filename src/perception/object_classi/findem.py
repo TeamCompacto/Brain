@@ -117,6 +117,8 @@ def abs_sobel_thresh(img, orient='x', sobel_kernel=3, thresh_min=0, thresh_max=2
     # 4) Scale to 8-bit (0 - 255) then convert to type = np.uint8
     scaled_sobel = np.uint8(255*abs_sobel/np.max(abs_sobel))
 
+    cv2.imwrite('scaled_sobel.jpg', scaled_sobel)
+
     
     # 5) Create a mask of 1's where the scaled gradient magnitude 
             # is > thresh_min and < thresh_max
