@@ -245,6 +245,7 @@ def huge_calculating_stuff(img, src, dst):
     #dir_binary = dir_threshold(image, sobel_kernel=ksize, thresh=(0, np.pi/2))
 
     cv2.imwrite('gradx.jpg', gradx)
+    print(gradx)
     cv2.imwrite('grady.jpg', grady)
     cv2.imwrite('mag_binary.jpg', mag_binary)
     cv2.imwrite('image.jpg', image)
