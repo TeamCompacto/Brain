@@ -245,7 +245,6 @@ def huge_calculating_stuff(img, src, dst):
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
 
-    print(np.sum(combined))
 
     binary_warped = perspective_transform(combined, src, dst)
 
@@ -277,7 +276,7 @@ def huge_calculating_stuff(img, src, dst):
     # Set the width of the windows +/- margin
     margin = 60
     # Set minimum number of pixels found to recenter window
-    minpix = 40
+    minpix = 20
     # Create empty lists to receive left and right lane pixel indices
     left_lane_inds = []
     right_lane_inds = []
