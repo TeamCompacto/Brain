@@ -79,6 +79,7 @@ class ComputerVisionProcess(WorkerProcess):
     def _lane_finding_thread(self, inP, outP):
         while True:
             stamp, image = inP.recv()
+            cv2.imwrite('kep.jpg', image)
             # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
 
             processed, radius, offset = process_image(image)
