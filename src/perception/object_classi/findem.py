@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
-from numba import jit
 
 ###########################################################
 ###########################################################
