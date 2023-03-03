@@ -33,7 +33,7 @@ from src.perception.object_classi.utils.plots import plot_one_box
 from src.perception.object_classi.utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 from src.perception.object_classi.utils.datasets import letterbox
 
-from findem import process_image
+from src.perception.object_classi.findem import process_image
 
 class ComputerVisionProcess(WorkerProcess):
     # ===================================== INIT =========================================
