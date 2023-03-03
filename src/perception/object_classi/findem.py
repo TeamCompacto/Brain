@@ -312,6 +312,8 @@ def huge_calculating_stuff(img, src, dst):
     left_lane_inds = np.concatenate(left_lane_inds)
     right_lane_inds = np.concatenate(right_lane_inds)
 
+    print(left_lane_inds, right_lane_inds)
+
     # Extract left and right line pixel positions
     leftx = nonzerox[left_lane_inds]
     lefty = nonzeroy[left_lane_inds] 
