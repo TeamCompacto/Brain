@@ -245,6 +245,8 @@ def huge_calculating_stuff(img, src, dst):
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
 
+    print(np.sum(combined))
+
     binary_warped = perspective_transform(combined, src, dst)
 
     # Now let us find the lanes!
