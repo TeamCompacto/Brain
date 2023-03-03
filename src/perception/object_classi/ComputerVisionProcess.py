@@ -64,7 +64,7 @@ class ComputerVisionProcess(WorkerProcess):
         """Initialize the sending thread.
         """
 
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_finding_thread, args= (self.inPs[0], self.outPs[0],))
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_finding_thread, args= (self.inPs[0], self.outPs))
         laneTh.daemon = True
         self.threads.append(laneTh)
 
@@ -80,9 +80,10 @@ class ComputerVisionProcess(WorkerProcess):
         while True:
             stamp, image = inP.recv()
             # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
-            
+
             processed, radius, offset = process_image(image)
-            
+            outP[0].send([radius, offset])
+            outP[1].send([stamp,image])
             print(f"Radius : {radius}\nOffset : {offset}")
  
     def _object_detection_thread(self, inP):
