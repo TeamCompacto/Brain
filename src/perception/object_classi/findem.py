@@ -81,6 +81,8 @@ def cal_undistort(img, calculate=True):
         np.save('dist_aux', dist)
 
         #print(f"MTX {mtx.shape}\nDIST {dist.shape}")
+        print(mtx)
+        print(dist)
 
     else :
         mtx = np.load('mtx_aux.npy')
