@@ -83,9 +83,10 @@ class ComputerVisionProcess(WorkerProcess):
             nr += 1
             cv2.imwrite('kep_'+str(nr) + '.jpg', image)
             # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
+            print(nr)
 
             # processed, radius, offset = process_image(image)
-            time.sleep(4)
+            time.sleep(2)
             # outP[0].send([radius, offset])
             outP[1].send([stamp,image])
             # print(f"Radius : {radius}\nOffset : {offset}")
