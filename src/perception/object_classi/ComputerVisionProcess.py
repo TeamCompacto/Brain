@@ -81,7 +81,7 @@ class ComputerVisionProcess(WorkerProcess):
         while True:
             stamp, image = inP.recv()
             nr += 1
-            cv2.imwrite('kep_'+nr + '.jpg', image)
+            cv2.imwrite('kep_'+str(nr) + '.jpg', image)
             # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
 
             # processed, radius, offset = process_image(image)
