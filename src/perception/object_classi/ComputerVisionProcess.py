@@ -80,7 +80,10 @@ class ComputerVisionProcess(WorkerProcess):
     # ===================================== SEND THREAD ==================================
     def _lane_finding_thread(self, inP, outP):
         image = cv2.imread('pics/test1.jpg')
+        print(time.time())
         processed, radius, offset = process_image(image)
+        print(time.time())
+        
         print(f"Radius : {radius}\nOffset : {offset}")
  
     def _object_detection_thread(self, inP):
