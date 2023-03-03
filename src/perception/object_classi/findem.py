@@ -251,7 +251,7 @@ def huge_calculating_stuff(img, src, dst):
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
 
 
-    print(combined)
+    print(np.sum(combined))
 
     binary_warped = perspective_transform(combined, src, dst)
 
