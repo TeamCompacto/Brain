@@ -244,6 +244,7 @@ def huge_calculating_stuff(img, src, dst):
     cv2.imwrite('gradx.jpg', gradx)
     cv2.imwrite('grady.jpg', grady)
     cv2.imwrite('mag_binary.jpg', mag_binary)
+    cv2.imwrite('image.jpg', image)
 
     combined = np.zeros_like(gradx)
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
