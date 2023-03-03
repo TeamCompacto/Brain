@@ -156,7 +156,6 @@ class CameraThread(ThreadWithStop):
 
         # resized = resize(self._data, dsize=(640, 480), interpolation=INTER_LINEAR)
         resized = resize(self._data, dsize=(320, 320), interpolation=INTER_LINEAR)
-        print(resized.shape)
 
         for outP in self.outPs:
             outP.send([[stamp], resized])
