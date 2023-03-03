@@ -255,6 +255,9 @@ def huge_calculating_stuff(img, src, dst):
 
     binary_warped = perspective_transform(combined, src, dst)
 
+    print(binary_warped)
+    print(np.sum(binary_warped))
+
     # Now let us find the lanes!
     # We will be using a histogram to determine the intensity of the white pixels
 
