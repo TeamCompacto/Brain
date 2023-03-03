@@ -65,7 +65,7 @@ def camera_calibration():
 
 # Then I will compute camera calibration matrix and distortion coefficients
 #@profile
-def cal_undistort(img, calculate=True):
+def cal_undistort(img, calculate=False):
 
     #objpoints, imgpoints = camera_calibration()
     objpoints = np.load('obj_aux.npy')
