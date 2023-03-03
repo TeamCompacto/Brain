@@ -38,7 +38,7 @@ def camera_calibration():
     imgpoints = [] # 2d points in image plane.
 
     # Make a list of calibration images
-    images = glob.glob('src/perception/object_classi/pics/calibration*.jpg')
+    images = glob.glob('src/perception/object_classi/pics/kep_*.jpg')
     images_with_chessboard_corners = []
 
     # Step through the list and search for chessboard corners
@@ -61,6 +61,7 @@ def camera_calibration():
 
     np.save('obj_aux', objpoints)
     np.save('img_aux', imgpoints)
+    print("camera calibrated")
     #return objpoints, imgpoints
 
 # Then I will compute camera calibration matrix and distortion coefficients
