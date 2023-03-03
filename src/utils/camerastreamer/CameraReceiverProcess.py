@@ -100,8 +100,9 @@ class CameraReceiverProcess(WorkerProcess):
         """
         print('Read stream')
         try:
+            nr = 0
             while True:
-
+                nr += 1
                 # decode image
                 print('Decode Image')
                 image_len = struct.unpack('<L', self.connection.read(struct.calcsize('<L')))[0]
@@ -113,6 +114,7 @@ class CameraReceiverProcess(WorkerProcess):
                 image = cv2.imdecode(image, cv2.IMREAD_COLOR)
                 image = np.reshape(image, self.imgSize)
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                cv2.imwrite('kep_'+str(nr) + '.jpg', image)
                 print('Image read')
 
                 # ----------------------- show images -------------------
