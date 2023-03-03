@@ -241,7 +241,7 @@ def huge_calculating_stuff(img, src, dst):
     #dir_binary = dir_threshold(image, sobel_kernel=ksize, thresh=(0, np.pi/2))
 
     cv2.imwrite('gradx.jpg', gradx)
-    print(gradx)
+    print(mag_binary)
     cv2.imwrite('grady.jpg', grady)
     cv2.imwrite('mag_binary.jpg', mag_binary)
     cv2.imwrite('image.jpg', image)
@@ -250,6 +250,8 @@ def huge_calculating_stuff(img, src, dst):
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
 
+
+    print(combined)
 
     binary_warped = perspective_transform(combined, src, dst)
 
