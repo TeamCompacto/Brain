@@ -235,9 +235,9 @@ def huge_calculating_stuff(img, src, dst):
     ksize = 3 # Choose a larger odd number to smooth gradient measurements
 
     # Apply each of the thresholding functions
-    gradx = abs_sobel_thresh(image, orient='x', sobel_kernel=ksize, thresh_min=1, thresh_max=110)
+    gradx = abs_sobel_thresh(image, orient='x', sobel_kernel=ksize, thresh_min=20, thresh_max=110)
     grady = abs_sobel_thresh(image, orient='y', sobel_kernel=ksize, thresh_min=20, thresh_max=110)
-    mag_binary = mag_thresh(image, sobel_kernel=ksize, mag_thresh=(30, 100))
+    mag_binary = mag_thresh(image, sobel_kernel=ksize, mag_thresh=(10, 100))
     #dir_binary = dir_threshold(image, sobel_kernel=ksize, thresh=(0, np.pi/2))
 
     cv2.imwrite('gradx.jpg', gradx)
