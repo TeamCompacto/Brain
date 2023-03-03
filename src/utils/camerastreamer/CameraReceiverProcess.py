@@ -61,7 +61,7 @@ class CameraReceiverProcess(WorkerProcess):
 
         
 
-        self.imgSize    = (1232,1640,3)
+        self.imgSize    = (320,320,3)
     # ===================================== RUN ==========================================
     def run(self):
         """Apply the initializers and start the threads. 
