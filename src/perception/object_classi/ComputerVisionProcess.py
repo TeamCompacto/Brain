@@ -77,12 +77,13 @@ class ComputerVisionProcess(WorkerProcess):
         
     # ===================================== SEND THREAD ==================================
     def _lane_finding_thread(self, inP, outP):
-        image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
-        print(time.time())
-        processed, radius, offset = process_image(image)
-        print(time.time())
-        
-        print(f"Radius : {radius}\nOffset : {offset}")
+        while True:
+            stamp, image = inP.recv()
+            # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
+            
+            processed, radius, offset = process_image(image)
+            
+            print(f"Radius : {radius}\nOffset : {offset}")
  
     def _object_detection_thread(self, inP):
         """Sending the frames received thought the input pipe to remote client by using the created socket connection. 
