@@ -627,14 +627,5 @@ def process_image(img):
     return result, average_rad_string, offset_string
 
 
-img = cv2.imread('pics/test1.jpg')
-#print(f"KEP TIPUSA : {img.dtype}")
 camera_calibration()
-processed, radius, offset = process_image(img)
-cv2.imshow("output", processed)
-
-cv2.waitKey()
-#plt.imshow(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB))
-
-print(f"Radius {radius} \nOffset {offset}")
-print(f"MINDEN RENDBEN\n{processed.dtype}")
+# a cal_undistort-ot elso futtatas utan meg kell valtoztatni (True->False)
