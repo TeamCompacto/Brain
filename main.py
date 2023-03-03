@@ -73,6 +73,7 @@ if enableDecMaking:
         
         streamProc = CameraStreamerProcess([visionStrOut], [])
         visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn,visionStrIn])
+        allProcesses.append(streamProc)
     else:
         visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn])
 
@@ -82,6 +83,7 @@ if enableDecMaking:
     allProcesses.append(visionProcess)
     allProcesses.append(decProc)
     allProcesses.append(shProc)
+    
 
 
 
