@@ -47,7 +47,7 @@ def camera_calibration():
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
         # Find the chessboard corners
-        ret, corners = cv2.findChessboardCorners(gray, (9,6),None)
+        ret, corners = cv2.findChessboardCorners(gray, (8,8),None)
 
         # If found, add object points, image points
         if ret == True:
