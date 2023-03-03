@@ -116,10 +116,6 @@ def abs_sobel_thresh(img, orient='x', sobel_kernel=3, thresh_min=0, thresh_max=2
 
     # 4) Scale to 8-bit (0 - 255) then convert to type = np.uint8
     scaled_sobel = np.uint8(255*abs_sobel/np.max(abs_sobel))
-
-    cv2.imwrite('scaled_sobel.jpg', scaled_sobel)
-    print(scaled_sobel)
-
     
     # 5) Create a mask of 1's where the scaled gradient magnitude 
             # is > thresh_min and < thresh_max
@@ -263,6 +259,8 @@ def huge_calculating_stuff(img, src, dst):
     # Assuming you have created a warped binary image called "binary_warped"
     # Take a histogram of the bottom half of the image
     histogram = np.sum(binary_warped[binary_warped.shape[0]//2:,:], axis=0)
+
+    print(histogram)
     # Create an output image to draw on and  visualize the result
     out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
     # Find the peak of the left and right halves of the histogram
