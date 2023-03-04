@@ -150,9 +150,9 @@ class CameraThread(ThreadWithStop):
         # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
 
         # resized = resize(self._data, dsize=(640, 480), interpolation=INTER_LINEAR)
-        # resized = resize(self._data, dsize=(320, 320), interpolation=INTER_LINEAR)
+        resized = resize(self._data, dsize=(320, 320), interpolation=INTER_LINEAR)
 
         for outP in self.outPs:
-            outP.send([[stamp], self._data])
+            outP.send([[stamp], resized])
 
 
