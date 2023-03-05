@@ -54,9 +54,6 @@ def camera_calibration():
             objpoints.append(objp)
             imgpoints.append(corners)
 
-            print(objp.shape)
-            print(corners.shape)
-
             # Draw and display the corners
             img = cv2.drawChessboardCorners(img, (9,6), corners, ret)
             
@@ -65,10 +62,6 @@ def camera_calibration():
     np.save('obj_aux', objpoints)
     np.save('img_aux', imgpoints)
 
-    print("obj")
-    print(len(objpoints))
-    print("img")
-    print(len(imgpoints))
     print("camera calibrated")
     #return objpoints, imgpoints
 
