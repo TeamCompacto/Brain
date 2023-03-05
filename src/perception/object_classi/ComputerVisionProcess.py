@@ -80,11 +80,11 @@ class ComputerVisionProcess(WorkerProcess):
         while True:
             stamp, image = inP.recv()
             
-            # image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
+            image = cv2.imread('src/perception/object_classi/pics/test1.jpg')
 
-            # processed, radius, offset = process_image(image)
-            # outP[0].send([radius, offset])
-            # print(f"Radius : {radius}\nOffset : {offset}")
+            processed, radius, offset = process_image(image)
+            outP[0].send([radius, offset])
+            print(f"Radius : {radius}\nOffset : {offset}")
 
 
             outP[1].send([stamp,image])
