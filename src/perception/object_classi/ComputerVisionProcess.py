@@ -87,7 +87,7 @@ class ComputerVisionProcess(WorkerProcess):
             print(f"Radius : {radius}\nOffset : {offset}")
 
 
-            outP[1].send([stamp,image])
+            outP[1].send([stamp,processed])
             
  
     def _object_detection_thread(self, inP):

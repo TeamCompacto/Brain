@@ -82,8 +82,6 @@ def cal_undistort(img, calculate=True):
         np.save('dist_aux', dist)
 
         #print(f"MTX {mtx.shape}\nDIST {dist.shape}")
-        print(mtx)
-        print(dist)
 
     else :
         mtx = np.load('mtx_aux.npy')
@@ -244,23 +242,20 @@ def huge_calculating_stuff(img, src, dst):
     mag_binary = mag_thresh(image, sobel_kernel=ksize, mag_thresh=(10, 100))
     #dir_binary = dir_threshold(image, sobel_kernel=ksize, thresh=(0, np.pi/2))
 
-    cv2.imwrite('gradx.jpg', gradx)
-    print(mag_binary)
-    cv2.imwrite('grady.jpg', grady)
-    cv2.imwrite('mag_binary.jpg', mag_binary)
-    cv2.imwrite('image.jpg', image)
+    # cv2.imwrite('gradx.jpg', gradx)
+    # cv2.imwrite('grady.jpg', grady)
+    # cv2.imwrite('mag_binary.jpg', mag_binary)
+    # cv2.imwrite('image.jpg', image)
 
     combined = np.zeros_like(gradx)
     #combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
     combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) )] = 1
 
 
-    print(np.sum(combined))
-
     binary_warped = perspective_transform(combined, src, dst)
 
-    print(binary_warped)
-    print(np.sum(binary_warped))
+    # print(binary_warped)
+    # print(np.sum(binary_warped))
 
     # Now let us find the lanes!
     # We will be using a histogram to determine the intensity of the white pixels
@@ -269,7 +264,7 @@ def huge_calculating_stuff(img, src, dst):
     # Take a histogram of the bottom half of the image
     histogram = np.sum(binary_warped[binary_warped.shape[0]//2:,:], axis=0)
 
-    print(histogram)
+    # print(histogram)
     # Create an output image to draw on and  visualize the result
     out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
     # Find the peak of the left and right halves of the histogram
