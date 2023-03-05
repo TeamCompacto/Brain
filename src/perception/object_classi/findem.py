@@ -63,9 +63,9 @@ def camera_calibration():
     np.save('img_aux', imgpoints)
 
     print("obj")
-    print(objpoints.shape)
+    print(len(objpoints))
     print("img")
-    print(imgpoints.shape)
+    print(len(imgpoints))
     print("camera calibrated")
     #return objpoints, imgpoints
 
