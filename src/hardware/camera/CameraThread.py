@@ -148,12 +148,12 @@ class CameraThread(ThreadWithStop):
 
         # output image and time stamp
         # Note: The sending process can be blocked, when doesn't exist any consumer process and it reaches the limit size.
-        cv2.imwrite('before.jpg', self._data)
+        imwrite('before.jpg', self._data)
 
         # resized = resize(self._data, dsize=(640, 480), interpolation=INTER_LINEAR)
         resized = resize(self._data, dsize=(320, 320), interpolation=INTER_LINEAR)
 
-        cv2.imwrite('after.jpg', self._data)
+        imwrite('after.jpg', self._data)
 
         for outP in self.outPs:
             outP.send([[stamp], resized])
