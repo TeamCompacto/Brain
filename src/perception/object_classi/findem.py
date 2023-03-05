@@ -54,6 +54,9 @@ def camera_calibration():
             objpoints.append(objp)
             imgpoints.append(corners)
 
+            print(objp.shape)
+            print(corners.shape)
+
             # Draw and display the corners
             img = cv2.drawChessboardCorners(img, (7,5), corners, ret)
             
