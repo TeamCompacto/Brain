@@ -491,7 +491,7 @@ def process_image(img):
                     [1041, 0], 
                     [1041, 720]])
 
-    # ploty, image, Minv = huge_calculating_stuff(img, src, dst)
+    ploty, image, Minv = huge_calculating_stuff(img, src, dst)
 
     undist, N_objpoints, N_imgpoints = cal_undistort(img)
     combined_gradient_binary = combined_gradient(undist)
