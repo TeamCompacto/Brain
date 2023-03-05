@@ -474,15 +474,15 @@ def process_image(img):
     # 681, 273 -> upper right
     # 1041, 50 -> lower right
 
-    src = np.float32([[258, 670], 
-                        [590, 450], 
-                        [690, 450], 
-                        [1041, 670]])
-        
-    dst = np.float32([[258, 720], 
-                    [258, 0], 
-                    [1041, 0], 
-                    [1041, 720]])
+    src = np.float32([[65, 283], 
+                      [135, 169], 
+                      [230, 169], 
+                      [320, 278]])
+    
+    dst = np.float32([[43, 320], 
+                    [43, 0], 
+                    [305, 0], 
+                    [305, 320]])
 
     ploty, image, Minv = huge_calculating_stuff(img, src, dst)
 
