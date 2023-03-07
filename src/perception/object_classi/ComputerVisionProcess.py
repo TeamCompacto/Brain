@@ -34,6 +34,7 @@ from src.perception.object_classi.utils.torch_utils import select_device, load_c
 from src.perception.object_classi.utils.datasets import letterbox
 
 from src.perception.object_classi.findem import process_image
+from src.perception.object_classi.lane_finding import process_frame
 
 class ComputerVisionProcess(WorkerProcess):
     # ===================================== INIT =========================================
@@ -88,6 +89,12 @@ class ComputerVisionProcess(WorkerProcess):
 
 
             outP[1].send([stamp,processed])
+
+    def _lane_detection_thread(self, inP, outP):
+        stamp, image = inP.recv()
+        deviation, processed = process_frame(image)
+        print(f"DEVIATION : {deviation}")
+        outP[1].send([deviation])
             
  
     def _object_detection_thread(self, inP):
