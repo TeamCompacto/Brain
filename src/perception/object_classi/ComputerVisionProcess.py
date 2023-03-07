@@ -216,7 +216,7 @@ class ComputerVisionProcess(WorkerProcess):
                         print(string_to_send)
 
                         # Stream results
-                        view_img = True
+                        view_img = False
                         if view_img:
                             cv2.imshow(str(p), im0)
                             cv2.waitKey(1)
