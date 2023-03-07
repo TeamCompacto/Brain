@@ -65,7 +65,7 @@ class ComputerVisionProcess(WorkerProcess):
         """Initialize the sending thread.
         """
 
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], self.outPs))
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_finding_thread, args= (self.inPs[0], self.outPs))
         laneTh.daemon = True
         self.threads.append(laneTh)
 
