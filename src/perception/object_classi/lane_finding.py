@@ -154,6 +154,8 @@ def display_lines(frame, lines):
     if lines is not None:                   # Check if there is a existing line
         for line in lines:                  # Iterate through lines list
             for x1, y1, x2, y2 in line:     # Unpack line by coordinates
+                print(x1, y1)
+                print(x2, y2)
                 cv2.line(mask, (x1, y1), (x2, y2), (0, 255, 0), 2)    # Draw the line on the created mask
     
     frame = cv2.addWeighted(frame, 0.8, mask, 1, 1)    
