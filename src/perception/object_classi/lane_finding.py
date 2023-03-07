@@ -138,7 +138,7 @@ def map_coordinates(frame, parameters):
     height, width, _ = frame.shape  # Take frame size
     slope, intercept = parameters   # Unpack slope and intercept from the given parameters
     
-    if slope == 0:      # Check whether the slope is 0
+    if abs(slope) < 0.1:      # Check whether the slope is 0
         slope = 0.1     # handle it for reducing Divisiob by Zero error
     
     y1 = height             # Point bottom of the frame
