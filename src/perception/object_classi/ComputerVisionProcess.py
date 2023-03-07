@@ -94,7 +94,8 @@ class ComputerVisionProcess(WorkerProcess):
         stamp, image = inP.recv()
         deviation, processed = process_frame(image)
         print(f"DEVIATION : {deviation}")
-        outP[1].send([deviation])
+        outP[0].send([deviation])
+        outP[1].send([stamp,processed])
             
  
     def _object_detection_thread(self, inP):
