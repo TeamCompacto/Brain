@@ -52,8 +52,8 @@ from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControl
 # =============================== CONFIG =================================================
 enableStream        =  True
 enableCameraSpoof   =  False 
-enableRc            =  True
-enableDecMaking     =  False
+enableRc            =  False
+enableDecMaking     =  True
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
@@ -84,8 +84,6 @@ if enableDecMaking:
     allProcesses.append(decProc)
     allProcesses.append(shProc)
     
-
-
 
 else:
         
