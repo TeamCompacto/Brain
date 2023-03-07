@@ -203,8 +203,8 @@ def process_frame(frame):
 
     warped_frame = warp_perspective(canny_edges)    # Warp the original frame, make it skyview
 
-    cv2.imshow('out', warped_frame)
-    cv2.waitKey()
+    # cv2.imshow('out', warped_frame)
+    # cv2.waitKey()
 
     left_x_base, right_x_base = histogram(warped_frame)         # Take x bases for two lines
     lines = detect_lines(roi_frame)                 # Detect lane lines on the frame
