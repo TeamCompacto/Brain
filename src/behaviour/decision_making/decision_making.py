@@ -12,37 +12,37 @@ class DecisionMakingProcess(WorkerProcess):
         self._init_socket()
         super(DecisionMakingProcess, self).run()
 
-    def _init_socket(self):
-        self.port = 2023
-        self.serverIp = '0.0.0.0'
-
-        try:
-            self.server_socket = socket.socket()
-            self.server_socket.setsocketopt(socket.SOL_SOCKET, socket)
-            self.server_socket.bind((self.serverIp, self.port))
-
-            self.server_socket.listen(5)
-            self.connection = self.server_socket.accept()[0].makefile('rb')
-
-        except:
-            print('Socket error')
-
     def _init_threads(self):
-        decTh = Thread(name='DecisionMakingThread', target=self._decision_making_thread)
+        decTh = Thread(name='DecisionMakingThread', target=self._decision_making_thread, args=(self.inPs[0], self.outPs[0]))
         self.threads.append(decTh)
 
-    def _decision_making_thread(self):
-        obstacles = list()
-        # TODO: get obstacles
+    def _decision_making_thread(self, inPs, outPs):
+        outPs[0].send({'action': '1', 'speed': 0.9}  )
+        try:
+            while True:
+                deviation = inPs.recv()
+                print(type(deviation))
+                print("Received deviation:", deviation)
+                if deviation < -100:
+                    outPs.send({'action': '2', 'steerAngle': -10}  )
+                if deviation > 100:
+                    outPs.send({'action': '2', 'steerAngle': 10}  )
+        finally:
+            outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0} )
 
-        for obstacle in obstacles:
 
-            if obstacle.id == Obstacles.STOP_SIGN:
+
+        # obstacles = list()
+        # # TODO: get obstacles
+
+        # for obstacle in obstacles:
+
+        #     if obstacle.id == Obstacles.STOP_SIGN:
                 
-                if obstacle.x2 - obstacle.x1 >= 250:
+        #         if obstacle.x2 - obstacle.x1 >= 250:
 
-                    pass
+        #             pass
 
 
-            else:
-                print("Invalid id")
+        #     else:
+        #         print("Invalid id")
