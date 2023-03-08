@@ -17,7 +17,7 @@ class DecisionMakingProcess(WorkerProcess):
 
     def _decision_making_thread(self, inPs, outPs):
         print("Decision Making Started")
-        outPs.send({'action': '1', 'speed': 0.12}  )
+        outPs.send({'action': '1', 'speed': 0.12} )
         try:
             while True:
                 [deviation] = inPs.recv()
@@ -25,10 +25,10 @@ class DecisionMakingProcess(WorkerProcess):
                 print("Received deviation:", deviation)
                 if deviation < -100:
                     print("sending turn left")
-                    outPs.send({'action': '2', 'steerAngle': -10}  )
+                    outPs.send({'action': '2', 'steerAngle': -10.0} )
                 if deviation > 100:
                     print("sending turn left")
-                    outPs.send({'action': '2', 'steerAngle': 10}  )
+                    outPs.send({'action': '2', 'steerAngle': 10.0} )
         finally:
             outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
