@@ -40,7 +40,7 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             self._forvard(outPs)
-            self._turn(outPs)
+            # self._turn(outPs)
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
             #     command =  json.loads(self.data)
