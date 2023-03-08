@@ -39,10 +39,7 @@ class ControlTest(WorkerProcess):
         
     def _send_command(self, outPs): 
         try:
-            forvard(outPs)
-            time.sleep(1)
-            print("itt vagyok")
-            turn(outPs)
+             rightturn(outPs)
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
             #     command =  json.loads(self.data)
@@ -68,6 +65,12 @@ def turn(outPs, speed=0.1, duration=2, angle=10.0):
         outPs[0].send({'action': '2', 'steerAngle': angle}  )
         time.sleep(duration)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+
+def rightturn(outPs):
+    outPs[0].send({'action': '1', 'speed': 0.1}  )
+    outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
+    time.sleep(3)
+    outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
 
 
