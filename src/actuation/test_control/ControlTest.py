@@ -40,14 +40,14 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
+            time.sleep(0.2)
             turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
+            time.sleep(0.2)
             turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
+            time.sleep(0.2)
             turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
-            
+            time.sleep(0.2)
+
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
             #     command =  json.loads(self.data)
@@ -78,12 +78,12 @@ def turn_90_degrees(outPs, direction):
     if direction == 'right':
         outPs[0].send({'action': '1', 'speed': 0.1}  )
         outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
-        time.sleep(3.27)
+        time.sleep(3.26)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
     if direction == 'left':
         outPs[0].send({'action': '1', 'speed': 0.1}  )
         outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
-        time.sleep(3.27)
+        time.sleep(3.26)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
     
 
