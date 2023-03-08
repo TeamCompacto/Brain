@@ -50,7 +50,7 @@ class ControlTest(WorkerProcess):
             #     time.sleep(1)
             outPs[0].send({'action': '1', 'speed': 0.12}  )
             time.sleep(2)
-            outPs[0].send({'action': '3', 'brake (steerAngle)': 0}  )
+            outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
         except Exception as e:
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
             
