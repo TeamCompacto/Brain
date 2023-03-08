@@ -640,5 +640,5 @@ def process_image(img):
     return result, average_rad_string, offset_string
 
 
-camera_calibration()
+# camera_calibration()
 # a cal_undistort-ot elso futtatas utan meg kell valtoztatni (True->False)
