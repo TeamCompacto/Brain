@@ -40,13 +40,13 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
-            turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
-            turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
-            turn_90_degrees(outPs, direction='right')
-            time.sleep(1)
+            # time.sleep(1)
+            # turn_90_degrees(outPs, direction='right')
+            # time.sleep(1)
+            # turn_90_degrees(outPs, direction='right')
+            # time.sleep(1)
+            # turn_90_degrees(outPs, direction='right')
+            # time.sleep(1)
 
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
