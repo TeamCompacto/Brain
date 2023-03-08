@@ -97,10 +97,12 @@ class RemoteControlTransmitterProcess(Thread):
         inP : Pipe
             Input pipe. 
         """
+        f = open("commands_log.txt", "a")
         while True:
             key = inP.recv()
 
             command = self.rcBrain.getMessage(key)
+            f.write(command)
             if command is not None:
                 command = json.dumps(command).encode()
 
