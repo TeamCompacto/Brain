@@ -69,7 +69,7 @@ def turn(outPs, speed=0.1, duration=2, angle=10.0):
 def rightturn(outPs):
     outPs[0].send({'action': '1', 'speed': 0.1}  )
     outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
-    time.sleep(3)
+    time.sleep(3.2)
     outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
 
