@@ -40,6 +40,8 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             forvard(outPs)
+            time.sleep(1)
+            print("itt vagyok")
             turn(outPs)
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
@@ -61,6 +63,7 @@ def forvard(outPs, speed=0.1, duration=2):
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
 def turn(outPs, speed=0.1, duration=2, angle=0.1):
+        print("Turning")
         outPs[0].send({'action': '1', 'speed': speed}  )
         outPs[0].send({'action': '2', 'steerAngle': angle}  )
         time.sleep(duration)
