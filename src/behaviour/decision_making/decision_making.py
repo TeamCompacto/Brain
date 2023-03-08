@@ -5,11 +5,10 @@ from src.templates.workerprocess import WorkerProcess
 
 class DecisionMakingProcess(WorkerProcess):
     
-    def __init__(self, inPs, outPs, daemon=True):
-        super().__init__(inPs, outPs, daemon)
+    def __init__(self, inPs, outPs):
+        super().__init__(inPs, outPs)
 
     def run(self):
-        self._init_socket()
         super(DecisionMakingProcess, self).run()
 
     def _init_threads(self):
