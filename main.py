@@ -49,11 +49,15 @@ from src.hardware.serialhandler.SerialHandlerProcess        import SerialHandler
 from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreamerProcess
 from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControlReceiverProcess
 
+# control imports
+from src.actuation.test_control.ControlTest                 import ControlTest
+
 # =============================== CONFIG =================================================
-enableStream        =  True
-enableCameraSpoof   =  False 
-enableRc            =  False
-enableDecMaking     =  True
+enableStream        =   True
+enableCameraSpoof   =   False 
+enableRc            =   False
+enableDecMaking     =   True
+enableControl       =   False
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
@@ -110,7 +114,7 @@ else:
 
 
 
-    # =============================== CONTROL =================================================
+    # =============================== CONTROL - RC =================================================
     if enableRc:
         rcShR, rcShS   = Pipe(duplex = False)           # rc      ->  serial handler
 
@@ -120,6 +124,16 @@ else:
 
         rcProc = RemoteControlReceiverProcess([],[rcShS])
         allProcesses.append(rcProc)
+        
+    # =============================== CONTROL - PROBA =================================================
+    if enableControl:
+        inP, outP   = Pipe(duplex = False)          # controll-kliens   ->  serial handler
+        
+        shProc = SerialHandlerProcess([inP], [])    # controller - szerver
+        allProcesses.append(shProc)
+        
+        ctrlProc = ControlTest([], [outP])          # controller - kliens
+        allProcesses.append(ctrlProc)
 
 
 # ===================================== START PROCESSES ==================================
