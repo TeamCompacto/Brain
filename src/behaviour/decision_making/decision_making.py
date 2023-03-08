@@ -17,6 +17,7 @@ class DecisionMakingProcess(WorkerProcess):
         self.threads.append(decTh)
 
     def _decision_making_thread(self, inPs, outPs):
+        print("Decision Making Started")
         outPs[0].send({'action': '1', 'speed': 0.9}  )
         try:
             while True:
