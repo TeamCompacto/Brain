@@ -20,7 +20,7 @@ class DecisionMakingProcess(WorkerProcess):
         outPs.send({'action': '1', 'speed': 0.9}  )
         try:
             while True:
-                deviation = inPs.recv()
+                [deviation] = inPs.recv()
                 print(type(deviation))
                 print("Received deviation:", deviation)
                 if deviation < -100:
