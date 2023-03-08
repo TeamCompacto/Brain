@@ -39,15 +39,18 @@ class ControlTest(WorkerProcess):
         
     def _send_command(self, outPs): 
         try:
-            # amig lehet, kuldje el a jelenlegi statuszt
-            while True: 
-                command =  json.loads(self.data)
+            # # amig lehet, kuldje el a jelenlegi statuszt
+            # while True: 
+            #     command =  json.loads(self.data)
 
-                for outP in outPs:
-                    outP.send(command)
+            #     for outP in outPs:
+            #         outP.send(command)
                    
-                # masodpercenkent kuld
-                time.sleep(1)
+            #     # masodpercenkent kuld
+            #     time.sleep(1)
+            outPs[0].send({'action': '1', 'speed': 0.12}  )
+            time.sleep(2)
+            outPs[0].send({'action': '1', 'speed': 0}  )
         except Exception as e:
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
             
