@@ -55,15 +55,15 @@ class ControlTest(WorkerProcess):
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
 
 
-def forvard(outPs, speed=0.1, time=2):
+def forvard(outPs, speed=0.1, duration=2):
         outPs[0].send({'action': '1', 'speed': speed}  )
-        time.sleep(time)
+        time.sleep(duration)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
-def turn(outPs, speed=0.1, time=2, angle=0.1):
+def turn(outPs, speed=0.1, duration=2, angle=0.1):
         outPs[0].send({'action': '1', 'speed': speed}  )
         outPs[0].send({'action': '2', 'steerAngle': angle}  )
-        time.sleep(time)
+        time.sleep(duration)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
 
