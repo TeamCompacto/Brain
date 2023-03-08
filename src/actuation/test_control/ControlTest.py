@@ -39,7 +39,15 @@ class ControlTest(WorkerProcess):
         
     def _send_command(self, outPs): 
         try:
-             rightturn(outPs)
+            turn_90_degrees(outPs, direction='right')
+            time.sleep(1)
+            turn_90_degrees(outPs, direction='right')
+            time.sleep(1)
+            turn_90_degrees(outPs, direction='right')
+            time.sleep(1)
+            turn_90_degrees(outPs, direction='right')
+            time.sleep(1)
+            
             # # amig lehet, kuldje el a jelenlegi statuszt
             # while True: 
             #     command =  json.loads(self.data)
@@ -66,11 +74,18 @@ def turn(outPs, speed=0.1, duration=2, angle=10.0):
         time.sleep(duration)
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
-def rightturn(outPs):
-    outPs[0].send({'action': '1', 'speed': 0.1}  )
-    outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
-    time.sleep(3.27)
-    outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+def turn_90_degrees(outPs, direction):
+    if direction == 'right':
+        outPs[0].send({'action': '1', 'speed': 0.1}  )
+        outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
+        time.sleep(3.27)
+        outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+    if direction == 'left':
+        outPs[0].send({'action': '1', 'speed': 0.1}  )
+        outPs[0].send({'action': '2', 'steerAngle': 20.0}  )
+        time.sleep(3.27)
+        outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+    
 
 
 
