@@ -77,7 +77,7 @@ def main():
         cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
         cv2.putText(frame,labels[int(result['score'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
     
-    cv2.imwrite(frame, 'kep_new.jpg')
+    cv2.imwrite('kep_new.jpg', frame)
 
 
 
