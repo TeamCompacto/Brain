@@ -33,6 +33,9 @@ from src.perception.object_classi.utils.datasets import letterbox
 from src.perception.object_classi.findem import process_image
 from src.perception.object_classi.lane_finding import process_frame
 
+from src.perception.object_classi.detect import load_labels, detect_objects
+from tflite_runtime.interpreter import Interpreter
+
 class ComputerVisionProcess(WorkerProcess):
     # ===================================== INIT =========================================
     def __init__(self, inPs, outPs):
@@ -62,13 +65,13 @@ class ComputerVisionProcess(WorkerProcess):
         """Initialize the sending thread.
         """
 
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0],self.outPs[-1]]))
-        laneTh.daemon = True
-        self.threads.append(laneTh)
+        # laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0],self.outPs[2]]))
+        # laneTh.daemon = True
+        # self.threads.append(laneTh)
 
 
         
-        objectTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[1], self.outPs[0]))
+        objectTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[1], [self.outPs[1], self.outPs[2]]))
         objectTh.daemon = True
         self.threads.append(objectTh)
 
@@ -99,6 +102,35 @@ class ComputerVisionProcess(WorkerProcess):
             print(f"DEVIATION : {deviation}")
             outP[0].send([deviation])
             outP[1].send([stamp,processed])
+
+
+    def _tf_object_detection_thread(self, inp, outP):
+        labels = load_labels()
+        interpreter = Interpreter('detect.tflite')
+        interpreter.allocate_tensors()
+
+        while True:
+            stamp, image = inP.recv()
+            
+            frame = cv2.resize(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), (320,320))
+            res = detect_objects(interpreter, frame, 0.9)
+
+            print(res)
+
+            for result in res:
+                ymin, xmin, ymax, xmax = result['bounding_box']
+                xmin = int(max(1,xmin * 320))
+                xmax = int(min(320, xmax * 320))
+                ymin = int(max(1, ymin * 320))
+                ymax = int(min(320, ymax * 320))
+                
+                cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
+                cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+            
+            outP[0].send([res])
+            outP[1].send([stamp,frame])
+
+
             
  
     def _object_detection_thread(self, inP, outP):
