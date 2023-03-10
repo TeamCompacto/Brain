@@ -19,9 +19,9 @@ class DecisionMakingProcess(WorkerProcess):
     def _decision_making_thread(self, inPs, outPs):
         print("Decision Making Started")
         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
-        outPs.send({'action': '1', 'speed': 0.12} )
-        time.sleep(0.2)
-        outPs.send({'action': '1', 'speed': 0.09} )
+        # outPs.send({'action': '1', 'speed': 0.12} )
+        # time.sleep(0.2)
+        # outPs.send({'action': '1', 'speed': 0.09} )
         try:
             while True:
                 [deviation] = inPs[0].recv()
