@@ -78,13 +78,13 @@ class ControlTest(WorkerProcess):
         
         # balra reljesen, hatra t / 2 - idot
         self.update_controls(parking_speed_reverse, angle_left)
-        time.sleep(time_backward)
+        time.sleep(time_backward + 0.3)
         self.update_controls(0.0, 0.0)
         time.sleep(1)
         
         # egyenese elore t / 2-t
         self.update_controls(parking_speed, 0.0)
-        time.sleep(time_forward / 2)
+        time.sleep(time_forward)
         self.update_controls(0.0, 0.0)
         # stop
         
