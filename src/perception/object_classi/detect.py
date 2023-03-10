@@ -39,9 +39,9 @@ def detect_objects(interpreter, image, threshold):
   set_input_tensor(interpreter, image)
   interpreter.invoke()
   # Get all output details
-  boxes = get_output_tensor(interpreter, 0)
-  classes = get_output_tensor(interpreter, 1)
-  scores = get_output_tensor(interpreter, 3)
+  boxes = get_output_tensor(interpreter, 1)
+  classes = get_output_tensor(interpreter, 3)
+  scores = get_output_tensor(interpreter, 0)
   count = int(get_output_tensor(interpreter, 2))
 
   print("boxes")
@@ -76,14 +76,14 @@ def main():
     print(res)
 
     for result in res:
-        ymin, xmin, ymax, xmax = result['class_id']
+        ymin, xmin, ymax, xmax = result['bounding_box']
         xmin = int(max(1,xmin * CAMERA_WIDTH))
         xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
         ymin = int(max(1, ymin * CAMERA_HEIGHT))
         ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
         
         cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-        cv2.putText(frame,labels[int(result['score'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
     
     cv2.imwrite('kep_new.jpg', frame)
 
