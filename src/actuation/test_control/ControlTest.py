@@ -61,7 +61,10 @@ class ControlTest(WorkerProcess):
             #     time.sleep(1)
             
         except Exception as e:
+            outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
+        finally:
+             outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
 
 
 def forvard(outPs, speed=0.1, duration=2):
