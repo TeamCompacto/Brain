@@ -29,9 +29,13 @@ class DecisionMakingProcess(WorkerProcess):
                 if deviation < -100:
                     print("sending turn left")
                     outPs.send({'action': '2', 'steerAngle': -10.0} )
-                if deviation > 100:
+                elif deviation > 100:
                     print("sending turn left")
                     outPs.send({'action': '2', 'steerAngle': 10.0} )
+                else:
+                    print("sendingstraight")
+                    outPs.send({'action': '2', 'steerAngle': 0.0} )
+                
 
         except KeyboardInterrupt:
             outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
