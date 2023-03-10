@@ -1,0 +1,9 @@
+stop
+priority
+roundabout
+oneway
+highwaybegin
+highwayend
+pedestriancrossing
+park
+donotenter
