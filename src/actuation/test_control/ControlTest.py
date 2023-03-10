@@ -55,6 +55,38 @@ class ControlTest(WorkerProcess):
         else :
             self.send_speed()
             self.send_angle()
+            
+    def park(self):
+        parking_speed = 0.1
+        parking_speed_reverse = -parking_speed
+        angle_right = 20.0
+        angle_left = -angle_right
+        t = 3
+        
+        # elore t - idot
+        self.update_controls(parking_speed, 0.0)
+        time.sleep(t)
+        self.update_controls(0.0, 0.0)
+        time.sleep(1)
+        
+        # jobbra teljesen, hatra t/2 
+        self.update_controls(parking_speed_reverse, angle_right)
+        time.sleep(t/2)
+        self.update_controls(0.0, 0.0)
+        time.sleep(1)
+        
+        # balra reljesen, hatra t / 2 - idot
+        self.update_controls(parking_speed_reverse, angle_left)
+        time.sleep(t/2)
+        self.update_controls(0.0, 0.0)
+        time.sleep(1)
+        
+        # egyenese elore t / 2-t
+        self.update_controls(parking_speed, 0.0)
+        time.sleep(t/2)
+        self.update_controls(0.0, 0.0)
+        # stop
+        
     
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
@@ -66,28 +98,11 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             # turn_90_degrees(outPs, direction='right')
-            self.update_controls(0.15, 0.0)
-            time.sleep(2)
-            # time.sleep(1)
-            # turn_90_degrees(outPs, direction='right')
-            # time.sleep(1)
-            # turn_90_degrees(outPs, direction='right')
-            # time.sleep(1)
-            # turn_90_degrees(outPs, direction='right')
-            # time.sleep(1)
-
-            # # amig lehet, kuldje el a jelenlegi statuszt
-            # while True: 
-            #     command =  json.loads(self.data)
-
-            #     for outP in outPs:
-            #         outP.send(command)
-                   
-            #     # masodpercenkent kuld
-            #     time.sleep(1)
+            # self.update_controls(0.15, 0.0)
+            # time.sleep(2)
+            self.park()
             
         except Exception as e:
-            # outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
             self.update_controls(0.0, 0.0)
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
         finally:
