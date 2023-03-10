@@ -36,17 +36,15 @@ def get_output_tensor(interpreter, index):
 
 def detect_objects(interpreter, image, threshold):
   """Returns a list of detection results, each a dictionary of object info."""
-  set_input_tensor(interpreter, image)
-  interpreter.invoke()
-  # Get all output details
-  boxes = get_output_tensor(interpreter, 0)
-  classes = get_output_tensor(interpreter, 1)
-  scores = get_output_tensor(interpreter, 2)
-  print(boxes.shape)
-  print(classes.shape)
-  print(scores.shape)
-  print(get_output_tensor(interpreter, 3))
-  count = len(get_output_tensor(interpreter, 3))
+
+  boxes = interpreter.get_output_details()[0] 
+  classes = interpreter.get_output_details()[0] 
+  scores = interpreter.get_output_details()[0] 
+  count = interpreter.get_output_details()[0] 
+  print(type(boxes))
+  print(type(classes))
+  print(type(scores.shape))
+  print(type(count))
 
   results = []
   for i in range(count):
