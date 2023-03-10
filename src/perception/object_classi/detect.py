@@ -42,6 +42,7 @@ def detect_objects(interpreter, image, threshold):
   boxes = get_output_tensor(interpreter, 0)
   classes = get_output_tensor(interpreter, 1)
   scores = get_output_tensor(interpreter, 2)
+  print(get_output_tensor(interpreter, 3))
   count = int(get_output_tensor(interpreter, 3))
 
   results = []
@@ -61,7 +62,6 @@ def main():
     interpreter.allocate_tensors()
     _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
 
-    cap = cv2.VideoCapture(0)
     img = cv2.imread('kep.jpg')
     res = detect_objects(interpreter, img, 0.8)
     print(res)
