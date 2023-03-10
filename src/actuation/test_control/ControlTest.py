@@ -53,8 +53,8 @@ class ControlTest(WorkerProcess):
         if self.speed == 0:
             self.send_break()
         else :
-            self.send_speed(self)
-            self.send_angle(self)
+            self.send_speed()
+            self.send_angle()
     
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
