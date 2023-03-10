@@ -78,7 +78,7 @@ class ControlTest(WorkerProcess):
         
         # balra reljesen, hatra t / 2 - idot
         self.update_controls(parking_speed_reverse, angle_left)
-        time.sleep(time_backward + 0.35)
+        time.sleep(time_backward + 0.4)
         self.update_controls(0.0, 0.0)
         time.sleep(0.5)
         
@@ -90,7 +90,7 @@ class ControlTest(WorkerProcess):
     def park_backwards(self):
         forward_speed = 0.12
         backward_speed = -forward_speed
-        right_angle = 20
+        right_angle = 20.0
         left_angle = -right_angle
         time_forward = 0.7
         time_backward = 0.7
