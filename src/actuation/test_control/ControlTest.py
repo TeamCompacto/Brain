@@ -62,7 +62,7 @@ class ControlTest(WorkerProcess):
         angle_right = 20.0
         angle_left = -angle_right
         time_forward = 1
-        time_backward = 0.7
+        time_backward = 1.2
         
         # elore t - idot
         self.update_controls(parking_speed, 0.0)
