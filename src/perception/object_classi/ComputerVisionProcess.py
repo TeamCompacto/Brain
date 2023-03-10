@@ -104,7 +104,7 @@ class ComputerVisionProcess(WorkerProcess):
             outP[1].send([stamp,processed])
 
 
-    def _tf_object_detection_thread(self, inp, outP):
+    def _tf_object_detection_thread(self, inP, outP):
         labels = load_labels()
         interpreter = Interpreter('detect.tflite')
         interpreter.allocate_tensors()
