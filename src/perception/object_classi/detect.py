@@ -1,8 +1,11 @@
 # Based on https://github.com/tensorflow/examples/blob/master/lite/examples/object_detection/raspberry_pi/README.md
 import re
 import cv2
-from tflite_runtime.interpreter import Interpreter
 import numpy as np
+
+from tflite_support.task import core
+from tflite_support.task import processor
+from tflite_support.task import vision
 
 CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 320
@@ -63,26 +66,47 @@ def detect_objects(interpreter, image, threshold):
   return results
 
 def main():
-    labels = load_labels()
-    interpreter = Interpreter('detect.tflite')
-    interpreter.allocate_tensors()
-    _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
+  # labels = load_labels()
+  # interpreter = Interpreter('detect.tflite')
+  # interpreter.allocate_tensors()
+  # _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
 
-    img = cv2.imread('kep.jpg')
-    res = detect_objects(interpreter, img, 0.8)
-    print(res)
+  # img = cv2.imread('kep.jpg')
+  # res = detect_objects(interpreter, img, 0.8)
+  # print(res)
 
-    for result in res:
-        ymin, xmin, ymax, xmax = result['bounding_box']
-        xmin = int(max(1,xmin * CAMERA_WIDTH))
-        xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
-        ymin = int(max(1, ymin * CAMERA_HEIGHT))
-        ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
+  # for result in res:
+  #     ymin, xmin, ymax, xmax = result['bounding_box']
+  #     xmin = int(max(1,xmin * CAMERA_WIDTH))
+  #     xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
+  #     ymin = int(max(1, ymin * CAMERA_HEIGHT))
+  #     ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
 
-        cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA)
+  #     cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
+  #     cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA)
 
-    cv2.imsave(frame, 'kep_new.jpg')
+  # cv2.imsave(frame, 'kep_new.jpg')
+  base_options = core.BaseOptions(file_name='detect.tflite')
+  detection_options = processor.DetectionOptions(max_results=3, score_threshold=0.5)
+  options = vision.ObjectDetectorOptions(base_options=base_options, detection_options=detection_options)
+  detector = vision.ObjectDetector.create_from_options(options)
+
+
+  image = cv2.imread('kep.jpg')
+
+  image = cv2.flip(image, 1)
+
+  # Convert the image from BGR to RGB as required by the TFLite model.
+  rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+  # Create a TensorImage object from the RGB image.
+  input_tensor = vision.TensorImage.create_from_array(rgb_image)
+
+  # Run object detection estimation using the model.
+  detection_result = detector.detect(input_tensor)
+
+  print(detection_result)
+
 
 if __name__ == "__main__":
     main()
