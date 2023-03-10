@@ -64,7 +64,7 @@ def main():
 
     frame = cv2.imread('kep.jpg')
     img = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), (320,320))
-    res = detect_objects(interpreter, img, 0.8)
+    res = detect_objects(interpreter, img, 0.9)
     print(res)
 
     for result in res:
