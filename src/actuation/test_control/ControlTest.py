@@ -10,11 +10,18 @@ class ControlTest(WorkerProcess):
 
         # alapbol probakent menjen elore -- 2 -es action azt csinalja
         self.data = {}
-        self.set_data(
-            action = '2', 
-            type = 'speed', 
-            param = float(30)
-            )
+        
+        speed = 0
+        angle = 0
+        # self.set_data(
+        #     action = '2', 
+        #     type = 'speed', 
+        #     param = float(30)
+        #     )
+        
+        # init base position 
+        outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+
         
     def set_data(self, action, type, param):
         """Beállítja a data-t:  
