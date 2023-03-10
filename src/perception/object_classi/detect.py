@@ -36,23 +36,13 @@ def get_output_tensor(interpreter, index):
 
 def detect_objects(interpreter, image, threshold):
   """Returns a list of detection results, each a dictionary of object info."""
-
-  boxes = interpreter.get_output_details()[0] 
-  classes = interpreter.get_output_details()[1] 
-  scores = interpreter.get_output_details()[2] 
-  count = interpreter.get_output_details()[3] 
-  print(len(boxes))
-  print(len(classes))
-  print(len(scores))
-  print(len(count))
-  print("boxes:")
-  print(boxes)
-  print("classes:")
-  print(classes)
-  print("scores:")
-  print(scores)
-  print("count:")
-  print(count)
+  set_input_tensor(interpreter, image)
+  interpreter.invoke()
+  # Get all output details
+  boxes = get_output_tensor(interpreter, 0)
+  classes = get_output_tensor(interpreter, 1)
+  scores = get_output_tensor(interpreter, 2)
+  count = int(get_output_tensor(interpreter, 3))
 
   results = []
   for i in range(count):
@@ -71,7 +61,8 @@ def main():
     interpreter.allocate_tensors()
     _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
 
-    img = cv2.imread('kep.jpg')
+    frame = cv2.imread('kep.jpg')
+    img = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), (320,320))
     res = detect_objects(interpreter, img, 0.8)
     print(res)
 
@@ -81,11 +72,13 @@ def main():
         xmax = int(min(CAMERA_WIDTH, xmax * CAMERA_WIDTH))
         ymin = int(max(1, ymin * CAMERA_HEIGHT))
         ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
-
+        
         cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA)
-
+        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+    
     cv2.imsave(frame, 'kep_new.jpg')
+
+
 
 if __name__ == "__main__":
     main()
