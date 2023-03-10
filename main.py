@@ -81,12 +81,12 @@ if enableDecMaking:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
         
         streamProc = CameraStreamerProcess([visionStrOut], [])
-        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneDecIn, objectDecIn,visionStrIn])
+        visionProcess = ComputerVisionProcess([camObjectOut],[laneDecIn, objectDecIn,visionStrIn])
         allProcesses.append(streamProc)
     else:
         visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneDecIn, objectDecIn])
 
-    camProc = CameraProcess([],[camLaneIn, camObjectIn])
+    camProc = CameraProcess([],[camObjectIn])
     
     allProcesses.append(camProc)
     allProcesses.append(visionProcess)

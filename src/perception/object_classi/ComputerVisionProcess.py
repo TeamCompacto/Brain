@@ -71,7 +71,7 @@ class ComputerVisionProcess(WorkerProcess):
 
 
         
-        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1], self.outPs[2]]))
+        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[0], [self.outPs[1], self.outPs[2]]))
         objectTh.daemon = True
         self.threads.append(objectTh)
 
