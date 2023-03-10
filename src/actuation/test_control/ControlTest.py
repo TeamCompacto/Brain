@@ -83,7 +83,7 @@ class ControlTest(WorkerProcess):
         time.sleep(0.5)
         
         # egyenese elore t / 2-t
-        self.update_controls(parking_speed, 5.0)
+        self.update_controls(parking_speed, 4.0)
         time.sleep(time_forward)
         self.update_controls(0.0, 0.0)
         # stop
