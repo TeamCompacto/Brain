@@ -66,12 +66,14 @@ class ComputerVisionProcess(WorkerProcess):
         """
 
         # laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0],self.outPs[2]]))
-        # laneTh.daemon = True
-        # self.threads.append(laneTh)
-
-
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0]]))
         
-        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[0], [self.outPs[1], self.outPs[2]]))
+        laneTh.daemon = True
+        self.threads.append(laneTh)
+
+        # objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1], self.outPs[2]]))
+        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1]]))
+
         objectTh.daemon = True
         self.threads.append(objectTh)
 
@@ -101,7 +103,8 @@ class ComputerVisionProcess(WorkerProcess):
             deviation, processed = process_frame(image)
             print(f"DEVIATION : {deviation}")
             outP[0].send([deviation])
-            outP[1].send([stamp,processed])
+            if len(outP) > 1:
+                outP[1].send([stamp,processed])
 
 
     def _tf_object_detection_thread(self, inP, outP):
@@ -111,23 +114,22 @@ class ComputerVisionProcess(WorkerProcess):
 
         while True:
             stamp, frame = inP.recv()
-            # frame = cv2.resize(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), (320,320))
             res = detect_objects(interpreter, frame, 0.8)
 
             print(res)
-
-            for result in res:
-                ymin, xmin, ymax, xmax = result['bounding_box']
-                xmin = int(max(1,xmin * 320))
-                xmax = int(min(320, xmax * 320))
-                ymin = int(max(1, ymin * 320))
-                ymax = int(min(320, ymax * 320))
-                
-                cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-                cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
             
-            outP[0].send([res])
-            outP[1].send([stamp,frame])
+            outP[0].send(res)
+            if len(outP) > 1:
+                for result in res:
+                    ymin, xmin, ymax, xmax = result['bounding_box']
+                    xmin = int(max(1,xmin * 320))
+                    xmax = int(min(320, xmax * 320))
+                    ymin = int(max(1, ymin * 320))
+                    ymax = int(min(320, ymax * 320))
+                    
+                    cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
+                    cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+                outP[1].send([stamp,frame])
 
 
             
