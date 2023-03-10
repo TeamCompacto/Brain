@@ -41,10 +41,15 @@ def detect_objects(interpreter, image, threshold):
   classes = interpreter.get_output_details()[0] 
   scores = interpreter.get_output_details()[0] 
   count = interpreter.get_output_details()[0] 
-  print(type(boxes))
-  print(type(classes))
-  print(type(scores))
-  print(type(count))
+  print(len(boxes))
+  print(len(classes))
+  print(len(scores))
+  print(len(count))
+
+  print(boxes)
+  print(classes)
+  print(scores)
+  print(count)
 
   results = []
   for i in range(count):
