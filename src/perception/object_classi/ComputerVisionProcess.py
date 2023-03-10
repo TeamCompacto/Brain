@@ -111,7 +111,6 @@ class ComputerVisionProcess(WorkerProcess):
 
         while True:
             stamp, frame = inP.recv()
-            print("image received")
             # frame = cv2.resize(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), (320,320))
             res = detect_objects(interpreter, frame, 0.8)
 
