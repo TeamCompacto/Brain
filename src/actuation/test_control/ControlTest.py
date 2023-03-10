@@ -89,7 +89,7 @@ class ControlTest(WorkerProcess):
             
         except Exception as e:
             # outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
-            self.update_controls(self, 0.0, 0.0)
+            self.update_controls(0.0, 0.0)
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
         finally:
              outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
