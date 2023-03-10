@@ -11,9 +11,6 @@ from threading import Thread
 import cv2
 
 from src.templates.workerprocess import WorkerProcess
-
-# MAS IMPORTOK
-
 from threading import Thread
 import time
 from pathlib import Path
@@ -65,15 +62,15 @@ class ComputerVisionProcess(WorkerProcess):
         """Initialize the sending thread.
         """
 
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], self.outPs))
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0],self.outPs[-1]]))
         laneTh.daemon = True
         self.threads.append(laneTh)
 
 
         
-        # objectTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[0], ))
-        # objectTh.daemon = True
-        # self.threads.append(objectTh)
+        objectTh = Thread(name='ObjectDetectionThread',target = self._object_detection_thread, args= (self.inPs[1], self.outPs[0]))
+        objectTh.daemon = True
+        self.threads.append(objectTh)
 
         
     # ===================================== SEND THREAD ==================================
@@ -90,6 +87,12 @@ class ComputerVisionProcess(WorkerProcess):
             outP[1].send([stamp,processed])
 
     def _lane_detection_thread(self, inP, outP):
+        """
+        Thread that processes image and sends deviation to DecisionMaking
+
+        Outp: list of pipes
+
+        """
         while True:
             stamp, image = inP.recv()
             deviation, processed = process_frame(image)
@@ -98,13 +101,15 @@ class ComputerVisionProcess(WorkerProcess):
             outP[1].send([stamp,processed])
             
  
-    def _object_detection_thread(self, inP):
-        """Sending the frames received thought the input pipe to remote client by using the created socket connection. 
-        
+    def _object_detection_thread(self, inP, outP):
+        """
         Parameters
         ----------
         inP : Pipe
             Input pipe to read the frames from CameraProcess or CameraSpooferProcess. 
+
+        outP : Pipe
+        Input pipe to write the detected boxes to DecisionMakingThread
         """
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
         

@@ -64,24 +64,29 @@ allProcesses = list()
 
 if enableDecMaking:
     # =============================== HARDWARE ===============================================
-    camVisionOut, camVisionIn = Pipe(duplex=False)  # camera -> vision
-    visionDecOut, visionDecIn = Pipe(duplex=False)  # vision -> decision making
+    camLaneOut, camLaneIn = Pipe(duplex=False)  # camera -> vision/lane finding
+    camObjectOut, camObjectIn = Pipe(duplex=False)  # camera -> vision/object detection
+    laneDecOut, laneDecIn = Pipe(duplex=False)  # vision/lane finding -> decision making
+    objectDecOut, objectDecIn = Pipe(duplex=False)  # vision/object detection -> decision making
     decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
+
+
+    # ======================EZT HAGYD MEG============
 
     shProc = SerialHandlerProcess([decSerialOut], [])     
 
-    decProc = DecisionMakingProcess([visionDecOut], [decSerialIn])
+    decProc = DecisionMakingProcess([laneDecOut, objectDecOut], [decSerialIn])
     
     if enableStream:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
         
         streamProc = CameraStreamerProcess([visionStrOut], [])
-        visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn,visionStrIn])
+        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneDecIn, objectDecIn,visionStrIn])
         allProcesses.append(streamProc)
     else:
-        visionProcess = ComputerVisionProcess([camVisionOut],[visionDecIn])
+        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneDecIn, objectDecIn])
 
-    camProc = CameraProcess([],[camVisionIn])
+    camProc = CameraProcess([],[camLaneIn, camObjectIn])
     
     allProcesses.append(camProc)
     allProcesses.append(visionProcess)
