@@ -42,9 +42,9 @@ def detect_objects(interpreter, image, threshold):
   boxes = get_output_tensor(interpreter, 0)
   classes = get_output_tensor(interpreter, 1)
   scores = get_output_tensor(interpreter, 2)
-  print(type(boxes))
-  print(type(classes))
-  print(type(scores))
+  print(boxes.shape)
+  print(classes.shape)
+  print(scores.shape)
   print(get_output_tensor(interpreter, 3))
   count = len(get_output_tensor(interpreter, 3))
 
