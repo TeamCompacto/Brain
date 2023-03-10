@@ -75,7 +75,7 @@ def main():
         ymax = int(min(CAMERA_HEIGHT, ymax * CAMERA_HEIGHT))
         
         cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+        cv2.putText(frame,labels[int(result['score'])],(xmin, min(ymax, CAMERA_HEIGHT-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
     
     cv2.imsave(frame, 'kep_new.jpg')
 
