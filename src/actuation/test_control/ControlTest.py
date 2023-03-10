@@ -56,12 +56,12 @@ class ControlTest(WorkerProcess):
             self.send_speed()
             self.send_angle()
             
-    def park(self):
+    def park_parallel(self):
         parking_speed = 0.12
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
-        time_forward = 1
+        time_forward = 2
         time_backward = 1.2
         
         # elore t - idot
@@ -78,15 +78,36 @@ class ControlTest(WorkerProcess):
         
         # balra reljesen, hatra t / 2 - idot
         self.update_controls(parking_speed_reverse, angle_left)
-        time.sleep(time_backward + 0.3)
+        time.sleep(time_backward + 0.35)
         self.update_controls(0.0, 0.0)
         time.sleep(0.5)
         
         # egyenese elore t / 2-t
-        self.update_controls(parking_speed, 4.0)
+        # self.update_controls(parking_speed, 4.0)
+        # time.sleep(time_forward)
+        # self.update_controls(0.0, 0.0)
+        
+    def park_backwards(self):
+        forward_speed = 0.12
+        backward_speed = -forward_speed
+        right_angle = 20
+        left_angle = -right_angle
+        time_forward = 0.7
+        time_backward = 0.7
+        
+        # elore, balra
+        self.update_controls(forward_speed, left_angle)
         time.sleep(time_forward)
         self.update_controls(0.0, 0.0)
-        # stop
+        time.sleep(0.5)
+        
+        # hatra jobbra
+        self.update_controls(backward_speed, right_angle)
+        time.sleep(time_backward)
+        self.update_controls(0.0, 0.0)
+        time.sleep(0.5)
+        
+        
         
     
     # ===================================== INIT THREADS =================================
@@ -101,7 +122,9 @@ class ControlTest(WorkerProcess):
             # turn_90_degrees(outPs, direction='right')
             # self.update_controls(0.15, 0.0)
             # time.sleep(2)
-            self.park()
+            self.park_parallel()
+            time.sleep(3)
+            self.park_backwards()
             
         except Exception as e:
             self.update_controls(0.0, 0.0)
