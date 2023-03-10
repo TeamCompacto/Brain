@@ -101,7 +101,12 @@ class ControlTest(WorkerProcess):
             # turn_90_degrees(outPs, direction='right')
             # self.update_controls(0.15, 0.0)
             # time.sleep(2)
-            self.park()
+            # self.park()
+            self.update_controls(0.13,0.0)
+            time.sleep(0.2)
+            self.update_controls(0.6,0.0)
+            time.sleep(3)
+            self.update_controls(0.0,0.0)
             
         except Exception as e:
             self.update_controls(0.0, 0.0)
