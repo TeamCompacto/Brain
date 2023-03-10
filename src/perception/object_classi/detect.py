@@ -68,7 +68,6 @@ def main():
     labels = load_labels()
     interpreter = Interpreter('detect.tflite')
     interpreter.allocate_tensors()
-    _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
 
     frame = cv2.imread('kep.jpg')
     img = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), (320,320))
