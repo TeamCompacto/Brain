@@ -32,6 +32,30 @@ class ControlTest(WorkerProcess):
         """
         super(ControlTest,self).run()
     
+    # ----------------------- BASIC CONTROL COMMANDS -----------------------
+
+    def send_speed(self):
+        self.outPs[0].send({'action': '1', 'speed': self.speed}  )
+        
+    def send_angle(self):
+        self.outPs[0].send({'action': '2', 'steerAngle': self.angle}  )
+    
+    def send_break(self):
+        self.outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
+
+            
+    # ------------------------------ CONTROL  ------------------------------
+            
+    def update_controls(self, new_speed, new_steering_angle):
+        self.speed = new_speed
+        self.angle = new_steering_angle
+        
+        if self.speed == 0:
+            self.send_break()
+        else :
+            self.send_speed(self)
+            self.send_angle(self)
+    
     # ===================================== INIT THREADS =================================
     def _init_threads(self):
         """Initialize the read thread to transmite the received messages to other processes. 
@@ -42,9 +66,9 @@ class ControlTest(WorkerProcess):
     def _send_command(self, outPs): 
         try:
             # turn_90_degrees(outPs, direction='right')
-            update_controls(0.15, 0.0)
+            self.update_controls(0.15, 0.0)
             time.sleep(2)
-            update_controls(0.0, 0.0)
+            self.update_controls(0.0, 0.0)
             # time.sleep(1)
             # turn_90_degrees(outPs, direction='right')
             # time.sleep(1)
@@ -65,34 +89,12 @@ class ControlTest(WorkerProcess):
             
         except Exception as e:
             # outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
-            update_controls(self, 0.0, 0.0)
+            self.update_controls(self, 0.0, 0.0)
             print("Baj van teso (ControlTest - pipeon valo kuldesnel): " +  str(e))
         finally:
              outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
              
-        # ----------------------- BASIC CONTROL COMMANDS -----------------------
-
-        def send_speed(self):
-            outPs[0].send({'action': '1', 'speed': self.speed}  )
-            
-        def send_angle(self):
-            self.outPs[0].send({'action': '2', 'steerAngle': self.angle}  )
         
-        def send_break(self):
-            outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0}  )
-
-                
-        # ------------------------------ CONTROL  ------------------------------
-             
-        def update_controls(self, new_speed, new_steering_angle):
-            self.speed = new_speed
-            self.angle = new_steering_angle
-            
-            if self.speed == 0:
-                self.send_break()
-            else :
-                self.send_speed(self)
-                self.send_angle(self)
 
 
 def forvard(outPs, speed=0.1, duration=2):
