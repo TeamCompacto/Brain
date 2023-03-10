@@ -57,33 +57,34 @@ class ControlTest(WorkerProcess):
             self.send_angle()
             
     def park(self):
-        parking_speed = 0.15
+        parking_speed = 0.12
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
-        t = 3
+        time_forward = 1
+        time_backward = 0.7
         
         # elore t - idot
         self.update_controls(parking_speed, 0.0)
-        time.sleep(t)
+        time.sleep(time_forward)
         self.update_controls(0.0, 0.0)
         time.sleep(1)
         
         # jobbra teljesen, hatra t/2 
         self.update_controls(parking_speed_reverse, angle_right)
-        time.sleep(t/2)
+        time.sleep(time_backward)
         self.update_controls(0.0, 0.0)
         time.sleep(1)
         
         # balra reljesen, hatra t / 2 - idot
         self.update_controls(parking_speed_reverse, angle_left)
-        time.sleep(t/2)
+        time.sleep(time_backward)
         self.update_controls(0.0, 0.0)
         time.sleep(1)
         
         # egyenese elore t / 2-t
         self.update_controls(parking_speed, 0.0)
-        time.sleep(t/2)
+        time.sleep(time_forward / 2)
         self.update_controls(0.0, 0.0)
         # stop
         
