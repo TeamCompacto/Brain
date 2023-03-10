@@ -57,7 +57,7 @@ class ControlTest(WorkerProcess):
             self.send_angle()
             
     def park(self):
-        parking_speed = 0.1
+        parking_speed = 0.15
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
