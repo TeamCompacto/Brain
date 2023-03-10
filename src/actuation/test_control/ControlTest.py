@@ -93,7 +93,7 @@ class ControlTest(WorkerProcess):
         right_angle = 20.0
         left_angle = -right_angle
         time_forward = 1.4
-        time_backward = 1.4
+        time_backward = 1.0
         
         # elore, balra
         self.update_controls(forward_speed, left_angle)
