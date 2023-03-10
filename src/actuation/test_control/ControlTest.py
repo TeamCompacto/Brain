@@ -104,7 +104,7 @@ class ControlTest(WorkerProcess):
             # self.park()
             self.update_controls(0.13,0.0)
             time.sleep(0.2)
-            self.update_controls(0.09,0.0)
+            self.update_controls(0.08,0.0)
             time.sleep(3)
             
         except Exception as e:
