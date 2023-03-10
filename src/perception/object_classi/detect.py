@@ -43,7 +43,7 @@ def detect_objects(interpreter, image, threshold):
   count = interpreter.get_output_details()[0] 
   print(type(boxes))
   print(type(classes))
-  print(type(scores.shape))
+  print(type(scores))
   print(type(count))
 
   results = []
