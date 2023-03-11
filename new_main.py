@@ -28,6 +28,11 @@ def main():
     shProc.start()
     decSerialIn.send({'action': '1', 'speed': 0.09})
 
+    current_speed = 0.0
+    steering_angle = 0.0
+
+    current_state = "BASE"
+
     try:
         while True:
             frame = camera.capture_array("main")
@@ -45,74 +50,28 @@ def main():
             lane_finding_thread.join()
             object_detection_thread.join()
 
-
-            devFile = '/dev/ttyACM0'    
-            logFile = 'historyFile.txt'
-            serialCom = serial.Serial(devFile,19200,timeout=0.1)
-            serialCom.flushInput()
-            serialCom.flushOutput()
-
             print("Deviation: ", lane_finding_results[0])
             print("Detected objects: ",object_detection_results[0])
 
             deviation = lane_finding_results[0]
             res = object_detection_results[0]
 
-            for sign in res:
-                print("Detected sign with id: ", sign['class_id'])
-                if sign['class_id'] == 0:
-                    print("stopping")
-                    
-                    decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
-                    time.sleep(3)
+            if deviation > 300:
+                current_steering_angle = 20.0
+            elif deviation < -300:
+                current_steering_angle = -20.0
+            else:
+                current_steering_angle = float(deviation/15)
+
+            if current_state == "BASE":
+                    decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
+                    time.sleep(0.25)
                     decSerialIn.send({'action': '1', 'speed': 0.12} )
-                    time.sleep(0.2)
-                    decSerialIn.send({'action': '1', 'speed': 0.09} )
-                    time.sleep(0.1)
+                    time.sleep(0.25)
 
-                elif sign['class_id'] == 1:
-                    print("priority")
-                    
-                    decSerialIn.send({'action': '1', 'speed': 0.06})
-                    time.sleep(0.5)
-                    decSerialIn.send({'action': '1', 'speed': 0.09})
-                    time.sleep(0.1)
+            decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
 
-                elif sign['class_id'] == 2:
-                    print("roundabout")
-                    
-
-                    # TODO: roundabout
-
-                elif sign['class_id'] == 3:
-                    print("oneway")
-                    
-
-                elif sign['class_id'] == 4:
-                    print("highwaybegin")
-
-
-                elif sign['class_id'] == 5:
-                    print("highwayend")
-                    
-
-                elif sign['class_id'] == 6:
-                    print("pedestrian crossing")
-
-                    decSerialIn.send({'action': '1', 'speed': 0.04})
-                    time.sleep(0.5)
-                    decSerialIn.send({'action': '1', 'speed': 0.09})
-                    time.sleep(0.1)
-
-                elif sign['class_id'] == 7:
-                    print("park")
-
-                    # TODO: call parking manouver
-
-                elif sign['class_id'] == 8:
-                    print("do not enter")
-                    decSerialIn.send({'action': '1', 'speed': 0.0})
-                    time.sleep(0.5)
+        
 
 
     except KeyboardInterrupt:
@@ -146,6 +105,65 @@ def object_detection(frame,interpreter,labels, output):
         putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,LINE_AA) 
     output.append(res)
     output.append(frame)
+
+
+def handle_signs(res, pipe):
+    for sign in res:
+        print("Detected sign with id: ", sign['class_id'])
+        if sign['class_id'] == 0:
+            print("stopping")
+            
+            pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+            time.sleep(3)
+            pipe.send({'action': '1', 'speed': 0.12} )
+            time.sleep(0.2)
+            pipe.send({'action': '1', 'speed': 0.09} )
+            time.sleep(0.1)
+
+        elif sign['class_id'] == 1:
+            print("priority")
+            
+            pipe.send({'action': '1', 'speed': 0.06})
+            time.sleep(0.5)
+            pipe.send({'action': '1', 'speed': 0.09})
+            time.sleep(0.1)
+
+        elif sign['class_id'] == 2:
+            print("roundabout")
+            
+
+            # TODO: roundabout
+
+        elif sign['class_id'] == 3:
+            print("oneway")
+            
+
+        elif sign['class_id'] == 4:
+            print("highwaybegin")
+
+
+        elif sign['class_id'] == 5:
+            print("highwayend")
+            
+
+        elif sign['class_id'] == 6:
+            print("pedestrian crossing")
+
+            pipe.send({'action': '1', 'speed': 0.04})
+            time.sleep(0.5)
+            pipe.send({'action': '1', 'speed': 0.09})
+            time.sleep(0.1)
+
+        elif sign['class_id'] == 7:
+            print("park")
+
+            # TODO: call parking manouver
+
+        elif sign['class_id'] == 8:
+            print("do not enter")
+            pipe.send({'action': '1', 'speed': 0.0})
+            time.sleep(0.5)
+
 
 if __name__ == "__main__":
     main()
