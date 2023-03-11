@@ -26,7 +26,6 @@ def main():
     shProc = SerialHandlerProcess([decSerialOut], [])     
     shProc.daemon = True
     shProc.start()
-    decSerialIn.send({'action': '1', 'speed': 0.09})
 
     current_speed = 0.0
     steering_angle = 0.0
