@@ -1,6 +1,6 @@
 from picamera2 import Picamera2
 from cv2 import resize, INTER_LINEAR, imwrite, FONT_HERSHEY_SIMPLEX, LINE_AA, rectangle, putText
-from src.perception.object_classi.lane_finding import process_frame
+from src.perception.lane_detection.lane_detection import process_frame
 from threading import Thread
 from src.perception.object_classi.detect import load_labels, detect_objects
 from tflite_runtime.interpreter import Interpreter
@@ -68,7 +68,7 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            handle_signs(res, decSerialIn)
+            # handle_signs(res, decSerialIn)
 
             if deviation > 5:
                 current_steering_angle = 10.0
@@ -77,16 +77,13 @@ def main():
             else:
                 current_steering_angle = float(0)
 
-            if current_state == "BASE":
-                    decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
-                    time.sleep(0.25)
-                    decSerialIn.send({'action': '1', 'speed': 0.12} )
-                    time.sleep(0.25)
+            # if current_state == "BASE":
+                    # decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
+            #         time.sleep(0.25)
+            #         decSerialIn.send({'action': '1', 'speed': 0.16} )
+            #         time.sleep(0.25)
 
-            decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
-
-        
-
+            # decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
 
     except KeyboardInterrupt:
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
