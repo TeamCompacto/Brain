@@ -65,6 +65,8 @@ class SerialHandlerProcess(WorkerProcess):
     def run(self):
         super(SerialHandlerProcess,self).run()
         #Post running process -> close the history file
+        command_msg = "#3:0.00;;"
+        self.serialCom.write(command_msg.encode('ascii'))
         self.historyFile.close()
 
     # ===================================== INIT THREADS =================================
