@@ -104,10 +104,11 @@ class PriorityQueueElement():
     
 
 class DistanceNode():
-    def __init__(self, id: int, min_distance: float, visited_events: dict) -> None:
+    def __init__(self, id: int, min_distance: float, visited_events: dict, path: list) -> None:
         self.__id = id
         self.__min_dist = min_distance
         self.__visited_events = visited_events
+        self.__path = path
 
     @property
     def id(self):
@@ -121,6 +122,10 @@ class DistanceNode():
     def visited_events(self):
         return self.__visited_events
     
+    @property
+    def path(self):
+        return self.__path
+    
     def __str__(self) -> str:
-        return f"{self.id}: min_dist: {self.min_dist}, visited_events: {self.visited_events}"
+        return f"{self.id}: min_dist: {self.min_dist}, visited_events: {self.visited_events}, path: {self.path}"
     
