@@ -66,13 +66,13 @@ class ComputerVisionProcess(WorkerProcess):
         """
 
         # laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0],self.outPs[2]]))
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[0]]))
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[2], self.outPs[0]]))
         
         laneTh.daemon = True
         self.threads.append(laneTh)
 
         # objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1], self.outPs[2]]))
-        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1]]))
+        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[3], self.outPs[1]]))
 
         objectTh.daemon = True
         self.threads.append(objectTh)
@@ -108,7 +108,7 @@ class ComputerVisionProcess(WorkerProcess):
             if len(outP) > 1:
                 outP[1].send([stamp,processed])
 
-            inP.send("Image processed by lane detection")
+            outP[1].send("Image processed by lane detection")
 
 
     def _tf_object_detection_thread(self, inP, outP):
@@ -135,7 +135,7 @@ class ComputerVisionProcess(WorkerProcess):
                     cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
                 outP[1].send([stamp,frame])
             
-            inP.send('Image processed by object detection')
+            outP[1].send('Image processed by object detection')
 
 
             
