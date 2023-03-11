@@ -91,6 +91,7 @@ class CameraThread(ThreadWithStop):
                 curr = pipe.recv()
                 print(curr)
             self._data = self.camera.capture_array("main")
+            print("sending picture at", str(time.now()))
             self.send()
 
         self.camera.stop_recording()
