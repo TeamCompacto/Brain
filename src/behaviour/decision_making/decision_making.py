@@ -63,7 +63,7 @@ class DecisionMakingProcess(WorkerProcess):
                     self.current_steering_angle = -20.0
                     # outPs[0].send({'action': '2', 'steerAngle': -20.0} )
                 else:
-                    self.current_steering_angle = deviation/15
+                    self.current_steering_angle = float(deviation/15)
                     # outPs[0].send({'action': '2', 'steerAngle': self.current_steering_angle} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
