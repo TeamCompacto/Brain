@@ -56,8 +56,8 @@ from src.actuation.test_control.ControlTest                 import ControlTest
 enableStream        =   False
 enableCameraSpoof   =   False 
 enableRc            =   False
-enableDecMaking     =   False
-enableControl       =   True
+enableDecMaking     =   True
+enableControl       =   False
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
