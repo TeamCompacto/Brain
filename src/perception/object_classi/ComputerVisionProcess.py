@@ -105,7 +105,7 @@ class ComputerVisionProcess(WorkerProcess):
             deviation, processed = process_frame(image)
             # print(f"DEVIATION : {deviation}")
             outP[0].send([deviation])
-            if len(outP) > 1:
+            if len(outP) > 2:
                 outP[1].send([stamp,processed])
 
             outP[1].send("Image processed by lane detection")
