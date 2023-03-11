@@ -72,7 +72,7 @@ class DecisionMakingProcess(WorkerProcess):
                     
                 elif deviation > 100:
                     self.current_steering_angle = 10.0
-                    outPs[0][0].send({'action': '2', 'steerAngle': 10.0} )
+                    outPs[0].send({'action': '2', 'steerAngle': 10.0} )
                 else:
                     self.current_steering_angle = 0.0
                     outPs[0].send({'action': '2', 'steerAngle': 0.0} )
