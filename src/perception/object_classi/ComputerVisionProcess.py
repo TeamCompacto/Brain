@@ -100,9 +100,13 @@ class ComputerVisionProcess(WorkerProcess):
         Outp: list of pipes
 
         """
+        count = 0
         while True:
             stamp, image = inP.recv()
+            print("Lane: starting to process picture", str(count), " at ", str(time.ctime()))
             deviation, processed = process_frame(image)
+            print("Lane: finished processing picture", str(count), " at ", str(time.ctime()))
+            count += 1
             # print(f"DEVIATION : {deviation}")
             outP[0].send([deviation])
             if len(outP) > 2:
@@ -116,9 +120,13 @@ class ComputerVisionProcess(WorkerProcess):
         interpreter = Interpreter('detect.tflite')
         interpreter.allocate_tensors()
 
+        count = 0
         while True:
             stamp, frame = inP.recv()
+            print("Object: starting to process picture", str(count), " at ", str(time.ctime()))
             res = detect_objects(interpreter, frame, 0.8)
+            print("Object: finished processing picture", str(count), " at ", str(time.ctime()))
+            count += 1
 
             # print(res)
             
