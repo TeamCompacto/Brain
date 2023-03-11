@@ -108,7 +108,7 @@ class ComputerVisionProcess(WorkerProcess):
             if len(outP) > 1:
                 outP[1].send([stamp,processed])
 
-            inP.send(True)
+            inP.send("Image processed by lane detection")
 
 
     def _tf_object_detection_thread(self, inP, outP):
@@ -135,7 +135,7 @@ class ComputerVisionProcess(WorkerProcess):
                     cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
                 outP[1].send([stamp,frame])
             
-            inP.send(True)
+            inP.send('Image processed by object detection')
 
 
             
