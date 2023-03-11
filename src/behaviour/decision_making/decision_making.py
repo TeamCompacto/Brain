@@ -53,16 +53,13 @@ class DecisionMakingProcess(WorkerProcess):
 
 
                 if deviation < -100:
-                    print("sending turn left")
                     self.current_steering_angle = -10.0
                     outPs.send({'action': '2', 'steerAngle': -10.0} )
                     
                 elif deviation > 100:
-                    print("sending turn left")
                     self.current_steering_angle = 10.0
                     outPs.send({'action': '2', 'steerAngle': 10.0} )
                 else:
-                    print("sendingstraight")
                     self.current_steering_angle = 0.0
                     outPs.send({'action': '2', 'steerAngle': 0.0} )
                 
