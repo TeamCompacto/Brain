@@ -56,22 +56,15 @@ class DecisionMakingProcess(WorkerProcess):
                         time.sleep(0.1)
 
 
-                if deviation == 700:
+                if deviation > 300:
                     self.current_steering_angle = 20.0
-                    outPs[0].send({'action': '2', 'steerAngle': 20.0} )
-                elif deviation == -700:
+                    # outPs[0].send({'action': '2', 'steerAngle': 20.0} )
+                elif deviation < -300:
                     self.current_steering_angle = -20.0
-                    outPs[0].send({'action': '2', 'steerAngle': -20.0} )
-                elif deviation < -100:
-                    self.current_steering_angle = -10.0
-                    outPs[0].send({'action': '2', 'steerAngle': -10.0} )
-                    
-                elif deviation > 100:
-                    self.current_steering_angle = 10.0
-                    outPs[0].send({'action': '2', 'steerAngle': 10.0} )
+                    # outPs[0].send({'action': '2', 'steerAngle': -20.0} )
                 else:
-                    self.current_steering_angle = 0.0
-                    outPs[0].send({'action': '2', 'steerAngle': 0.0} )
+                    self.current_steering_angle = deviation/15
+                    # outPs[0].send({'action': '2', 'steerAngle': self.current_steering_angle} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
                 f = open("dec_log.txt", "a")
