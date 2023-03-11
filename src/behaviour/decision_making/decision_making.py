@@ -52,7 +52,13 @@ class DecisionMakingProcess(WorkerProcess):
                         time.sleep(0.1)
 
 
-                if deviation < -100:
+                if deviation == 700:
+                    self.current_steering_angle = 20.0
+                    outPs.send({'action': '2', 'steerAngle': 20.0} )
+                elif deviation == -700:
+                    self.current_steering_angle = -20.0
+                    outPs.send({'action': '2', 'steerAngle': -20.0} )
+                elif deviation < -100:
                     self.current_steering_angle = -10.0
                     outPs.send({'action': '2', 'steerAngle': -10.0} )
                     
