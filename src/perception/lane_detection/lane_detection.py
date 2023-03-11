@@ -33,8 +33,8 @@ def region_of_interest(frame):
 
     polygon = np.array([[
         (0, int(height*1)),              # Bottom-left point
-        (int(width*0.20),  int(height*0.55)),   # Top-left point
-        (int(width*0.80), int(height*0.55)),    # Top-right point
+        (int(width*0.20),  int(height*0.65)),   # Top-left point
+        (int(width*0.80), int(height*0.65)),    # Top-right point
         (int(width), int(height*1)),              # Bottom-right point
     ]], np.int32)
     cv2.fillPoly(mask, polygon, 255)
