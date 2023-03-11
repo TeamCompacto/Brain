@@ -33,8 +33,8 @@ def region_of_interest(frame):
 
     polygon = np.array([[
         (0, int(height*0.9)),              # Bottom-left point
-        (int(width*0.30),  int(height*0.45)),   # Top-left point
-        (int(width*0.70), int(height*0.45)),    # Top-right point
+        (int(width*0.30),  int(height*0.55)),   # Top-left point
+        (int(width*0.70), int(height*0.55)),    # Top-right point
         (int(width), int(height*0.9)),              # Bottom-right point
     ]], np.int32)
     cv2.fillPoly(mask, polygon, 255)
@@ -100,7 +100,7 @@ def histogram(frame):
 def detect_lines(frame):    
     # Find lines on the frame using Hough Lines Polar
     line_segments = cv2.HoughLinesP(frame, 1, np.pi/180 , 20, 
-                                    np.array([]), minLineLength=50, maxLineGap=150)
+                                    np.array([]), minLineLength=40, maxLineGap=150)
     return line_segments    # Return line segment on road
 
 
