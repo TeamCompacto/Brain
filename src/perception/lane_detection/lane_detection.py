@@ -39,6 +39,8 @@ def region_of_interest(frame):
     ]], np.int32)
     cv2.fillPoly(mask, polygon, 255)
 
+    cv2.imwrite('alma.jpg', mask)
+
     #print(frame.size, mask.size)
 
     cropped_edges = cv2.bitwise_and(frame, mask)
