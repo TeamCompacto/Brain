@@ -80,8 +80,8 @@ class DecisionMakingProcess(WorkerProcess):
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
                 
 
-                outPs[1].send("I'm ready" + str(count))
-                outPs[2].send("I'm ready" + str(count))
+                outPs[1].send("I'm ready lane " + str(count))
+                outPs[2].send("I'm ready object" + str(count))
 
                 count += 1
                 
