@@ -70,7 +70,7 @@ def region_of_interest(edges):
     cv2.fillPoly(mask, polygon, 255)
     
     cropped_edges = cv2.bitwise_and(edges, mask)
-    cv2.imshow("roi",cropped_edges)
+    # cv2.imshow("roi",cropped_edges)
     
     return cropped_edges
 
