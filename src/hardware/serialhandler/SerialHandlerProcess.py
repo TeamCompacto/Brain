@@ -27,6 +27,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
 import serial
+import time
 
 from src.templates.workerprocess            import WorkerProcess
 from src.hardware.serialhandler.filehandler import FileHandler
@@ -68,7 +69,7 @@ class SerialHandlerProcess(WorkerProcess):
 
         command_msg = '#' + '3' + ':' + '0.00' + ';\r\n'
         self.serialCom.write(command_msg.encode('ascii'))
-        print("valami")
+        time.sleep(0.2)
         self.historyFile.close()
 
     # ===================================== INIT THREADS =================================
