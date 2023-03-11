@@ -37,8 +37,8 @@ def main():
             lane_finding_thread.join()
             object_detection_thread.join()
 
-            print(lane_finding_results[0])
-            print(object_detection_results[0])
+            print("Deviation: ", lane_finding_results[0])
+            print("Detected objects: ",object_detection_results[0])
 
 
     except KeyboardInterrupt:
