@@ -30,17 +30,16 @@ class DecisionMakingProcess(WorkerProcess):
                 print("Received deviation:", deviation)
                 print(res)
 
-                
-                print(res)
-                if res['class_id'] == 0:
-                    print("stopping")
-                    print(time.time())
-                    outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
-                    time.sleep(3)
-                    outPs.send({'action': '1', 'speed': 0.12} )
-                    time.sleep(0.2)
-                    outPs.send({'action': '1', 'speed': 0.09} )
-                    time.sleep(0.1)
+                for sign in res:
+                    if sign['class_id'] == 0:
+                        print("stopping")
+                        print(time.time())
+                        outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
+                        time.sleep(3)
+                        outPs.send({'action': '1', 'speed': 0.12} )
+                        time.sleep(0.2)
+                        outPs.send({'action': '1', 'speed': 0.09} )
+                        time.sleep(0.1)
 
 
                 if deviation < -100:
