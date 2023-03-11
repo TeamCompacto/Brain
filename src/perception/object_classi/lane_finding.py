@@ -100,7 +100,7 @@ def histogram(frame):
 def detect_lines(frame):    
     # Find lines on the frame using Hough Lines Polar
     line_segments = cv2.HoughLinesP(frame, 1, np.pi/180 , 20, 
-                                    np.array([]), minLineLength=40, maxLineGap=150)
+                                    np.array([]), minLineLength=50, maxLineGap=150)
     return line_segments    # Return line segment on road
 
 
