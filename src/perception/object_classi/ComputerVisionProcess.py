@@ -123,7 +123,7 @@ class ComputerVisionProcess(WorkerProcess):
             # print(res)
             
             outP[0].send(res)
-            if len(outP) > 1:
+            if len(outP) > 2:
                 for result in res:
                     ymin, xmin, ymax, xmax = result['bounding_box']
                     xmin = int(max(1,xmin * 320))
@@ -133,7 +133,7 @@ class ComputerVisionProcess(WorkerProcess):
                     
                     cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
                     cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
-                outP[1].send([stamp,frame])
+                outP[2].send([stamp,frame])
             
             outP[1].send('Image processed by object detection')
 
