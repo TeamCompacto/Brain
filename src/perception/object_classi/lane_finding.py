@@ -128,12 +128,16 @@ def optimize_lines(frame, lines):
         if len(left_fit) > 0:       # Here we ckeck whether fit for the left line is valid
             left_fit_average = np.average(left_fit, axis=0)     # Averaging fits for the left line
             lane_lines.append(map_coordinates(frame, left_fit_average)) # Add result of mapped points to the list lane_lines
+        else:
+            lane_lines.append(None)
             
         if len(right_fit) > 0:       # Here we ckeck whether fit for the right line is valid
             right_fit_average = np.average(right_fit, axis=0)   # Averaging fits for the right line
             lane_lines.append(map_coordinates(frame, right_fit_average))    # Add result of mapped points to the list lane_lines
+        else:
+            lane_lines.append(None)
     else:
-        return None
+        return [None, None]
         
     return lane_lines       # Return actual detected and optimized line 
 
@@ -212,11 +216,26 @@ def process_frame(frame):
     left_x_base, right_x_base = histogram(warped_frame)         # Take x bases for two lines
     lines = detect_lines(roi_frame)                 # Detect lane lines on the frame
     lane_lines = optimize_lines(frame, lines)       # Optimize detected line
-    if lane_lines is None:
+    if lane_lines == [None, None]:
         return 0, frame
+    elif lane_lines[0] == None: # nincs bal
+        deviation = -700
+    elif lane_lines[1] == None: # nincs jobb
+        deviation = 700
+
+    
     lane_lines_image = display_lines(frame, lane_lines) # Display solid and optimized lines
     
     up_center, low_center = get_floating_center(frame, lane_lines) # Calculate the center between two lines
+
+    if lane_lines == [None, None]:
+        return 0, frame
+    elif lane_lines[0] == None: # nincs bal
+        deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
+        return -700, final_frame
+    elif lane_lines[1] == None: # nincs jobb
+        deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
+        return 700, final_frame
 
     deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
 
