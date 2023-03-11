@@ -55,6 +55,8 @@ def main():
             deviation = lane_finding_results[0]
             res = object_detection_results[0]
 
+            handle_signs(res, decSerialIn)
+
             if deviation > 300:
                 current_steering_angle = 20.0
             elif deviation < -300:
