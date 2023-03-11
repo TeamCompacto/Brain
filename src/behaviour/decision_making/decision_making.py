@@ -22,7 +22,7 @@ class DecisionMakingProcess(WorkerProcess):
     def _decision_making_thread(self, inPs, outPs):
         print("Decision Making Started")
 
-        f = open("dec_log.txt", "a")
+        
         
         
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0} )
@@ -74,7 +74,9 @@ class DecisionMakingProcess(WorkerProcess):
                     outPs[0].send({'action': '2', 'steerAngle': 0.0} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
+                f = open("dec_log.txt", "a")
                 f.write("Deviation: " + str(deviation) + "Angle: " + str(self.current_steering_angle))
+                f.close()
 
                 if self.current_state == "BASE":
                     outPs[0].send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
