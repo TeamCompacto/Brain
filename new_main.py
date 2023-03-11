@@ -12,7 +12,7 @@ from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreame
 
 def main():
     # -----------------------CONFIG-----------------------
-    stream = False
+    stream = True
     # ----------------------------------------------------
     print("Starting the car")
     camera = Picamera2()
