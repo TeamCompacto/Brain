@@ -1,45 +1,42 @@
 import cv2
 import numpy as np
 import math
-import sys
-import time
-import RPi.GPIO as GPIO
 
-GPIO.setwarnings(False)
+# GPIO.setwarnings(False)
 
-#throttle
-throttlePin = 25 # Physical pin 22
-in3 = 23 # physical Pin 16
-in4 = 24 # physical Pin 18
+# #throttle
+# throttlePin = 25 # Physical pin 22
+# in3 = 23 # physical Pin 16
+# in4 = 24 # physical Pin 18
 
-#Steering
-steeringPin = 22 # Physical Pin 15
-in1 = 17 # Physical Pin 11
-in2 = 27 # Physical Pin 13
+# #Steering
+# steeringPin = 22 # Physical Pin 15
+# in1 = 17 # Physical Pin 11
+# in2 = 27 # Physical Pin 13
 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(in1,GPIO.OUT)
-GPIO.setup(in2,GPIO.OUT)
-GPIO.setup(in3,GPIO.OUT)
-GPIO.setup(in4,GPIO.OUT)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(in1,GPIO.OUT)
+# GPIO.setup(in2,GPIO.OUT)
+# GPIO.setup(in3,GPIO.OUT)
+# GPIO.setup(in4,GPIO.OUT)
 
-GPIO.setup(throttlePin,GPIO.OUT)
-GPIO.setup(steeringPin,GPIO.OUT)
+# GPIO.setup(throttlePin,GPIO.OUT)
+# GPIO.setup(steeringPin,GPIO.OUT)
 
-# Steering
-# in1 = 1 and in2 = 0 -> Left
-GPIO.output(in1,GPIO.LOW)
-GPIO.output(in2,GPIO.LOW)
-steering = GPIO.PWM(steeringPin,1000)
-steering.stop()
+# # Steering
+# # in1 = 1 and in2 = 0 -> Left
+# GPIO.output(in1,GPIO.LOW)
+# GPIO.output(in2,GPIO.LOW)
+# steering = GPIO.PWM(steeringPin,1000)
+# steering.stop()
 
-# Throttle
-# in3 = 1 and in4 = 0 -> Forward
-GPIO.output(in3,GPIO.HIGH)
-GPIO.output(in4,GPIO.LOW)
-throttle = GPIO.PWM(throttlePin,1000)
-throttle.stop()
+# # Throttle
+# # in3 = 1 and in4 = 0 -> Forward
+# GPIO.output(in3,GPIO.HIGH)
+# GPIO.output(in4,GPIO.LOW)
+# throttle = GPIO.PWM(throttlePin,1000)
+# throttle.stop()
 
 
 
@@ -200,22 +197,22 @@ def get_steering_angle(frame, lane_lines):
     
     return steering_angle
 
-video = cv2.VideoCapture(0)
-video.set(cv2.CAP_PROP_FRAME_WIDTH,320)
-video.set(cv2.CAP_PROP_FRAME_HEIGHT,240)
+# video = cv2.VideoCapture(0)
+# video.set(cv2.CAP_PROP_FRAME_WIDTH,320)
+# video.set(cv2.CAP_PROP_FRAME_HEIGHT,240)
 
-time.sleep(1)
+# time.sleep(1)
 
-##fourcc = cv2.VideoWriter_fourcc(*'XVID')
-##out = cv2.VideoWriter('Original15.avi',fourcc,10,(320,240))
-##out2 = cv2.VideoWriter('Direction15.avi',fourcc,10,(320,240))
+# ##fourcc = cv2.VideoWriter_fourcc(*'XVID')
+# ##out = cv2.VideoWriter('Original15.avi',fourcc,10,(320,240))
+# ##out2 = cv2.VideoWriter('Direction15.avi',fourcc,10,(320,240))
 
-speed = 8
-lastTime = 0
-lastError = 0
+# speed = 8
+# lastTime = 0
+# lastError = 0
 
-kp = 0.4
-kd = kp * 0.65
+# kp = 0.4
+# kd = kp * 0.65
 
 def lane_finding(frame):
     edges = detect_edges(frame)
@@ -228,72 +225,72 @@ def lane_finding(frame):
     return steering_angle, heading_image
 
 
-while True:
-    ret,frame = video.read()
-    frame = cv2.flip(frame,-1)
+# while True:
+#     ret,frame = video.read()
+#     frame = cv2.flip(frame,-1)
     
-    cv2.imshow("original",frame)
-    edges = detect_edges(frame)
-    roi = region_of_interest(edges)
-    line_segments = detect_line_segments(roi)
-    lane_lines = average_slope_intercept(frame,line_segments)
-    lane_lines_image = display_lines(frame,lane_lines)
-    steering_angle = get_steering_angle(frame, lane_lines)
-    heading_image = display_heading_line(lane_lines_image,steering_angle)
-    cv2.imshow("heading line",heading_image)
+#     cv2.imshow("original",frame)
+#     edges = detect_edges(frame)
+#     roi = region_of_interest(edges)
+#     line_segments = detect_line_segments(roi)
+#     lane_lines = average_slope_intercept(frame,line_segments)
+#     lane_lines_image = display_lines(frame,lane_lines)
+#     steering_angle = get_steering_angle(frame, lane_lines)
+#     heading_image = display_heading_line(lane_lines_image,steering_angle)
+#     cv2.imshow("heading line",heading_image)
 
-    now = time.time()
-    dt = now - lastTime
+#     now = time.time()
+#     dt = now - lastTime
 
-    deviation = steering_angle - 90
-    error = abs(deviation)
+#     deviation = steering_angle - 90
+#     error = abs(deviation)
     
-    if deviation < 5 and deviation > -5:
-        deviation = 0
-        error = 0
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.LOW)
-        steering.stop()
+#     if deviation < 5 and deviation > -5:
+#         deviation = 0
+#         error = 0
+#         GPIO.output(in1,GPIO.LOW)
+#         GPIO.output(in2,GPIO.LOW)
+#         steering.stop()
 
-    elif deviation > 5:
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.HIGH)
-        steering.start(100)
+#     elif deviation > 5:
+#         GPIO.output(in1,GPIO.LOW)
+#         GPIO.output(in2,GPIO.HIGH)
+#         steering.start(100)
         
 
-    elif deviation < -5:
-        GPIO.output(in1,GPIO.HIGH)
-        GPIO.output(in2,GPIO.LOW)
-        steering.start(100)
+#     elif deviation < -5:
+#         GPIO.output(in1,GPIO.HIGH)
+#         GPIO.output(in2,GPIO.LOW)
+#         steering.start(100)
 
-    derivative = kd * (error - lastError) / dt
-    proportional = kp * error
-    PD = int(speed + derivative + proportional)
-    spd = abs(PD)
+#     derivative = kd * (error - lastError) / dt
+#     proportional = kp * error
+#     PD = int(speed + derivative + proportional)
+#     spd = abs(PD)
 
-    if spd > 25:
-        spd = 25
+#     if spd > 25:
+#         spd = 25
         
-    throttle.start(spd)
+#     throttle.start(spd)
 
-    lastError = error
-    lastTime = time.time()
+#     lastError = error
+#     lastTime = time.time()
         
-##    out.write(frame)
-##    out2.write(heading_image)
+# ##    out.write(frame)
+# ##    out2.write(heading_image)
 
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
+#     key = cv2.waitKey(1)
+#     if key == 27:
+#         break
     
-video.release()
-##out.release()
-##out2.release()
-cv2.destroyAllWindows()
-GPIO.output(in1,GPIO.LOW)
-GPIO.output(in2,GPIO.LOW)
-GPIO.output(in3,GPIO.LOW)
-GPIO.output(in4,GPIO.LOW)
-throttle.stop()
-steering.stop()
+# video.release()
+# ##out.release()
+# ##out2.release()
+# cv2.destroyAllWindows()
+# GPIO.output(in1,GPIO.LOW)
+# GPIO.output(in2,GPIO.LOW)
+# GPIO.output(in3,GPIO.LOW)
+# GPIO.output(in4,GPIO.LOW)
+# throttle.stop()
+# steering.stop()
 
