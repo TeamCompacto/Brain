@@ -9,6 +9,7 @@ from multiprocessing import Pipe
 from src.hardware.serialhandler.SerialHandlerProcess        import SerialHandlerProcess
 import time
 from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreamerProcess
+from LaneKeepingAlgorithm import lane_finding
 
 def main():
     # -----------------------CONFIG-----------------------
@@ -46,7 +47,7 @@ def main():
             resized_frame = resize(frame, dsize=(320, 320), interpolation=INTER_LINEAR)
 
             lane_finding_results = []
-            lane_finding_thread = Thread(target=lane_detection, args=(resized_frame, lane_finding_results))
+            lane_finding_thread = Thread(target=new_lane_detection, args=(resized_frame, lane_finding_results))
 
             object_detection_results = []
             object_detection_thread = Thread(target=object_detection, args=(resized_frame, interpreter,labels, object_detection_results))
@@ -112,6 +113,11 @@ def main():
 def lane_detection(frame, output):
     deviation, final_frame = process_frame(frame=frame)
     output.append(deviation)
+    output.append(final_frame)
+
+def new_lane_detection(frame, output):
+    angle, final_frame = lane_finding(frame)
+    output.append(angle)
     output.append(final_frame)
 
 
