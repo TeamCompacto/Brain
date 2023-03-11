@@ -1,5 +1,5 @@
 from picamera2 import Picamera2
-from cv2 import resize, INTER_LINEAR, imwrite
+from cv2 import resize, INTER_LINEAR, imwrite, FONT_HERSHEY_SIMPLEX, LINE_AA, rectangle, putText
 from src.perception.object_classi.lane_finding import process_frame
 from threading import Thread
 from src.perception.object_classi.detect import load_labels, detect_objects
@@ -60,8 +60,8 @@ def object_detection(frame,interpreter,labels, output):
         ymin = int(max(1, ymin * 320))
         ymax = int(min(320, ymax * 320))
         
-        cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
-        cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
+        rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
+        putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,LINE_AA) 
     output.append(res)
     output.append(frame)
 
