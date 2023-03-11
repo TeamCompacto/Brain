@@ -37,11 +37,11 @@ class DecisionMakingProcess(WorkerProcess):
             while True:
                 [deviation] = inPs[0].recv()
                 res = inPs[1].recv()
-                f.write(deviation)
+                
 
                 print("Decision: starting to process data", str(count), " at ", str(time.ctime()))
 
-                print("Received deviation:", deviation)
+                
 
                 for sign in res:
                     print("Detected sign with id: ", sign['class_id'])
@@ -74,6 +74,7 @@ class DecisionMakingProcess(WorkerProcess):
                     outPs[0].send({'action': '2', 'steerAngle': 0.0} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
+                f.write("Deviation: " + str(deviation) + "Angle: " + str(self.current_steering_angle))
 
                 if self.current_state == "BASE":
                     outPs[0].send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
