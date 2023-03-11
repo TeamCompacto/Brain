@@ -4,8 +4,10 @@ from src.perception.object_classi.lane_finding import process_frame
 from threading import Thread
 from src.perception.object_classi.detect import load_labels, detect_objects
 from tflite_runtime.interpreter import Interpreter
-
-
+import serial
+from multiprocessing import Pipe
+from src.hardware.serialhandler.SerialHandlerProcess        import SerialHandlerProcess
+import time
 
 def main():
     # -----------------------CONFIG-----------------------
@@ -19,6 +21,9 @@ def main():
     labels = load_labels()
     interpreter = Interpreter('detect.tflite')
     interpreter.allocate_tensors()
+
+    decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
+    shProc = SerialHandlerProcess([decSerialOut], [])     
 
     try:
         while True:
@@ -37,8 +42,74 @@ def main():
             lane_finding_thread.join()
             object_detection_thread.join()
 
+
+            devFile = '/dev/ttyACM0'    
+            logFile = 'historyFile.txt'
+            serialCom = serial.Serial(devFile,19200,timeout=0.1)
+            serialCom.flushInput()
+            serialCom.flushOutput()
+
             print("Deviation: ", lane_finding_results[0])
             print("Detected objects: ",object_detection_results[0])
+
+            deviation = lane_finding_results[0]
+            res = object_detection_results[0]
+
+            for sign in res:
+                print("Detected sign with id: ", sign['class_id'])
+                if sign['class_id'] == 0:
+                    print("stopping")
+                    
+                    decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
+                    time.sleep(3)
+                    decSerialIn.send({'action': '1', 'speed': 0.12} )
+                    time.sleep(0.2)
+                    decSerialIn.send({'action': '1', 'speed': 0.09} )
+                    time.sleep(0.1)
+
+                elif sign['class_id'] == 1:
+                    print("priority")
+                    
+                    decSerialIn.send({'action': '1', 'speed': 0.06})
+                    time.sleep(0.5)
+                    decSerialIn.send({'action': '1', 'speed': 0.09})
+                    time.sleep(0.1)
+
+                elif sign['class_id'] == 2:
+                    print("roundabout")
+                    
+
+                    # TODO: roundabout
+
+                elif sign['class_id'] == 3:
+                    print("oneway")
+                    
+
+                elif sign['class_id'] == 4:
+                    print("highwaybegin")
+
+
+                elif sign['class_id'] == 5:
+                    print("highwayend")
+                    
+
+                elif sign['class_id'] == 6:
+                    print("pedestrian crossing")
+
+                    decSerialIn.send({'action': '1', 'speed': 0.04})
+                    time.sleep(0.5)
+                    decSerialIn.send({'action': '1', 'speed': 0.09})
+                    time.sleep(0.1)
+
+                elif sign['class_id'] == 7:
+                    print("park")
+
+                    # TODO: call parking manouver
+
+                elif sign['class_id'] == 8:
+                    print("do not enter")
+                    decSerialIn.send({'action': '1', 'speed': 0.0})
+                    time.sleep(0.5)
 
 
     except KeyboardInterrupt:
