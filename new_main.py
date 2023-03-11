@@ -24,6 +24,8 @@ def main():
 
     decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
     shProc = SerialHandlerProcess([decSerialOut], [])     
+    shProc.daemon = True
+    shProc.start()
 
     try:
         while True:
@@ -113,6 +115,14 @@ def main():
 
 
     except KeyboardInterrupt:
+        if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
+            print("Process with stop",shProc)
+            shProc.stop()
+            shProc.join()
+        else:
+            print("Process witouth stop",prshPrococ)
+            shProc.terminate()
+            shProc.join()
         print("vege")
 
 
