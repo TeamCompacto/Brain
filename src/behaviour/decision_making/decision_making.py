@@ -8,6 +8,9 @@ class DecisionMakingProcess(WorkerProcess):
     
     def __init__(self, inPs, outPs):
         super().__init__(inPs, outPs)
+        self.current_state = "BASE"
+        self.current_speed = 0.0
+        self.current_steering_angle = 0.0
 
     def run(self):
         super(DecisionMakingProcess, self).run()
@@ -20,12 +23,19 @@ class DecisionMakingProcess(WorkerProcess):
         print("Decision Making Started")
         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
         outPs.send({'action': '1', 'speed': 0.14} )
-        time.sleep(0.2)
+        time.sleep(0.1)
         outPs.send({'action': '1', 'speed': 0.09} )
         try:
             while True:
                 [deviation] = inPs[0].recv()
                 res = inPs[1].recv()
+                if self.current_state == "BASE":
+                    outPs.send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
+                    time.sleep(0.3)
+                    outPs.send({'action': '1', 'speed': 0.14} )
+                    time.sleep(0.1)
+                    outPs.send({'action': '1', 'speed': 0.09} )
+
                 print(type(deviation))
                 print("Received deviation:", deviation)
                 print(res)
