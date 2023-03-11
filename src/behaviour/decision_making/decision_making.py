@@ -29,12 +29,12 @@ class DecisionMakingProcess(WorkerProcess):
             while True:
                 [deviation] = inPs[0].recv()
                 res = inPs[1].recv()
-                # if self.current_state == "BASE":
-                #     outPs.send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
-                #     time.sleep(0.3)
-                #     outPs.send({'action': '1', 'speed': 0.14} )
-                #     time.sleep(0.1)
-                #     outPs.send({'action': '1', 'speed': 0.09} )
+                if self.current_state == "BASE":
+                    outPs.send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
+                    time.sleep(0.3)
+                    outPs.send({'action': '1', 'speed': 0.14} )
+                    time.sleep(0.1)
+                    outPs.send({'action': '1', 'speed': 0.09} )
 
                 print(type(deviation))
                 print("Received deviation:", deviation)
