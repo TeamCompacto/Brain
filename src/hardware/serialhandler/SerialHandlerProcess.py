@@ -65,7 +65,8 @@ class SerialHandlerProcess(WorkerProcess):
     def run(self):
         super(SerialHandlerProcess,self).run()
         #Post running process -> close the history file
-        command_msg = "#3:0.00;;"
+
+        command_msg = '#' + '3' + ':' + '0.00' + ';\r\n'
         self.serialCom.write(command_msg.encode('ascii'))
         print("valami")
         self.historyFile.close()
