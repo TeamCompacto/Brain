@@ -47,13 +47,53 @@ class DecisionMakingProcess(WorkerProcess):
                     print("Detected sign with id: ", sign['class_id'])
                     if sign['class_id'] == 0:
                         print("stopping")
-                        print(time.time())
+                        
                         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0} )
                         time.sleep(3)
                         outPs[0].send({'action': '1', 'speed': 0.12} )
                         time.sleep(0.2)
                         outPs[0].send({'action': '1', 'speed': 0.09} )
                         time.sleep(0.1)
+
+                    elif sign['class_id'] == 1:
+                        print("priority")
+                        
+                        outPs[0].send({'action': '1', 'speed': 0.06})
+                        time.sleep(0.5)
+                        outPs[0].send({'action': '1', 'speed': 0.09})
+                        time.sleep(0.1)
+
+                    elif sign['class_id'] == 2:
+                        print("roundabout")
+                        
+
+                        # TODO: roundabout
+
+                    elif sign['class_id'] == 3:
+                        print("oneway")
+                        
+
+                    elif sign['class_id'] == 4:
+                        print("highwaybegin")
+                        
+
+                    elif sign['class_id'] == 5:
+                        print("pedestrian crossing")
+
+                        outPs[0].send({'action': '1', 'speed': 0.04})
+                        time.sleep(0.5)
+                        outPs[0].send({'action': '1', 'speed': 0.09})
+                        time.sleep(0.1)
+
+                    elif sign['class_id'] == 6:
+                        print("park")
+
+                        # TODO: call parking manouver
+
+                    elif sign['class_id'] == 7:
+                        print("do not enter")
+                        outPs[0].send({'action': '1', 'speed': 0.0})
+                        time.sleep(0.5)
 
 
                 if deviation > 300:
