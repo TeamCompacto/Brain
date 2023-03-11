@@ -27,6 +27,7 @@ def main():
     shProc.daemon = True
     shProc.start()
 
+
     try:
         while True:
             frame = camera.capture_array("main")
@@ -120,7 +121,7 @@ def main():
             shProc.stop()
             shProc.join()
         else:
-            print("Process witouth stop",prshPrococ)
+            print("Process witouth stop",shProc)
             shProc.terminate()
             shProc.join()
         print("vege")
