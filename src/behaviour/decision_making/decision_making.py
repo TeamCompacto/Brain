@@ -78,7 +78,8 @@ class DecisionMakingProcess(WorkerProcess):
                     outPs[0].send({'action': '2', 'steerAngle': 0.0} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
-                
+
+                outPs[0].send({'action': '2', 'steerAngle': self.current_steering_angle} )
 
                 outPs[1].send("I'm ready lane " + str(count))
                 outPs[2].send("I'm ready object" + str(count))
