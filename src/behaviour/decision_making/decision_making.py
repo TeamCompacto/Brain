@@ -36,14 +36,6 @@ class DecisionMakingProcess(WorkerProcess):
                 res = inPs[1].recv()
 
                 print("Decision: starting to process data", str(count), " at ", str(time.ctime()))
-                
-
-                if self.current_state == "BASE":
-                    outPs[0].send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
-                    time.sleep(0.3)
-                    outPs[0].send({'action': '1', 'speed': 0.14} )
-                    time.sleep(0.1)
-                    outPs[0].send({'action': '1', 'speed': 0.09} )
 
                 print("Received deviation:", deviation)
 
@@ -78,6 +70,13 @@ class DecisionMakingProcess(WorkerProcess):
                     outPs[0].send({'action': '2', 'steerAngle': 0.0} )
 
                 print("Decision: finished processing data", str(count), " at ", str(time.ctime()))
+
+                if self.current_state == "BASE":
+                    outPs[0].send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
+                    time.sleep(0.3)
+                    outPs[0].send({'action': '1', 'speed': 0.14} )
+                    time.sleep(0.1)
+                    outPs[0].send({'action': '1', 'speed': 0.09} )
 
                 outPs[0].send({'action': '2', 'steerAngle': self.current_steering_angle} )
 
