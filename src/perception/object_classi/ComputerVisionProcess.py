@@ -101,7 +101,7 @@ class ComputerVisionProcess(WorkerProcess):
         while True:
             stamp, image = inP.recv()
             deviation, processed = process_frame(image)
-            print(f"DEVIATION : {deviation}")
+            # print(f"DEVIATION : {deviation}")
             outP[0].send([deviation])
             if len(outP) > 1:
                 outP[1].send([stamp,processed])
@@ -116,7 +116,7 @@ class ComputerVisionProcess(WorkerProcess):
             stamp, frame = inP.recv()
             res = detect_objects(interpreter, frame, 0.8)
 
-            print(res)
+            # print(res)
             
             outP[0].send(res)
             if len(outP) > 1:
