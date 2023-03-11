@@ -21,6 +21,9 @@ class DecisionMakingProcess(WorkerProcess):
 
     def _decision_making_thread(self, inPs, outPs):
         print("Decision Making Started")
+
+        f = open("dec_log.txt", "a")
+        
         
         outPs[0].send({'action': '3', 'brake (steerAngle)': 0.0} )
         outPs[0].send({'action': '1', 'speed': 0.14} )
@@ -34,6 +37,7 @@ class DecisionMakingProcess(WorkerProcess):
             while True:
                 [deviation] = inPs[0].recv()
                 res = inPs[1].recv()
+                f.write(deviation)
 
                 print("Decision: starting to process data", str(count), " at ", str(time.ctime()))
 
