@@ -75,9 +75,13 @@ class DecisionMakingProcess(WorkerProcess):
 
                     elif sign['class_id'] == 4:
                         print("highwaybegin")
-                        
+
 
                     elif sign['class_id'] == 5:
+                        print("highwayend")
+                        
+
+                    elif sign['class_id'] == 6:
                         print("pedestrian crossing")
 
                         outPs[0].send({'action': '1', 'speed': 0.04})
@@ -85,12 +89,12 @@ class DecisionMakingProcess(WorkerProcess):
                         outPs[0].send({'action': '1', 'speed': 0.09})
                         time.sleep(0.1)
 
-                    elif sign['class_id'] == 6:
+                    elif sign['class_id'] == 7:
                         print("park")
 
                         # TODO: call parking manouver
 
-                    elif sign['class_id'] == 7:
+                    elif sign['class_id'] == 8:
                         print("do not enter")
                         outPs[0].send({'action': '1', 'speed': 0.0})
                         time.sleep(0.5)
