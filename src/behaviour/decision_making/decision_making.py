@@ -29,7 +29,7 @@ class DecisionMakingProcess(WorkerProcess):
 
                 print("Received deviation:", deviation)
                 print(res)
-                if res['class_id'] == 0:
+                if len(res) > 0 and res['class_id'] == 0:
                     outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
                     time.sleep(3)
                     outPs.send({'action': '1', 'speed': 0.12} )
