@@ -54,6 +54,8 @@ def detect_objects(interpreter, image, threshold):
   # print(count)
 
   results = []
+  max_score = 0
+  max_index = -1
   for i in range(count):
     if scores[i] >= threshold:
       result = {
@@ -62,7 +64,14 @@ def detect_objects(interpreter, image, threshold):
           'score': scores[i]
       }
       results.append(result)
-  return results
+      if max_score < scores[i]:
+        max_index = i
+
+  return {
+          'bounding_box': boxes[max_index],
+          'class_id': classes[max_index],
+          'score': scores[max_index]
+      }
 
 def main():
     labels = load_labels()
