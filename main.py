@@ -56,16 +56,16 @@ from src.actuation.test_control.ControlTest                 import ControlTest
 enableStream        =   False
 enableCameraSpoof   =   False 
 enableRc            =   False
-enableDecMaking     =   False
-enableControl       =   True
+enableDecMaking     =   True
+enableControl       =   False
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
 
 if enableDecMaking:
     # =============================== HARDWARE ===============================================
-    camLaneOut, camLaneIn = Pipe(duplex=False)  # camera -> vision/lane finding
-    camObjectOut, camObjectIn = Pipe(duplex=False)  # camera -> vision/object detection
+    camLaneOut, camLaneIn = Pipe(duplex=True)  # camera -> vision/lane finding
+    camObjectOut, camObjectIn = Pipe(duplex=True)  # camera -> vision/object detection
     laneDecOut, laneDecIn = Pipe(duplex=False)  # vision/lane finding -> decision making
     objectDecOut, objectDecIn = Pipe(duplex=False)  # vision/object detection -> decision making
     decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
