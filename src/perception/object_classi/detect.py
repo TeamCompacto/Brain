@@ -66,12 +66,13 @@ def detect_objects(interpreter, image, threshold):
       results.append(result)
       if max_score < scores[i]:
         max_index = i
-
-  return {
+  if max_score < threshold:
+    return []
+  return [{
           'bounding_box': boxes[max_index],
           'class_id': classes[max_index],
           'score': scores[max_index]
-      }
+      }]
 
 def main():
     labels = load_labels()
