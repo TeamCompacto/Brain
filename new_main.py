@@ -63,6 +63,9 @@ def main():
             deviation = lane_finding_results[0]
             res = object_detection_results[0]
 
+            if stream:
+                visionStrIn.send(["vigy", lane_finding_results[1]])
+
             handle_signs(res, decSerialIn)
 
             if deviation > 300:
