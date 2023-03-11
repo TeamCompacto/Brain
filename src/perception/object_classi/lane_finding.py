@@ -219,23 +219,23 @@ def process_frame(frame):
     if lane_lines == [None, None]:
         return 0, frame
     elif lane_lines[0] == None: # nincs bal
-        deviation = -700
+        return -700, frame
     elif lane_lines[1] == None: # nincs jobb
-        deviation = 700
+        return 700, frame
 
     
     lane_lines_image = display_lines(frame, lane_lines) # Display solid and optimized lines
     
     up_center, low_center = get_floating_center(frame, lane_lines) # Calculate the center between two lines
 
-    if lane_lines == [None, None]:
-        return 0, frame
-    elif lane_lines[0] == None: # nincs bal
-        deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
-        return -700, final_frame
-    elif lane_lines[1] == None: # nincs jobb
-        deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
-        return 700, final_frame
+    # if lane_lines == [None, None]:
+    #     return 0, frame
+    # elif lane_lines[0] == None: # nincs bal
+    #     deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
+    #     return -700, final_frame
+    # elif lane_lines[1] == None: # nincs jobb
+    #     deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
+    #     return 700, final_frame
 
     deviation, final_frame = add_text(lane_lines_image, low_center, left_x_base, right_x_base) # Predict and draw turn
 
