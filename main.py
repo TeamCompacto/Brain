@@ -53,11 +53,11 @@ from src.utils.remotecontrol.RemoteControlReceiverProcess   import RemoteControl
 from src.actuation.test_control.ControlTest                 import ControlTest
 
 # =============================== CONFIG =================================================
-enableStream        =   False
+enableStream        =   True
 enableCameraSpoof   =   False 
 enableRc            =   False
-enableDecMaking     =   False
-enableControl       =   True
+enableDecMaking     =   True
+enableControl       =   False
 
 # =============================== INITIALIZING PROCESSES =================================
 allProcesses = list()
