@@ -29,6 +29,11 @@ class DecisionMakingProcess(WorkerProcess):
 
                 print("Received deviation:", deviation)
                 print(res)
+                if res['class_id'] == 0:
+                    outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
+                    time.sleep(3)
+
+
                 if deviation < -100:
                     print("sending turn left")
                     outPs.send({'action': '2', 'steerAngle': -10.0} )
