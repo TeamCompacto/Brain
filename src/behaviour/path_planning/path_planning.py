@@ -1,4 +1,5 @@
 
+from copy import deepcopy
 import math
 from random import uniform
 import socket
@@ -76,11 +77,12 @@ class PathFindingProcess():
 
     def _path_finding_thread(self):
         event_nodes = {"roundabout": [230, 301, 342], "highway": [311, 347], "parking": [177, 162], "road_closed_stand": [7, 8], 
-                       "one_way_one_lane": [426], "finish_line": [85]}
+                       "one_way_one_lane": [426]}
+        finish_line = 85
         
         start_node = self.__get_start_node()
 
-        self.__find_best_traversing(event_nodes, start_node)
+        self.__find_best_traversing_backtracking(event_nodes, start_node, finish_line)
 
     def __get_start_node(self):
         start_coor = self.__get_coors()
@@ -99,47 +101,78 @@ class PathFindingProcess():
 
         return sol
     
-    def __find_best_traversing(self, event_nodes: dict, start_node: Node):
-        print(start_node)
-        distances_with_order_dp = [{}]
-        for order_num in range(1, len(event_nodes)):
-            
-            curr_distances = {}
-            for curr_event in event_nodes:
-                curr_distances[curr_event] = {} 
-                for curr_event_node in event_nodes[curr_event]:
-                    if order_num == 1:
-                        path, dist = AStar(self.__nodes, self.__edges, start_node.id, curr_event_node).shortest_path
-                        visited_events = {event: False for event in event_nodes}
-                        visited_events[curr_event] = True
-                        curr_distances[curr_event][curr_event_node] = DistanceNode(curr_event_node, dist, visited_events)
-                    # else:
-                    #     for prev_event in event_nodes:
-                    #         if prev_event == curr_event:
-                    #             continue
-                    #         for prev_event_node in event_nodes[prev_event]:
+    # def __find_best_traversing(self, event_nodes: dict, start_node: Node, finish_line: int):
+        # print(start_node)
+        # distances_with_order_dp = [{}]
+        # for order_num in range(1, len(event_nodes) + 1):
+        #     print(order_num, ":")
+        #     curr_distances = {}
+        #     for curr_event in event_nodes:
+        #         print(curr_event, ":")
+        #         curr_distances[curr_event] = {} 
+        #         for curr_event_node in event_nodes[curr_event]:
+        #             # print(curr_event_node, ": ", end="")
+        #             if order_num == 1:
+        #                 path, dist = AStar(self.__nodes, self.__edges, start_node.id, curr_event_node).shortest_path
+        #                 visited_events = {event: False for event in event_nodes}
+        #                 visited_events[curr_event] = True
+        #                 curr_distances[curr_event][curr_event_node] = DistanceNode(curr_event_node, dist, visited_events, path)
+        #                 print(curr_distances[curr_event][curr_event_node])
+        #             else:
+        #                 min_dist = math.inf; min_path = []
+        #                 opt_event = -1; opt_node = -1
+        #                 for prev_event in event_nodes:
+        #                     if prev_event == curr_event:
+        #                         continue
+        #                     for prev_event_node in event_nodes[prev_event]:
+        #                         if distances_with_order_dp[order_num - 1][prev_event][prev_event_node].visited_events[curr_event] == True:
+        #                             continue
+        #                         path, dist = AStar(self.__nodes, self.__edges, prev_event_node, curr_event_node).shortest_path
+        #                         dist = dist + distances_with_order_dp[order_num - 1][prev_event][prev_event_node].min_dist
+        #                         if dist < min_dist:
+        #                             min_dist = dist
+        #                             min_path = path
+        #                             opt_event = prev_event
+        #                             opt_node = prev_event_node
 
-                                
+        #                 visited_events = deepcopy(distances_with_order_dp[order_num - 1][opt_event][opt_node].visited_events)
+        #                 visited_events[curr_event] = True
+        #                 curr_distances[curr_event][curr_event_node] = DistanceNode(curr_event_node, min_dist, visited_events, min_path)
+        #                 print(curr_distances[curr_event][curr_event_node])
+        #     distances_with_order_dp.append(curr_distances)
+        pass
 
+    def __find_best_traversing_backtracking(self, event_nodes: dict, start_node: Node, finish_line: int):
+        visited_events = {event: False for event in event_nodes}
+        tracking_list = [(start_node.id, 0)]
+        self.optimal_list = []
+        self.min_end_distance = math.inf
+        self.__recursive_backtracking(tracking_list, event_nodes, visited_events, finish_line)
+        print(self.optimal_list)
 
+    def __recursive_backtracking(self, tracking_list, event_nodes, visited_events, finish_line):
+        
+        if len(tracking_list) == len(event_nodes) + 1:
+            # print(self.optimal_list)
+            end_distance = tracking_list[-1][1] + AStar(self.__nodes, self.__edges, tracking_list[-1][0], finish_line).shortest_path[1]
+            if end_distance < self.min_end_distance:
+                self.min_end_distance = end_distance
+                self.optimal_list = deepcopy(tracking_list)
+                # print(self.optimal_list)
+            return
 
-            distances_with_order_dp.append(curr_distances)
+        for event in event_nodes:
+            if visited_events[event] == False:
+                visited_events[event] = True
+                for event_node in event_nodes[event]:
+                    tracking_list.append((event_node, tracking_list[-1][1] + AStar(self.__nodes, self.__edges, tracking_list[-1][0], event_node).shortest_path[1]))
+        
+                    self.__recursive_backtracking(tracking_list, event_nodes, visited_events, finish_line)
 
-
-
-        print(distances_with_order_dp)              
+                    tracking_list.pop()
+                visited_events[event] = False
                     
-    # def big_dict_printer(self, big_list):
-    #     for big_dict in big_list:
-    #         print("{", end="")
-    #         for event in big_dict:
-    #             print(f"{event}: ", "{", end="")
-    #             for node in big_dict[event]:
-    #                 print(f"{node}: ", end="")
-    #                 for elem in big_dict[event].values():
-    #                     print(elem, end=" ")
-    #             print("}", end="")
-    #         print("}", end="")
+                
 
 if __name__ == "__main__":
     path_finding = PathFindingProcess("Competition_track.graphml")
