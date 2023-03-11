@@ -72,6 +72,11 @@ if enableDecMaking:
 
     laneDecOut, laneDecIn = Pipe(duplex=False)  # vision/lane finding -> decision making
     objectDecOut, objectDecIn = Pipe(duplex=False)  # vision/object detection -> decision making
+
+    declaneOut, decLaneIn = Pipe(duplex=False) # decision making -> vision/lane finding
+    decObjectOut, decObjectIn = Pipe(duplex=False) # decision making -> vision/lane finding
+
+
     decSerialOut, decSerialIn   = Pipe(duplex = False) # decision making to serial
 
 
@@ -79,16 +84,16 @@ if enableDecMaking:
 
     shProc = SerialHandlerProcess([decSerialOut], [])     
 
-    decProc = DecisionMakingProcess([laneDecOut, objectDecOut], [decSerialIn])
+    decProc = DecisionMakingProcess([laneDecOut, objectDecOut], [decSerialIn, decLaneIn, decObjectIn])
     
     if enableStream:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
         
         streamProc = CameraStreamerProcess([visionStrOut], [])
-        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneCamIn,objectCamIn, laneDecIn, objectDecIn,visionStrIn])
+        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut, declaneOut, decObjectOut],[laneCamIn,objectCamIn, laneDecIn, objectDecIn,visionStrIn])
         allProcesses.append(streamProc)
     else:
-        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut],[laneCamIn, objectCamIn, laneDecIn, objectDecIn])
+        visionProcess = ComputerVisionProcess([camLaneOut, camObjectOut, declaneOut, decObjectOut],[laneCamIn, objectCamIn, laneDecIn, objectDecIn])
 
     camProc = CameraProcess([laneCamOut, objectCamOut],[camLaneIn, camObjectIn])
     

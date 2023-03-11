@@ -66,13 +66,13 @@ class ComputerVisionProcess(WorkerProcess):
         """
 
         # laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[2], self.outPs[0]]))
-        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= (self.inPs[0], [self.outPs[2], self.outPs[0], self.outPs[4]]))
+        laneTh = Thread(name='LaneFindingThread',target = self._lane_detection_thread, args= ([self.inPs[0], self.inPs[2]], [self.outPs[2], self.outPs[0], self.outPs[4]]))
         
         laneTh.daemon = True
         self.threads.append(laneTh)
 
         # objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[1], self.outPs[2]]))
-        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= (self.inPs[1], [self.outPs[3], self.outPs[1]]))
+        objectTh = Thread(name='ObjectDetectionThread',target = self._tf_object_detection_thread, args= ([self.inPs[1], self.inPs[3]], [self.outPs[3], self.outPs[1]]))
 
         objectTh.daemon = True
         self.threads.append(objectTh)
@@ -102,7 +102,9 @@ class ComputerVisionProcess(WorkerProcess):
         """
         count = 0
         while True:
-            stamp, image = inP.recv()
+            s = inP[1].recv()
+            print(s)
+            stamp, image = inP[0].recv()
             print("Lane: starting to process picture", str(count), " at ", str(time.ctime()))
             deviation, processed = process_frame(image)
             print("Lane: finished processing picture", str(count), " at ", str(time.ctime()))
@@ -122,7 +124,10 @@ class ComputerVisionProcess(WorkerProcess):
 
         count = 0
         while True:
-            stamp, frame = inP.recv()
+            s = inP[1].recv()
+            print(s)
+
+            stamp, frame = inP[0].recv()
             print("Object: starting to process picture", str(count), " at ", str(time.ctime()))
             res = detect_objects(interpreter, frame, 0.8)
             print("Object: finished processing picture", str(count), " at ", str(time.ctime()))
