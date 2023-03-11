@@ -33,6 +33,8 @@ class DecisionMakingProcess(WorkerProcess):
                 for sign in res:
                     print(sign)
                     if sign['class_id'] == 0:
+                        print("stopping")
+                        print(time.time())
                         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
                         time.sleep(3)
                         outPs.send({'action': '1', 'speed': 0.12} )
