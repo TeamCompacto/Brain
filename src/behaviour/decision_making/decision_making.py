@@ -26,7 +26,7 @@ class DecisionMakingProcess(WorkerProcess):
             while True:
                 [deviation] = inPs[0].recv()
                 res = inPs[1].recv()
-
+                print(type(deviation))
                 print("Received deviation:", deviation)
                 print(res)
                 if len(res) > 0 and res['class_id'] == 0:
