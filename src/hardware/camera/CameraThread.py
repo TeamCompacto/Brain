@@ -89,9 +89,9 @@ class CameraThread(ThreadWithStop):
         while True:
             for pipe in self.inPs:
                 curr = pipe.recv()
-                print(curr)
+                # print(curr)
             self._data = self.camera.capture_array("main")
-            # print("sending picture at", str(time.ctime()))
+            print("Camera: sending picture at", str(time.ctime()))
             self.send()
 
         self.camera.stop_recording()
