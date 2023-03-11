@@ -91,6 +91,8 @@ class ComputerVisionProcess(WorkerProcess):
 
             outP[1].send([stamp,processed])
 
+            inP.send(True)
+
     def _lane_detection_thread(self, inP, outP):
         """
         Thread that processes image and sends deviation to DecisionMaking
@@ -105,6 +107,8 @@ class ComputerVisionProcess(WorkerProcess):
             outP[0].send([deviation])
             if len(outP) > 1:
                 outP[1].send([stamp,processed])
+
+            inP.send(True)
 
 
     def _tf_object_detection_thread(self, inP, outP):
@@ -130,6 +134,8 @@ class ComputerVisionProcess(WorkerProcess):
                     cv2.rectangle(frame,(xmin, ymin),(xmax, ymax),(0,255,0),3)
                     cv2.putText(frame,labels[int(result['class_id'])],(xmin, min(ymax, 320-20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,255,255),2,cv2.LINE_AA) 
                 outP[1].send([stamp,frame])
+            
+            inP.send(True)
 
 
             

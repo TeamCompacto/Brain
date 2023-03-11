@@ -84,6 +84,11 @@ class CameraThread(ThreadWithStop):
         self.camera.start()
 
         while True:
+            b = True
+            for pipe in self.outPs:
+                curr = pipe.recv()
+                b = b and curr
+            print(b)
             self._data = self.camera.capture_array("main")
             self.send()
 
