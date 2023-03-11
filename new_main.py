@@ -8,10 +8,12 @@ import serial
 from multiprocessing import Pipe
 from src.hardware.serialhandler.SerialHandlerProcess        import SerialHandlerProcess
 import time
+from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreamerProcess
 
 def main():
     # -----------------------CONFIG-----------------------
     stream = False
+    # ----------------------------------------------------
     print("Starting the car")
     camera = Picamera2()
     capture_config = camera.create_still_configuration()
@@ -31,6 +33,12 @@ def main():
     steering_angle = 0.0
 
     current_state = "BASE"
+
+    if stream:
+        visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
+        streamProc = CameraStreamerProcess([visionStrOut], [])
+        streamProc.daemon = True
+        streamProc.start()
 
     try:
         while True:
@@ -84,6 +92,17 @@ def main():
             print("Process witouth stop",shProc)
             shProc.terminate()
             shProc.join()
+
+        if stream:
+            if hasattr(streamProc,'stop') and callable(getattr(streamProc,'stop')):
+                print("Process with stop",streamProc)
+                streamProc.stop()
+                streamProc.join()
+            else:
+                print("Process witouth stop",streamProc)
+                streamProc.terminate()
+                streamProc.join()
+
         print("vege")
 
 
