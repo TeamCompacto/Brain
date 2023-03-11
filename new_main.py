@@ -58,23 +58,25 @@ def main():
             lane_finding_thread.join()
             object_detection_thread.join()
 
-            print("Deviation: ", lane_finding_results[0])
-            print("Detected objects: ",object_detection_results[0])
+            
 
             deviation = lane_finding_results[0] - 90
             res = object_detection_results[0]
+
+            print("Deviation: ", deviation)
+            print("Detected objects: ",res)
 
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
             handle_signs(res, decSerialIn)
 
-            if deviation > 300:
-                current_steering_angle = 20.0
-            elif deviation < -300:
-                current_steering_angle = -20.0
+            if deviation > 5:
+                current_steering_angle = 10.0
+            elif deviation < 5:
+                current_steering_angle = -10.0
             else:
-                current_steering_angle = float(deviation/15)
+                current_steering_angle = float(0)
 
             if current_state == "BASE":
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
