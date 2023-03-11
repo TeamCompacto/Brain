@@ -55,5 +55,5 @@ class CameraProcess(WorkerProcess):
     def _init_threads(self):
         """Create the Camera Publisher thread and add to the list of threads.
         """
-        camTh = CameraThread(self.outPs) 
+        camTh = CameraThread(self.inPs, self.outPs) 
         self.threads.append(camTh)

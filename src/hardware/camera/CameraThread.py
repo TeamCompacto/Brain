@@ -31,7 +31,6 @@ import numpy as np
 import time
 
 from src.templates.threadwithstop import ThreadWithStop
-from cv2 import fastNlMeansDenoisingColored 
 from cv2 import resize, INTER_LINEAR, imwrite
 from picamera2.outputs import FileOutput
 
@@ -39,7 +38,7 @@ from picamera2.outputs import FileOutput
 class CameraThread(ThreadWithStop):
     
     #================================ CAMERA =============================================
-    def __init__(self, outPs):
+    def __init__(self, inPs, outPs):
         """The purpose of this thread is to setup the camera parameters and send the result to the CameraProcess. 
         It is able also to record videos and save them locally. You can do so by setting the self.RecordMode = True.
         
@@ -59,6 +58,7 @@ class CameraThread(ThreadWithStop):
         
         #output 
         self.outPs        =   outPs
+        self.inPs = inPs
 
     #================================ RUN ================================================
     def run(self):
@@ -87,7 +87,7 @@ class CameraThread(ThreadWithStop):
         self.send()
 
         while True:
-            for pipe in self.outPs:
+            for pipe in self.inPs:
                 curr = pipe.recv()
                 print(curr)
             self._data = self.camera.capture_array("main")
