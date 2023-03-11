@@ -216,6 +216,9 @@ def process_frame(frame):
     left_x_base, right_x_base = histogram(warped_frame)         # Take x bases for two lines
     lines = detect_lines(roi_frame)                 # Detect lane lines on the frame
     lane_lines = optimize_lines(frame, lines)       # Optimize detected line
+    print("lane_lines:")
+    print(lane_lines)
+
     if lane_lines == [None, None]:
         return 0, frame
     elif lane_lines[0] == None: # nincs bal
