@@ -36,11 +36,10 @@ class DecisionMakingProcess(WorkerProcess):
                     time.sleep(0.1)
                     outPs.send({'action': '1', 'speed': 0.09} )
 
-                print(type(deviation))
                 print("Received deviation:", deviation)
-                print(res)
 
                 for sign in res:
+                    print("Detected sign with id: ", sign['class_id'])
                     if sign['class_id'] == 0:
                         print("stopping")
                         print(time.time())
