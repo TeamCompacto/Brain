@@ -40,6 +40,7 @@ class DecisionMakingProcess(WorkerProcess):
                         outPs.send({'action': '1', 'speed': 0.12} )
                         time.sleep(0.2)
                         outPs.send({'action': '1', 'speed': 0.09} )
+                        time.sleep(0.1)
 
 
                 if deviation < -100:
