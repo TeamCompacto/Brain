@@ -22,9 +22,9 @@ class DecisionMakingProcess(WorkerProcess):
     def _decision_making_thread(self, inPs, outPs):
         print("Decision Making Started")
         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
-        # outPs.send({'action': '1', 'speed': 0.14} )
-        # time.sleep(0.1)
-        # outPs.send({'action': '1', 'speed': 0.09} )
+        outPs.send({'action': '1', 'speed': 0.14} )
+        time.sleep(0.1)
+        outPs.send({'action': '1', 'speed': 0.09} )
         try:
             while True:
                 [deviation] = inPs[0].recv()
@@ -40,28 +40,28 @@ class DecisionMakingProcess(WorkerProcess):
                 print("Received deviation:", deviation)
                 print(res)
 
-                # for sign in res:
-                #     if sign['class_id'] == 0:
-                #         print("stopping")
-                #         print(time.time())
-                #         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
-                #         time.sleep(3)
-                #         outPs.send({'action': '1', 'speed': 0.12} )
-                #         time.sleep(0.2)
-                #         outPs.send({'action': '1', 'speed': 0.09} )
-                #         time.sleep(0.1)
+                for sign in res:
+                    if sign['class_id'] == 0:
+                        print("stopping")
+                        print(time.time())
+                        outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
+                        time.sleep(3)
+                        outPs.send({'action': '1', 'speed': 0.12} )
+                        time.sleep(0.2)
+                        outPs.send({'action': '1', 'speed': 0.09} )
+                        time.sleep(0.1)
 
 
-                # if deviation < -100:
-                #     self.current_steering_angle = -10.0
-                #     outPs.send({'action': '2', 'steerAngle': -10.0} )
+                if deviation < -100:
+                    self.current_steering_angle = -10.0
+                    outPs.send({'action': '2', 'steerAngle': -10.0} )
                     
-                # elif deviation > 100:
-                #     self.current_steering_angle = 10.0
-                #     outPs.send({'action': '2', 'steerAngle': 10.0} )
-                # else:
-                #     self.current_steering_angle = 0.0
-                #     outPs.send({'action': '2', 'steerAngle': 0.0} )
+                elif deviation > 100:
+                    self.current_steering_angle = 10.0
+                    outPs.send({'action': '2', 'steerAngle': 10.0} )
+                else:
+                    self.current_steering_angle = 0.0
+                    outPs.send({'action': '2', 'steerAngle': 0.0} )
                 
 
         except KeyboardInterrupt:
