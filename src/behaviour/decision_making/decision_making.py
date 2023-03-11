@@ -21,7 +21,7 @@ class DecisionMakingProcess(WorkerProcess):
         outPs.send({'action': '3', 'brake (steerAngle)': 0.0} )
         outPs.send({'action': '1', 'speed': 0.14} )
         time.sleep(0.2)
-        outPs.send({'action': '1', 'speed': 0.1} )
+        outPs.send({'action': '1', 'speed': 0.09} )
         try:
             while True:
                 [deviation] = inPs[0].recv()
