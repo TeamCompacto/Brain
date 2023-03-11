@@ -41,15 +41,15 @@ import math
 
 def detect_edges(frame):
     # filter for blue lane lines
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    #cv2.imshow("HSV",hsv)
-    lower_blue = np.array([90, 120, 0], dtype = "uint8")
-    upper_blue = np.array([150, 255, 255], dtype="uint8")
-    mask = cv2.inRange(hsv,lower_blue,upper_blue)
+    # hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # #cv2.imshow("HSV",hsv)
+    # lower_blue = np.array([90, 120, 0], dtype = "uint8")
+    # upper_blue = np.array([150, 255, 255], dtype="uint8")
+    # mask = cv2.inRange(hsv,lower_blue,upper_blue)
     #cv2.imshow("mask",mask)
     
     # detect edges
-    edges = cv2.Canny(mask, 50, 100)
+    edges = cv2.Canny(frame, 50, 100)
     #cv2.imshow("edges",edges)
     
     return edges
