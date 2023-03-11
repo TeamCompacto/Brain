@@ -72,13 +72,13 @@ class DecisionMakingProcess(WorkerProcess):
                 f.close()
 
                 if self.current_state == "BASE":
-                    outPs[0].send({'action': '2', 'brake (steerAngle)': self.current_steering_angle} )
+                    outPs[0].send({'action': '2', 'steerAngle': self.current_steering_angle} )
                     time.sleep(0.3)
                     outPs[0].send({'action': '1', 'speed': 0.14} )
                     time.sleep(0.1)
                     outPs[0].send({'action': '1', 'speed': 0.09} )
 
-                outPs[0].send({'action': '3', 'steerAngle': self.current_steering_angle} )
+                outPs[0].send({'action': '3', 'brake (steerAngle)': self.current_steering_angle} )
 
                 outPs[1].send("I'm ready lane " + str(count))
                 outPs[2].send("I'm ready object" + str(count))
