@@ -61,7 +61,7 @@ def main():
             print("Deviation: ", lane_finding_results[0])
             print("Detected objects: ",object_detection_results[0])
 
-            deviation = lane_finding_results[0]
+            deviation = lane_finding_results[0] - 90
             res = object_detection_results[0]
 
             if stream:
