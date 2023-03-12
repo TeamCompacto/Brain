@@ -201,8 +201,9 @@ def handle_signs(res, pipe, park_cooldown):
             time.sleep(0.2)
             pipe.send({'action': '1', 'speed': 0.12} )
             time.sleep(0.1)
-            pipe.send({'action': '2', 'steerAngle': -13.0})
-            time.sleep(4)
+            pipe.send({'action': '2', 'steerAngle': -13.3})
+            time.sleep(3.5)
+            raise KeyboardInterrupt
 
         elif sign['class_id'] == 1:
             print("priority")
