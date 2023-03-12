@@ -201,6 +201,8 @@ def handle_signs(res, pipe, park_cooldown):
             time.sleep(0.2)
             pipe.send({'action': '1', 'speed': 0.09} )
             time.sleep(0.1)
+            pipe.send({'action': '2', 'steerAngle': -20.0})
+            time.sleep(3)
 
         elif sign['class_id'] == 1:
             print("priority")
@@ -228,8 +230,8 @@ def handle_signs(res, pipe, park_cooldown):
         elif sign['class_id'] == 6:
             print("pedestrian crossing")
 
-            pipe.send({'action': '1', 'speed': 0.04})
-            time.sleep(1)
+            pipe.send({'action': '1', 'speed': 0.0})
+            time.sleep(3)
             pipe.send({'action': '1', 'speed': 0.09})
             time.sleep(0.1)
 
@@ -237,8 +239,6 @@ def handle_signs(res, pipe, park_cooldown):
             print("park")
             if park_cooldown == 0:
                 park_parallel(pipe)
-
-            # TODO: call parking manouver
 
         elif sign['class_id'] == 8:
             print("do not enter")
@@ -263,7 +263,7 @@ def park_parallel(pipe):
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
-        time_forward = 1.5
+        time_forward = 1.4
         time_backward = 1.3
         
         # elore t - idot
@@ -302,12 +302,12 @@ def park_parallel(pipe):
 
         time.sleep(3)
 
-        pipe.send({'action': '1', 'speed': parking_speed_reverse})
-        pipe.send({'action': '2', 'steerAngle': 8.0})
-        time.sleep(0.9)
-        pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+        #pipe.send({'action': '1', 'speed': parking_speed_reverse})
+        #pipe.send({'action': '2', 'steerAngle': 8.0})
+        #time.sleep(0.9)
+        #pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
-        time.sleep(0.2)
+        #time.sleep(0.2)
 
 
 
