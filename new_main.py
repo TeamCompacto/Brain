@@ -1,6 +1,6 @@
 from picamera2 import Picamera2
 from cv2 import resize, INTER_LINEAR, imwrite, FONT_HERSHEY_SIMPLEX, LINE_AA, rectangle, putText
-from src.perception.lane_detection.lane_detection import process_frame
+from src.perception.object_classi.lane_finding import process_frame
 from threading import Thread
 from src.perception.object_classi.detect import load_labels, detect_objects
 from tflite_runtime.interpreter import Interpreter
@@ -59,7 +59,7 @@ def main():
 
             
 
-            deviation = lane_finding_results[0] - 90
+            deviation = lane_finding_results[0]
             res = object_detection_results[0]
 
             print("Deviation: ", deviation)
