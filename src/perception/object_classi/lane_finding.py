@@ -118,10 +118,12 @@ def optimize_lines(frame, lines):
             parameters = np.polyfit((x1, x2), (y1, y2), 1)  # Take parameters from points gained
             slope = parameters[0]       # First parameter in the list parameters is slope
             intercept = parameters[1]   # Second is intercept
+
+            horiz_slope = 0.15
             
-            if slope < 0:   # Here we check the slope of the lines 
+            if slope < -horiz_slope:   # Here we check the slope of the lines 
                 left_fit.append((slope, intercept))
-            else:   
+            elif slope > horiz_slope:   
                 right_fit.append((slope, intercept))
 
         if len(left_fit) > 0:       # Here we ckeck whether fit for the left line is valid
