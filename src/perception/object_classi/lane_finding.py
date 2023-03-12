@@ -179,7 +179,7 @@ def get_floating_center(frame, lane_lines):
         ly = (ry1 + ly1) / 2
         uy = (ry2 + ly2) / 2
 
-        cv2.line(frame, (low_mid, ly), (up_mid, uy), (255, 0, 0), 2)
+        cv2.line(frame, (int(low_mid), int(ly)), (int(up_mid), int(uy)), (255, 0, 0), 2)
 
     else:       # Handling undetected lines
         up_mid = int(width*1.9)
