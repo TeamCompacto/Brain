@@ -201,7 +201,7 @@ def handle_signs(res, pipe, park_cooldown):
             time.sleep(0.2)
             pipe.send({'action': '1', 'speed': 0.12} )
             time.sleep(0.1)
-            pipe.send({'action': '2', 'steerAngle': -12.0})
+            pipe.send({'action': '2', 'steerAngle': -13})
             time.sleep(4)
 
         elif sign['class_id'] == 1:
@@ -230,10 +230,10 @@ def handle_signs(res, pipe, park_cooldown):
         elif sign['class_id'] == 6:
             print("pedestrian crossing")
 
-            pipe.send({'action': '1', 'speed': 0.0})
+            pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
             time.sleep(3)
-            pipe.send({'action': '1', 'speed': 0.09})
-            time.sleep(0.1)
+            pipe.send({'action': '1', 'speed': 0.10})
+            time.sleep(1.5)
 
         elif sign['class_id'] == 7:
             print("park")
