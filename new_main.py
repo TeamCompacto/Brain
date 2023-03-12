@@ -37,7 +37,7 @@ def main():
     current_speed = 0.0
     steering_angle = 0.0
 
-    angles = []
+    log = []
 
     if stream:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
@@ -102,7 +102,7 @@ def main():
             # else:
             #     current_steering_angle = float(0)
 
-            angles.append(current_steering_angle)
+            log.append([deviation, current_steering_angle])
             if CURRENT_STATE == "BASE":
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
@@ -115,10 +115,9 @@ def main():
     except KeyboardInterrupt:
         decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
-        print(angles)
 
-        for i in range(len(angles)):
-            print(str(i) + " : " + str(angles[i]))
+        for i in range(len(log)):
+            print(str(i) + " : " + str(log[i][0]) + " : " + str(log[i][1]))
 
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
             print("Process with stop",shProc)
