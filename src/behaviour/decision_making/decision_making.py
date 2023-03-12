@@ -59,7 +59,7 @@ class DecisionMakingProcess(WorkerProcess):
                         print("priority")
                         
                         outPs[0].send({'action': '1', 'speed': 0.06})
-                        time.sleep(0.5)
+                        time.sleep(3.5)
                         outPs[0].send({'action': '1', 'speed': 0.09})
                         time.sleep(0.1)
 
