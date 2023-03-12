@@ -263,8 +263,8 @@ def park_parallel(pipe):
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
-        time_forward = 1.6
-        time_backward = 1.2
+        time_forward = 1.5
+        time_backward = 1.3
         
         # elore t - idot
         # self.update_controls(parking_speed, 0.0)
