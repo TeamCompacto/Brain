@@ -220,10 +220,11 @@ def handle_signs(res, pipe):
         elif sign['class_id'] == 6:
             print("pedestrian crossing")
 
-            pipe.send({'action': '1', 'speed': 0.04})
-            time.sleep(1)
-            pipe.send({'action': '1', 'speed': 0.09})
-            time.sleep(0.1)
+            CURRENT_STATE = "PEDESTRIAN CROSSING"
+            print(CURRENT_STATE)
+            pedestrian_crossing(pipe)
+            CURRENT_STATE = "BASE"
+            print(CURRENT_STATE)
 
         elif sign['class_id'] == 7:
             print("park")
@@ -247,7 +248,12 @@ def intersection_go_forward(pipe):
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
 
-
+def pedestrian_crossing(pipe):
+    pipe.send({'action': '2', 'steerAngle': 0.0})
+    pipe.send({'action': '1', 'speed': 0.04})
+    time.sleep(1)
+    pipe.send({'action': '1', 'speed': 0.09})
+    time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
