@@ -264,7 +264,7 @@ def park_parallel(pipe):
         angle_right = 20.0
         angle_left = -angle_right
         time_forward = 1.6
-        time_backward = 1.4
+        time_backward = 1.2
         
         # elore t - idot
         # self.update_controls(parking_speed, 0.0)
@@ -295,7 +295,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': 0.0})
-        time.sleep(0.6)
+        time.sleep(0.4)
 
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
         
