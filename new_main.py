@@ -231,6 +231,7 @@ def handle_signs(res, pipe):
 
         elif sign['class_id'] == 7:
             print("park")
+            park_parallel(pipe)
 
             # TODO: call parking manouver
 
@@ -250,6 +251,48 @@ def intersection_go_forward(pipe):
     time.sleep(3.5)
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
+
+
+def park_parallel(pipe):
+        parking_speed = 0.12
+        parking_speed_reverse = -parking_speed
+        angle_right = 20.0
+        angle_left = -angle_right
+        time_forward = 1.7
+        time_backward = 1.2
+        
+        # elore t - idot
+        # self.update_controls(parking_speed, 0.0)
+        pipe.send({'action': '1', 'speed': parking_speed})
+        pipe.send({'action': '2', 'steerAngle': 0.0})
+        time.sleep(time_forward)
+        # self.update_controls(0.0, 0.0)
+        pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+
+        time.sleep(0.5)
+        
+        # jobbra teljesen, hatra t/2 
+        # self.update_controls(parking_speed_reverse, angle_right)
+        pipe.send({'action': '1', 'speed': parking_speed_reverse})
+        pipe.send({'action': '2', 'steerAngle': angle_right})
+        time.sleep(time_backward)
+        # self.update_controls(0.0, 0.0)
+        pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+        time.sleep(0.5)
+        
+        # balra reljesen, hatra t / 2 - idot
+        # self.update_controls(parking_speed_reverse, angle_left)
+        pipe.send({'action': '1', 'speed': parking_speed_reverse})
+        pipe.send({'action': '2', 'steerAngle': angle_left})
+        time.sleep(time_backward + 0.4)
+        # self.update_controls(0.0, 0.0)
+        pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+        time.sleep(0.5)
+        
+        # egyenese elore t / 2-t
+        # self.update_controls(parking_speed, 4.0)
+        # time.sleep(time_forward)
+        # self.update_controls(0.0, 0.0)
 
 
 
