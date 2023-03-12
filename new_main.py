@@ -90,7 +90,7 @@ def main():
             if len(log)>2 and abs(log[-2][1] - 20.0) < 0.1 and abs(log[-1][1] - 20.0) < 0.1:
                 
                 if calm_down==0:
-                    calm_down = 10
+                    calm_down = 15
                     current_steering_angle = 5.0
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
@@ -263,8 +263,8 @@ def park_parallel(pipe):
         parking_speed_reverse = -parking_speed
         angle_right = 20.0
         angle_left = -angle_right
-        time_forward = 1.4
-        time_backward = 1.2
+        time_forward = 1.3
+        time_backward = 1.5
         
         # elore t - idot
         # self.update_controls(parking_speed, 0.0)
@@ -313,7 +313,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': -20.0})
-        time.sleep(1.4)
+        time.sleep(1.0)
 
         
         # egyenese elore t / 2-t
