@@ -71,9 +71,15 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            handle_signs(res, decSerialIn, current_speed, current_steering_angle)
+            handle_signs(res, decSerialIn)
 
             current_steering_angle = float(deviation/23)
+            if current_steering_angle > 20:
+                current_steering_angle = 20.0
+
+            if current_steering_angle < -20:
+                current_steering_angle = -20.0
+            
 
             # if deviation > 500:
             #     current_steering_angle = 17.5
