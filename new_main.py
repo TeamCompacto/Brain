@@ -86,7 +86,7 @@ def main():
             else:
                 current_steering_angle = float(0)
 
-            if current_state == "BASE":
+            if CURRENT_STATE == "BASE":
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.25)
                     decSerialIn.send({'action': '1', 'speed': 0.16} )
