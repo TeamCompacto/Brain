@@ -37,6 +37,8 @@ def main():
     current_speed = 0.0
     steering_angle = 0.0
 
+    angles = []
+
     if stream:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
         streamProc = CameraStreamerProcess([visionStrOut], [])
@@ -100,6 +102,7 @@ def main():
             # else:
             #     current_steering_angle = float(0)
 
+            angles.append(current_steering_angle)
             if CURRENT_STATE == "BASE":
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
@@ -111,6 +114,8 @@ def main():
 
     except KeyboardInterrupt:
         decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
+        
+        print(angles)
 
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
             print("Process with stop",shProc)
