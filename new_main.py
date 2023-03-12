@@ -114,8 +114,11 @@ def main():
 
     except KeyboardInterrupt:
         decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
-        
+
         print(angles)
+
+        for i in range(len(angles)):
+            print(str(i) + " : " + str(angles[i]))
 
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
             print("Process with stop",shProc)
