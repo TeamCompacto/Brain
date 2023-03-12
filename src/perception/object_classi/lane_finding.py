@@ -86,7 +86,6 @@ def warp_perspective(frame):
 def histogram(frame):
     histogram = np.sum(frame, axis=0)   
 
-    print(histogram.shape)
     midpoint = int(histogram.shape[0]/2)    
     
     # Compute the left max pixels
@@ -171,15 +170,22 @@ def get_floating_center(frame, lane_lines):
     height, width, _ = frame.shape # Take frame size
     
     if len(lane_lines) == 2:    # Here we check if there is 2 lines detected
-        left_x1, _, left_x2, _ = lane_lines[0][0]   # Unpacking left line
-        right_x1, _, right_x2, _ = lane_lines[1][0] # Unpacking right line
+        left_x1, ly1, left_x2, ly2 = lane_lines[0][0]   # Unpacking left line
+        right_x1, ry1, right_x2, ry2 = lane_lines[1][0] # Unpacking right line
         
         low_mid = (right_x1 + left_x1) / 2  # Calculate the relative position of the lower middle point
         up_mid = (right_x2 + left_x2) / 2
 
+        ly = (ry1 + ly1) / 2
+        uy = (ry2 + ly2) / 2
+
+        cv2.line(frame, (low_mid, ly), (up_mid, uy), (255, 0, 0), 2)
+
     else:       # Handling undetected lines
         up_mid = int(width*1.9)
         low_mid = int(width*1.9)
+
+    cv2.line(frame, (low_mid))
     
     return up_mid, low_mid       # Return shifting points
 
