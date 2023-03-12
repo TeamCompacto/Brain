@@ -202,9 +202,9 @@ def intersection_go_left(pipe):
 
 
 def intersection_go_forward(pipe):
-
-    pipe.send({'action': '1', 'speed': 0.06})
-    time.sleep(0.5)
+    pipe.send({'action': '2', 'steerAngle': 0})
+    pipe.send({'action': '1', 'speed': 0.10})
+    time.sleep(2)
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
 
