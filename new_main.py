@@ -37,6 +37,8 @@ def main():
     current_speed = 0.0
     steering_angle = 0.0
 
+    counter = 0
+
     log = []
 
     if stream:
@@ -84,8 +86,11 @@ def main():
 
 
             if len(log)>2 and abs(log[-2][1] - 20.0) < 0.1 and abs(log[-1][1] - 20.0) < 0.1:
+                counter += 1
+                
+                if counter%3 != 0:
+                    current_steering_angle = 5.0
                 print("vigyazz nefelj")
-                current_steering_angle = 5.0
             
 
             # if deviation > 500:
