@@ -68,7 +68,7 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            # handle_signs(res, decSerialIn)
+            handle_signs(res, decSerialIn)
 
             if deviation > 5:
                 current_steering_angle = 10.0
@@ -77,13 +77,14 @@ def main():
             else:
                 current_steering_angle = float(0)
 
-            # if current_state == "BASE":
-                    # decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
-            #         time.sleep(0.25)
-            #         decSerialIn.send({'action': '1', 'speed': 0.16} )
-            #         time.sleep(0.25)
+            if current_state == "BASE":
+                    decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
+                    time.sleep(0.25)
+                    decSerialIn.send({'action': '1', 'speed': 0.16} )
+                    time.sleep(0.25)
 
-            # decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
+            decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
+            time.sleep(0.1)
 
     except KeyboardInterrupt:
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
