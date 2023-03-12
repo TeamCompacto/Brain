@@ -199,10 +199,10 @@ def handle_signs(res, pipe, park_cooldown):
             time.sleep(3)
             pipe.send({'action': '1', 'speed': 0.12} )
             time.sleep(0.2)
-            pipe.send({'action': '1', 'speed': 0.15} )
+            pipe.send({'action': '1', 'speed': 0.12} )
             time.sleep(0.1)
-            pipe.send({'action': '2', 'steerAngle': -15.0})
-            time.sleep(4.5)
+            pipe.send({'action': '2', 'steerAngle': -12.0})
+            time.sleep(4)
 
         elif sign['class_id'] == 1:
             print("priority")
