@@ -94,6 +94,8 @@ def main():
                     time.sleep(0.1)
                     decSerialIn.send({'action': '1', 'speed': 0.16} )
                     time.sleep(0.25)
+                    decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
+                    time.sleep(0.05)
 
                 print("vigyazz nefelj")
             
@@ -125,7 +127,7 @@ def main():
                     time.sleep(0.25)
 
             decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
-            time.sleep(0.1)
+            time.sleep(0.05)
 
     except KeyboardInterrupt:
         decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
