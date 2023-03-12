@@ -87,7 +87,7 @@ def main():
             # time.sleep(0.1)
 
     except KeyboardInterrupt:
-        decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
+        decSerialIn.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
             print("Process with stop",shProc)
