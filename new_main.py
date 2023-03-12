@@ -11,6 +11,8 @@ import time
 from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreamerProcess
 
 CURRENT_STATE = "BASE"
+current_speed = 0.0
+steering_angle = 0.0
 
 
 def main():
@@ -69,7 +71,7 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            handle_signs(res, decSerialIn)
+            handle_signs(res, decSerialIn, current_speed, current_steering_angle)
 
             if deviation > 500:
                 current_steering_angle = 17.5
@@ -207,6 +209,7 @@ def intersection_go_left(pipe):
 
 def intersection_go_forward(pipe):
     pipe.send({'action': '2', 'steerAngle': 0.0})
+    steering_angle = 0.0
     pipe.send({'action': '1', 'speed': 0.10})
     time.sleep(2)
     pipe.send({'action': '1', 'speed': 0.09})
