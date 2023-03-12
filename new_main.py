@@ -284,7 +284,7 @@ def park_parallel(pipe):
         # self.update_controls(parking_speed_reverse, angle_left)
         pipe.send({'action': '1', 'speed': parking_speed_reverse})
         pipe.send({'action': '2', 'steerAngle': angle_left})
-        time.sleep(time_backward + 0.6)
+        time.sleep(time_backward + 0.9)
         # self.update_controls(0.0, 0.0)
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
