@@ -13,7 +13,6 @@ from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreame
 CURRENT_STATE = "BASE"
 current_speed = 0.0
 steering_angle = 0.0
-park_cooldown = 0
 
 
 def main():
@@ -40,6 +39,7 @@ def main():
 
     counter = 0
     calm_down = 0
+    park_cooldown = 0
 
     log = []
 
@@ -77,7 +77,7 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            handle_signs(res, decSerialIn)
+            handle_signs(res, decSerialIn, park_cooldown)
 
             current_steering_angle = float(deviation/23)
             if current_steering_angle > 20:
@@ -189,7 +189,7 @@ def object_detection(frame,interpreter,labels, output):
     output.append(frame)
 
 
-def handle_signs(res, pipe):
+def handle_signs(res, pipe, park_cooldown):
     for sign in res:
         print("Detected sign with id: ", sign['class_id'])
         if sign['class_id'] == 0:
@@ -235,7 +235,8 @@ def handle_signs(res, pipe):
 
         elif sign['class_id'] == 7:
             print("park")
-            park_parallel(pipe)
+            if park_cooldown == 0:
+                park_parallel(pipe)
 
             # TODO: call parking manouver
 
