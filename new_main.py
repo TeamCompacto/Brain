@@ -90,7 +90,7 @@ def main():
             if len(log)>2 and abs(log[-2][1] - 20.0) < 0.1 and abs(log[-1][1] - 20.0) < 0.1:
                 
                 if calm_down==0:
-                    calm_down = 45
+                    calm_down = 20
                     current_steering_angle = 5.0
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
