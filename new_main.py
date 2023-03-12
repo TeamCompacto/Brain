@@ -87,6 +87,8 @@ def main():
             time.sleep(0.1)
 
     except KeyboardInterrupt:
+        decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
+
         if hasattr(shProc,'stop') and callable(getattr(shProc,'stop')):
             print("Process with stop",shProc)
             shProc.stop()
@@ -112,11 +114,6 @@ def main():
 def lane_detection(frame, output):
     deviation, final_frame = process_frame(frame=frame)
     output.append(deviation)
-    output.append(final_frame)
-
-def new_lane_detection(frame, output):
-    angle, final_frame = lane_finding(frame)
-    output.append(angle)
     output.append(final_frame)
 
 
