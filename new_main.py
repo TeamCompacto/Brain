@@ -38,6 +38,7 @@ def main():
     steering_angle = 0.0
 
     counter = 0
+    calm_down = 0
 
     log = []
 
@@ -86,9 +87,9 @@ def main():
 
 
             if len(log)>2 and abs(log[-2][1] - 20.0) < 0.1 and abs(log[-1][1] - 20.0) < 0.1:
-                counter += 1
                 
-                if counter==1:
+                if calm_down==0:
+                    calm_down = 10
                     current_steering_angle = 5.0
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
@@ -98,6 +99,9 @@ def main():
                     time.sleep(0.05)
 
                 print("vigyazz nefelj")
+            
+            if calm_down > 0:
+                calm_down -= 1
             
 
             # if deviation > 500:
