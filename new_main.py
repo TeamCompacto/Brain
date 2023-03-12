@@ -313,7 +313,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': -20.0})
-        time.sleep(1.7)
+        time.sleep(1.4)
 
         
         # egyenese elore t / 2-t
