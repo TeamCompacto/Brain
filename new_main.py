@@ -13,6 +13,7 @@ from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreame
 CURRENT_STATE = "BASE"
 current_speed = 0.0
 steering_angle = 0.0
+park_cooldown = 0
 
 
 def main():
@@ -102,6 +103,9 @@ def main():
             
             if calm_down > 0:
                 calm_down -= 1
+            if park_cooldown > 0:
+                park_cooldown -= 1
+
             
 
             # if deviation > 500:
@@ -308,7 +312,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': -20.0})
-        time.sleep(1.2)
+        time.sleep(1.7)
 
         
         # egyenese elore t / 2-t
