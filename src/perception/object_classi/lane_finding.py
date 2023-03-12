@@ -184,6 +184,11 @@ def get_floating_center(frame, lane_lines):
     return up_mid, low_mid       # Return shifting points
 
 def add_text(frame, image_center, left_x_base, right_x_base):
+    print("left base:", left_x_base)
+    print("right base:", right_x_base)
+    print("image_center:", image_center)
+    
+
     lane_center = left_x_base + (right_x_base - left_x_base) / 2 # Find lane center between two lines
     
     deviation = image_center - lane_center    # Find the deviation
