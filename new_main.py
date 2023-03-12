@@ -83,7 +83,7 @@ def main():
                 current_steering_angle = -20.0
 
 
-            if log[-1][0] == log[-2][0] and log [-1][0] == 700:
+            if len(log)>2 and log[-1][0] == log[-2][0] and log [-1][0] == 700:
                 current_steering_angle = 15.0
             
 
