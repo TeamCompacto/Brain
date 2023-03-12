@@ -10,6 +10,9 @@ from src.hardware.serialhandler.SerialHandlerProcess        import SerialHandler
 import time
 from src.utils.camerastreamer.CameraStreamerProcess         import CameraStreamerProcess
 
+CURRENT_STATE = "BASE"
+
+
 def main():
     # -----------------------CONFIG-----------------------
     stream = True
@@ -32,8 +35,6 @@ def main():
     current_speed = 0.0
     steering_angle = 0.0
 
-    current_state = "BASE"
-
     if stream:
         visionStrOut, visionStrIn = Pipe(duplex=False)  # vision -> streamer
         streamProc = CameraStreamerProcess([visionStrOut], [])
@@ -46,10 +47,10 @@ def main():
             resized_frame = resize(frame, dsize=(320, 320), interpolation=INTER_LINEAR)
 
             lane_finding_results = []
-            lane_finding_thread = Thread(target=lane_detection, args=(resized_frame, lane_finding_results))
+            lane_finding_thread = Thread(target=lane_detection, args=(resized_frame, lane_finding_results, ))
 
             object_detection_results = []
-            object_detection_thread = Thread(target=object_detection, args=(resized_frame, interpreter,labels, object_detection_results))
+            object_detection_thread = Thread(target=object_detection, args=(resized_frame, interpreter,labels, object_detection_results, ))
 
             lane_finding_thread.start()
             object_detection_thread.start()
@@ -120,9 +121,11 @@ def main():
 
 
 def lane_detection(frame, output):
-    deviation, final_frame = process_frame(frame=frame)
-    output.append(deviation)
-    output.append(final_frame)
+
+    if CURRENT_STATE == "BASE":
+        deviation, final_frame = process_frame(frame=frame)
+        output.append(deviation)
+        output.append(final_frame)
 
 
 def object_detection(frame,interpreter,labels, output):
@@ -155,17 +158,14 @@ def handle_signs(res, pipe):
 
         elif sign['class_id'] == 1:
             print("priority")
-            
-            pipe.send({'action': '1', 'speed': 0.06})
-            time.sleep(0.5)
-            pipe.send({'action': '1', 'speed': 0.09})
-            time.sleep(0.1)
+            CURRENT_STATE = "INTERSECTION"
+            print(CURRENT_STATE)
+            intersection_go_forward(pipe)
+            CURRENT_STATE = "BASE"
+            print(CURRENT_STATE)
 
         elif sign['class_id'] == 2:
             print("roundabout")
-            
-
-            # TODO: roundabout
 
         elif sign['class_id'] == 3:
             print("oneway")
@@ -183,7 +183,7 @@ def handle_signs(res, pipe):
             print("pedestrian crossing")
 
             pipe.send({'action': '1', 'speed': 0.04})
-            time.sleep(0.5)
+            time.sleep(1)
             pipe.send({'action': '1', 'speed': 0.09})
             time.sleep(0.1)
 
@@ -196,6 +196,18 @@ def handle_signs(res, pipe):
             print("do not enter")
             pipe.send({'action': '1', 'speed': 0.0})
             time.sleep(0.5)
+
+def intersection_go_left(pipe):
+    pass
+
+
+def intersection_go_forward(pipe):
+
+    pipe.send({'action': '1', 'speed': 0.06})
+    time.sleep(0.5)
+    pipe.send({'action': '1', 'speed': 0.09})
+    time.sleep(0.1)
+
 
 
 if __name__ == "__main__":
