@@ -252,12 +252,7 @@ def intersection_go_forward(pipe):
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
 
-def pedestrian_crossing(pipe):
-    pipe.send({'action': '2', 'steerAngle': 0.0})
-    pipe.send({'action': '1', 'speed': 0.04})
-    time.sleep(1)
-    pipe.send({'action': '1', 'speed': 0.09})
-    time.sleep(0.1)
+<<<<<<< Updated upstream
 
 def park_parallel(pipe):
         parking_speed = 0.12
@@ -323,6 +318,14 @@ def park_parallel(pipe):
         # self.update_controls(0.0, 0.0)
 
 
+=======
+def pedestrian_crossing(pipe):
+    pipe.send({'action': '2', 'steerAngle': 0.0})
+    pipe.send({'action': '1', 'speed': 0.04})
+    time.sleep(1)
+    pipe.send({'action': '1', 'speed': 0.09})
+    time.sleep(0.1)
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()
