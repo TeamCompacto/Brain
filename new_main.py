@@ -39,6 +39,7 @@ def main():
 
     counter = 0
     calm_down = 0
+    park_cooldown = 0
 
     log = []
 
@@ -76,7 +77,7 @@ def main():
             if stream:
                 visionStrIn.send(["vigy", lane_finding_results[1]])
 
-            handle_signs(res, decSerialIn)
+            handle_signs(res, decSerialIn, park_cooldown)
 
             current_steering_angle = float(deviation/23)
             if current_steering_angle > 20:
@@ -102,6 +103,9 @@ def main():
             
             if calm_down > 0:
                 calm_down -= 1
+            if park_cooldown > 0:
+                park_cooldown -= 1
+
             
 
             # if deviation > 500:
@@ -185,7 +189,7 @@ def object_detection(frame,interpreter,labels, output):
     output.append(frame)
 
 
-def handle_signs(res, pipe):
+def handle_signs(res, pipe, park_cooldown):
     for sign in res:
         print("Detected sign with id: ", sign['class_id'])
         if sign['class_id'] == 0:
@@ -224,14 +228,15 @@ def handle_signs(res, pipe):
         elif sign['class_id'] == 6:
             print("pedestrian crossing")
 
-            CURRENT_STATE = "PEDESTRIAN CROSSING"
-            print(CURRENT_STATE)
-            pedestrian_crossing(pipe)
-            CURRENT_STATE = "BASE"
-            print(CURRENT_STATE)
+            pipe.send({'action': '1', 'speed': 0.04})
+            time.sleep(1)
+            pipe.send({'action': '1', 'speed': 0.09})
+            time.sleep(0.1)
 
         elif sign['class_id'] == 7:
             print("park")
+            if park_cooldown == 0:
+                park_parallel(pipe)
 
             # TODO: call parking manouver
 
@@ -248,11 +253,10 @@ def intersection_go_forward(pipe):
     pipe.send({'action': '2', 'steerAngle': 0.0})
     steering_angle = 0.0
     pipe.send({'action': '1', 'speed': 0.10})
-    time.sleep(3.5)
+    time.sleep(3.25)
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
 
-<<<<<<< Updated upstream
 
 def park_parallel(pipe):
         parking_speed = 0.12
@@ -318,14 +322,6 @@ def park_parallel(pipe):
         # self.update_controls(0.0, 0.0)
 
 
-=======
-def pedestrian_crossing(pipe):
-    pipe.send({'action': '2', 'steerAngle': 0.0})
-    pipe.send({'action': '1', 'speed': 0.04})
-    time.sleep(1)
-    pipe.send({'action': '1', 'speed': 0.09})
-    time.sleep(0.1)
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()
