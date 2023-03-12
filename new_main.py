@@ -253,7 +253,7 @@ def intersection_go_forward(pipe):
     pipe.send({'action': '2', 'steerAngle': 0.0})
     steering_angle = 0.0
     pipe.send({'action': '1', 'speed': 0.10})
-    time.sleep(3.5)
+    time.sleep(3.25)
     pipe.send({'action': '1', 'speed': 0.09})
     time.sleep(0.1)
 
@@ -295,7 +295,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': 0.0})
-        time.sleep(0.8)
+        time.sleep(0.6)
 
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
         
@@ -303,7 +303,7 @@ def park_parallel(pipe):
         time.sleep(3)
 
         pipe.send({'action': '1', 'speed': parking_speed_reverse})
-        pipe.send({'action': '2', 'steerAngle': 5.0})
+        pipe.send({'action': '2', 'steerAngle': 8.0})
         time.sleep(0.9)
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
 
