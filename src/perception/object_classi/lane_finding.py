@@ -185,7 +185,6 @@ def get_floating_center(frame, lane_lines):
         up_mid = int(width*1.9)
         low_mid = int(width*1.9)
 
-    cv2.line(frame, (low_mid))
     
     return up_mid, low_mid       # Return shifting points
 
