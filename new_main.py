@@ -288,6 +288,16 @@ def park_parallel(pipe):
         # self.update_controls(0.0, 0.0)
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
         time.sleep(0.5)
+
+
+        pipe.send({'action': '1', 'speed': parking_speed})
+        pipe.send({'action': '2', 'steerAngle': 0})
+        time.sleep(time_forward)
+
+        pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
+
+        time.sleep(2)
+
         
         # egyenese elore t / 2-t
         # self.update_controls(parking_speed, 4.0)
