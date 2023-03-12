@@ -95,7 +95,7 @@ def main():
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
                     time.sleep(0.1)
                     decSerialIn.send({'action': '1', 'speed': 0.16} )
-                    time.sleep(0.25)
+                    time.sleep(0.19)
                     decSerialIn.send({'action': '3', 'brake (steerAngle)': current_steering_angle} )
                     time.sleep(0.05)
 
