@@ -84,7 +84,8 @@ def main():
 
 
             if len(log)>2 and log[-1][0] == log[-2][0] and log [-1][0] == 700:
-                current_steering_angle = 15.0
+                print("vigyazz nefelj")
+                current_steering_angle = 5.0
             
 
             # if deviation > 500:
