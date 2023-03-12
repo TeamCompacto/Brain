@@ -240,6 +240,7 @@ def handle_signs(res, pipe, park_cooldown):
             print("park")
             if park_cooldown == 0:
                 park_parallel(pipe)
+                park_cooldown = 20
 
         elif sign['class_id'] == 8:
             print("do not enter")
