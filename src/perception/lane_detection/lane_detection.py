@@ -88,7 +88,7 @@ def warp_perspective(frame):
 def histogram(frame):
     histogram = np.sum(frame, axis=0)   
 
-    print(histogram)
+    # print(histogram)
     midpoint = int(histogram.shape[0]/2)    
     
     # Compute the left max pixels
