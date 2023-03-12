@@ -73,24 +73,26 @@ def main():
 
             handle_signs(res, decSerialIn, current_speed, current_steering_angle)
 
-            if deviation > 500:
-                current_steering_angle = 17.5
-            elif deviation < -500:
-                current_steering_angle = -17.5
-            elif deviation > 300:
-                current_steering_angle = 15.0
-            elif deviation < -300:
-                current_steering_angle = -15.0
-            elif deviation > 100:
-                current_steering_angle = 10.0
-            elif deviation < -100:
-                current_steering_angle = -10.0
-            elif deviation > 50:
-                current_steering_angle = 5.0
-            elif deviation < -50:
-                current_steering_angle = -5.0
-            else:
-                current_steering_angle = float(0)
+            current_steering_angle = float(deviation/23)
+
+            # if deviation > 500:
+            #     current_steering_angle = 17.5
+            # elif deviation < -500:
+            #     current_steering_angle = -17.5
+            # elif deviation > 300:
+            #     current_steering_angle = 15.0
+            # elif deviation < -300:
+            #     current_steering_angle = -15.0
+            # elif deviation > 100:
+            #     current_steering_angle = 10.0
+            # elif deviation < -100:
+            #     current_steering_angle = -10.0
+            # elif deviation > 50:
+            #     current_steering_angle = 5.0
+            # elif deviation < -50:
+            #     current_steering_angle = -5.0
+            # else:
+            #     current_steering_angle = float(0)
 
             if CURRENT_STATE == "BASE":
                     decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
