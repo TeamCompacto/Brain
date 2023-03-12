@@ -74,7 +74,7 @@ def main():
             if deviation > 300:
                 current_steering_angle = 20.0
             elif deviation < -300:
-                current_steering_angle = -20
+                current_steering_angle = -20.0
             elif deviation > 100:
                 current_steering_angle = 10.0
             elif deviation < -100:
