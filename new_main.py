@@ -72,9 +72,9 @@ def main():
             handle_signs(res, decSerialIn)
 
             if deviation > 500:
-                current_steering_angle = 20.0
+                current_steering_angle = 15.0
             elif deviation < -500:
-                current_steering_angle = -20.0
+                current_steering_angle = -15.0
             elif deviation > 300:
                 current_steering_angle = 15.0
             elif deviation < -300:
