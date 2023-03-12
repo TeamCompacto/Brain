@@ -201,7 +201,7 @@ def handle_signs(res, pipe, park_cooldown):
             time.sleep(0.2)
             pipe.send({'action': '1', 'speed': 0.12} )
             time.sleep(0.1)
-            pipe.send({'action': '2', 'steerAngle': -13})
+            pipe.send({'action': '2', 'steerAngle': -13.0})
             time.sleep(4)
 
         elif sign['class_id'] == 1:
@@ -283,7 +283,7 @@ def park_parallel(pipe):
         time.sleep(time_backward)
         # self.update_controls(0.0, 0.0)
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
-        time.sleep(0.5)
+        time.sleep(0.7)
         
         # balra reljesen, hatra t / 2 - idot
         # self.update_controls(parking_speed_reverse, angle_left)
@@ -295,7 +295,7 @@ def park_parallel(pipe):
 
         pipe.send({'action': '1', 'speed': parking_speed})
         pipe.send({'action': '2', 'steerAngle': 0.0})
-        time.sleep(0.7)
+        time.sleep(0.9)
 
         pipe.send({'action': '3', 'brake (steerAngle)': 0.0} )
         
