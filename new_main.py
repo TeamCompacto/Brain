@@ -88,8 +88,13 @@ def main():
             if len(log)>2 and abs(log[-2][1] - 20.0) < 0.1 and abs(log[-1][1] - 20.0) < 0.1:
                 counter += 1
                 
-                if counter%3 != 0:
+                if counter==1:
                     current_steering_angle = 5.0
+                    decSerialIn.send({'action': '2', 'steerAngle': current_steering_angle} )
+                    time.sleep(0.1)
+                    decSerialIn.send({'action': '1', 'speed': 0.16} )
+                    time.sleep(0.25)
+
                 print("vigyazz nefelj")
             
 
